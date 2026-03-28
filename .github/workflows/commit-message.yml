@@ -1,0 +1,50 @@
+name: Commit Message Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-commit-messages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit message prefixes
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+
+          PATTERN='^(Issue #[0-9]+|minor|doc|dependency|infra|ci): .+'
+          MAX_LENGTH=72
+
+          FAILED=0
+          while IFS= read -r line; do
+            BAD_PREFIX=0
+            BAD_LENGTH=0
+            if ! echo "$line" | grep -qE "$PATTERN"; then
+              BAD_PREFIX=1
+            fi
+            if [ "${#line}" -gt "$MAX_LENGTH" ]; then
+              BAD_LENGTH=1
+            fi
+            if [ "$BAD_PREFIX" -eq 1 ] || [ "$BAD_LENGTH" -eq 1 ]; then
+              REASONS=""
+              [ "$BAD_PREFIX" -eq 1 ] && REASONS="invalid prefix"
+              [ "$BAD_LENGTH" -eq 1 ] && REASONS="${REASONS:+$REASONS, }too long (${#line}/$MAX_LENGTH chars)"
+              echo "FAIL [$REASONS]: $line"
+              FAILED=1
+            else
+              echo "OK:   $line"
+            fi
+          done < <(git log --format='%s' "$BASE..$HEAD")
+
+          if [ "$FAILED" -eq 1 ]; then
+            echo ""
+            echo "Each commit message must:"
+            echo "  - Start with one of: Issue #123: / minor: / doc: / dependency: / infra: / ci:"
+            echo "  - Be at most $MAX_LENGTH characters"
+            exit 1
+          fi

@@ -1,0 +1,66 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.3.1
+      - name: Run actionlint
+        run: |
+          bash <(curl -s https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.3.1
+      - uses: DavidAnson/markdownlint-cli2-action@v19.1.0
+        with:
+          globs: "**/*.md"
+
+  spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.3.1
+      - uses: streetsidesoftware/cspell-action@v6.11.1
+        with:
+          files: "**/*.md **/*.g4 **/*.java"
+
+#  checkstyle:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4.3.1
+#      - uses: actions/setup-java@v4.7.0
+#        with:
+#          distribution: temurin
+#          java-version: 21
+#      - uses: gradle/actions/setup-gradle@v4.3.0
+#      - run: ./gradlew checkstyleMain checkstyleTest
+#      - name: Upload Checkstyle reports
+#        if: failure()
+#        uses: actions/upload-artifact@v4.6.2
+#        with:
+#          name: checkstyle-report
+#          path: "**/build/reports/checkstyle/*.html"
+
+#  spotbugs:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4.3.1
+#      - uses: actions/setup-java@v4.7.0
+#        with:
+#          distribution: temurin
+#          java-version: 21
+#      - uses: gradle/actions/setup-gradle@v4.3.0
+#      - run: ./gradlew spotbugsMain spotbugsTest
+#      - name: Upload SpotBugs report
+#        if: failure()
+#        uses: actions/upload-artifact@v4.6.2
+#        with:
+#          name: spotbugs-report
+#          path: "**/build/reports/spotbugs/*.*"
