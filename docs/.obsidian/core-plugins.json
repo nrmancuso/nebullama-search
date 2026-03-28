@@ -14,5 +14,22 @@
   "outline": true,
   "word-count": true,
   "open-with-default-app": false,
-  "file-recovery": true
+  "file-recovery": true,
+  "canvas": true,
+  "footnotes": false,
+  "properties": true,
+  "daily-notes": true,
+  "templates": true,
+  "note-composer": true,
+  "command-palette": true,
+  "slash-command": false,
+  "editor-status": true,
+  "bookmarks": true,
+  "slides": false,
+  "audio-recorder": false,
+  "workspaces": false,
+  "publish": false,
+  "sync": true,
+  "bases": true,
+  "webviewer": false
 }
