@@ -13,15 +13,17 @@
 ## File Map
 
 ### New files — infrastructure
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `docker-compose.yml` | OpenSearch, Dashboards, Ollama services with named volumes |
 | `scripts/init.sh` | Pulls `nomic-embed-text` and `mistral:7b` into Ollama after startup |
 | `.gitignore` | Covers Java/Gradle, IDE, Python venv, seed data files |
 
 ### New files — Spring Boot skeleton
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `service/settings.gradle.kts` | Project name + subproject include |
 | `service/build.gradle.kts` | Dependencies, Java 21 toolchain |
 | `service/gradle/wrapper/gradle-wrapper.properties` | Gradle 8.x wrapper config |
@@ -34,8 +36,9 @@
 | `service/src/main/java/.../util/` | Package placeholder |
 
 ### New files — OpenSearch mappings (T2)
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `service/src/main/resources/opensearch/celestial_objects.json` | Index settings + field mappings incl. knn_vector |
 | `service/src/main/resources/opensearch/missions.json` | Same |
 | `service/src/main/resources/opensearch/observations.json` | Same |
@@ -53,8 +56,9 @@
 | `service/src/test/java/.../config/IndexInitializerTest.java` | Testcontainers integration test |
 
 ### New files — docs & identity (T12, T13)
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `docs/.obsidian/app.json` | Obsidian config: enable Mermaid, dark theme |
 | `docs/.obsidian/core-plugins.json` | Enable graph, backlinks, tag-pane, etc. |
 | `docs/index.md` | Vault home page linking all sections |
@@ -89,6 +93,7 @@
 ### Task 1: Obsidian Vault Shell (T12)
 
 **Files:**
+
 - Create: `docs/.obsidian/app.json`
 - Create: `docs/.obsidian/core-plugins.json`
 - Create: `docs/index.md`
@@ -98,6 +103,7 @@
 - [ ] **Step 1: Create Obsidian config**
 
 Create `docs/.obsidian/app.json`:
+
 ```json
 {
   "theme": "obsidian",
@@ -110,6 +116,7 @@ Create `docs/.obsidian/app.json`:
 ```
 
 Create `docs/.obsidian/core-plugins.json`:
+
 ```json
 {
   "file-explorer": true,
@@ -134,6 +141,7 @@ Create `docs/.obsidian/core-plugins.json`:
 - [ ] **Step 2: Create vault home page**
 
 Create `docs/index.md`:
+
 ```markdown
 # nebullama-search
 
@@ -169,6 +177,7 @@ A local-dev hybrid search service over astronomy data — a learning project for
 | API | GraphQL (Spring for GraphQL) |
 | Ingest | REST (Spring MVC) |
 | Infrastructure | Docker Compose |
+
 ```
 
 - [ ] **Step 3: Create section index placeholders**
@@ -176,6 +185,7 @@ A local-dev hybrid search service over astronomy data — a learning project for
 For each of these files, use the template below (substituting title and description):
 
 `docs/architecture/_index.md`:
+
 ```markdown
 # Architecture
 
@@ -185,6 +195,7 @@ Architecture diagrams and design decisions for nebullama-search.
 ```
 
 `docs/concepts/_index.md`:
+
 ```markdown
 # Concepts
 
@@ -194,6 +205,7 @@ Deep-dives into the core technical concepts behind nebullama-search.
 ```
 
 `docs/guides/_index.md`:
+
 ```markdown
 # Guides
 
@@ -201,6 +213,7 @@ Step-by-step operational guides for running and using nebullama-search.
 ```
 
 `docs/api-reference/_index.md`:
+
 ```markdown
 # API Reference
 
@@ -210,6 +223,7 @@ Complete reference for the GraphQL and REST APIs.
 ```
 
 `docs/deployment/_index.md`:
+
 ```markdown
 # Deployment
 
@@ -223,6 +237,7 @@ Deployment guides for nebullama-search.
 Use this template for all placeholder doc files. Substitute the title and description.
 
 `docs/architecture/overview.md`:
+
 ```markdown
 # Architecture Overview
 
@@ -232,6 +247,7 @@ C4-style diagram of the full local nebullama-search stack.
 ```
 
 `docs/architecture/search-pipeline.md`:
+
 ```markdown
 # Search Pipeline
 
@@ -241,6 +257,7 @@ Sequence diagram showing the full search request lifecycle.
 ```
 
 `docs/architecture/ingest-pipeline.md`:
+
 ```markdown
 # Ingest Pipeline
 
@@ -250,6 +267,7 @@ Sequence diagram showing the ingest request lifecycle.
 ```
 
 `docs/architecture/aws-architecture.md`:
+
 ```markdown
 # AWS Architecture
 
@@ -259,6 +277,7 @@ Mermaid diagram of the AWS deployment topology.
 ```
 
 `docs/concepts/hybrid-search.md`:
+
 ```markdown
 # Hybrid Search
 
@@ -268,6 +287,7 @@ How BM25 and k-NN vector search are combined in nebullama-search.
 ```
 
 `docs/concepts/vector-embeddings.md`:
+
 ```markdown
 # Vector Embeddings
 
@@ -277,6 +297,7 @@ What embeddings are and how nomic-embed-text is used.
 ```
 
 `docs/concepts/intent-extraction.md`:
+
 ```markdown
 # Intent Extraction
 
@@ -286,6 +307,7 @@ How the LLM parses natural language queries into structured filters.
 ```
 
 `docs/guides/data-ingestion.md`:
+
 ```markdown
 # Data Ingestion
 
@@ -295,6 +317,7 @@ How to fetch seed data and bulk-ingest it into nebullama-search.
 ```
 
 `docs/guides/running-searches.md`:
+
 ```markdown
 # Running Searches
 
@@ -304,6 +327,7 @@ How to query nebullama-search via GraphiQL and curl.
 ```
 
 `docs/api-reference/graphql-schema.md`:
+
 ```markdown
 # GraphQL Schema Reference
 
@@ -313,6 +337,7 @@ Full annotated GraphQL schema with example queries.
 ```
 
 `docs/api-reference/ingest-rest-api.md`:
+
 ```markdown
 # Ingest REST API Reference
 
@@ -322,6 +347,7 @@ Endpoint reference with curl examples for all ingest operations.
 ```
 
 `docs/deployment/aws.md`:
+
 ```markdown
 # AWS Deployment
 
@@ -342,6 +368,7 @@ git commit -m "feat: initialise Obsidian docs vault with structure and placehold
 ### Task 2: Project Logo & README (T13)
 
 **Files:**
+
 - Create: `docs/assets/nebullama-icon.svg`
 - Create: `docs/assets/README.md`
 - Create: `README.md`
@@ -350,6 +377,7 @@ git commit -m "feat: initialise Obsidian docs vault with structure and placehold
 - [ ] **Step 1: Create the placeholder SVG icon**
 
 Create `docs/assets/nebullama-icon.svg`:
+
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" shape-rendering="crispEdges">
   <!-- Space background -->
@@ -419,6 +447,7 @@ Create `docs/assets/nebullama-icon.svg`:
 - [ ] **Step 2: Create assets README with Midjourney prompt**
 
 Create `docs/assets/README.md`:
+
 ```markdown
 # nebullama-search Assets
 
@@ -438,6 +467,7 @@ Once generated, save as `docs/assets/nebullama-icon.png` and update `README.md` 
 - [ ] **Step 3: Create root README**
 
 Create `README.md`:
+
 ```markdown
 # nebullama-search
 
@@ -463,6 +493,7 @@ This is a learning project — the goal is to understand how vector search, embe
 ## Architecture
 
 ```mermaid
+
 graph TD
     Client["Client (GraphiQL / curl)"]
     Service["nebullama-search\n(Spring Boot, Java 21)"]
@@ -473,7 +504,8 @@ graph TD
     Client -->|"REST POST /api/v1/ingest"| Service
     Service -->|"BM25 + k-NN _msearch"| OS
     Service -->|"embed + chat"| Ollama
-```
+
+```text
 
 ---
 
@@ -482,15 +514,20 @@ graph TD
 **Prerequisites:** Java 21, Docker, Docker Compose
 
 ```bash
+
 # 1. Start infrastructure
+
 docker-compose up -d
 
 # 2. Pull Ollama models (run once)
+
 ./scripts/init.sh
 
 # 3. Start the service
+
 cd service && ./gradlew bootRun
-```
+
+```text
 
 Verify: `curl http://localhost:8080/actuator/health`
 
@@ -532,6 +569,7 @@ git commit -m "feat: add project README, placeholder SVG icon, and Midjourney pr
 ### Task 3: Docker Compose & Init Script (T1, part 1)
 
 **Files:**
+
 - Create: `docker-compose.yml`
 - Create: `scripts/init.sh`
 - Create: `.gitignore`
@@ -539,6 +577,7 @@ git commit -m "feat: add project README, placeholder SVG icon, and Midjourney pr
 - [ ] **Step 1: Create docker-compose.yml**
 
 Create `docker-compose.yml`:
+
 ```yaml
 version: '3.8'
 
@@ -550,11 +589,14 @@ services:
       - DISABLE_SECURITY_PLUGIN=true
       - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
       - plugins.ml_commons.only_run_on_ml_node=false
+
     ports:
       - "9200:9200"
       - "9600:9600"
+
     volumes:
       - opensearch-data:/usr/share/opensearch/data
+
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
       interval: 15s
@@ -567,8 +609,10 @@ services:
     environment:
       - OPENSEARCH_HOSTS=["http://opensearch:9200"]
       - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
+
     ports:
       - "5601:5601"
+
     depends_on:
       opensearch:
         condition: service_healthy
@@ -577,6 +621,7 @@ services:
     image: ollama/ollama:latest
     ports:
       - "11434:11434"
+
     volumes:
       - ollama-data:/root/.ollama
 
@@ -590,6 +635,7 @@ volumes:
 - [ ] **Step 2: Create init.sh**
 
 Create `scripts/init.sh`:
+
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
@@ -637,7 +683,8 @@ chmod +x scripts/init.sh
 - [ ] **Step 3: Create .gitignore**
 
 Create `.gitignore`:
-```
+
+```text
 # Java / Gradle
 .gradle/
 build/
@@ -713,6 +760,7 @@ git commit -m "feat: add Docker Compose stack (OpenSearch, Dashboards, Ollama) a
 ### Task 4: Spring Boot Project Scaffold (T1, part 2)
 
 **Files:**
+
 - Create: `service/settings.gradle.kts`
 - Create: `service/build.gradle.kts`
 - Create: `service/gradle/wrapper/gradle-wrapper.properties`
@@ -723,6 +771,7 @@ git commit -m "feat: add Docker Compose stack (OpenSearch, Dashboards, Ollama) a
 - [ ] **Step 1: Create settings.gradle.kts**
 
 Create `service/settings.gradle.kts`:
+
 ```kotlin
 rootProject.name = "nebullama-search"
 ```
@@ -730,6 +779,7 @@ rootProject.name = "nebullama-search"
 - [ ] **Step 2: Create build.gradle.kts**
 
 Create `service/build.gradle.kts`:
+
 ```kotlin
 plugins {
     java
@@ -782,6 +832,7 @@ Expected: `gradle/wrapper/gradle-wrapper.jar`, `gradle/wrapper/gradle-wrapper.pr
 - [ ] **Step 4: Create application.yml**
 
 Create `service/src/main/resources/application.yml`:
+
 ```yaml
 spring:
   threads:
@@ -828,6 +879,7 @@ search:
 - [ ] **Step 5: Create main application class**
 
 Create `service/src/main/java/com/example/nebullamasearch/NebullamaSearchApplication.java`:
+
 ```java
 package com.example.nebullamasearch;
 
@@ -848,30 +900,35 @@ public class NebullamaSearchApplication {
 Create one `package-info.java` per package so the directories exist in version control:
 
 `service/src/main/java/com/example/nebullamasearch/config/package-info.java`:
+
 ```java
 /** OpenSearch client, Ollama client, and index initializer beans. */
 package com.example.nebullamasearch.config;
 ```
 
 `service/src/main/java/com/example/nebullamasearch/ingest/package-info.java`:
+
 ```java
 /** REST ingest controllers, ingest service, embedding service. */
 package com.example.nebullamasearch.ingest;
 ```
 
 `service/src/main/java/com/example/nebullamasearch/search/package-info.java`:
+
 ```java
 /** GraphQL controllers, search service, intent extraction service. */
 package com.example.nebullamasearch.search;
 ```
 
 `service/src/main/java/com/example/nebullamasearch/domain/package-info.java`:
+
 ```java
 /** Per-resource-type POJOs, ResourceType enum, index mapping constants. */
 package com.example.nebullamasearch.domain;
 ```
 
 `service/src/main/java/com/example/nebullamasearch/util/package-info.java`:
+
 ```java
 /** JSON helpers and shared utility types. */
 package com.example.nebullamasearch.util;
@@ -905,6 +962,7 @@ git commit -m "feat: scaffold Spring Boot project with Gradle, application.yml, 
 ### Task 5: OpenSearch Mapping Files (T2, part 1)
 
 **Files:**
+
 - Create: `service/src/main/resources/opensearch/celestial_objects.json`
 - Create: `service/src/main/resources/opensearch/missions.json`
 - Create: `service/src/main/resources/opensearch/observations.json`
@@ -914,6 +972,7 @@ git commit -m "feat: scaffold Spring Boot project with Gradle, application.yml, 
 - [ ] **Step 1: Create celestial_objects mapping**
 
 Create `service/src/main/resources/opensearch/celestial_objects.json`:
+
 ```json
 {
   "settings": {
@@ -955,6 +1014,7 @@ Create `service/src/main/resources/opensearch/celestial_objects.json`:
 - [ ] **Step 2: Create missions mapping**
 
 Create `service/src/main/resources/opensearch/missions.json`:
+
 ```json
 {
   "settings": {
@@ -995,6 +1055,7 @@ Create `service/src/main/resources/opensearch/missions.json`:
 - [ ] **Step 3: Create observations mapping**
 
 Create `service/src/main/resources/opensearch/observations.json`:
+
 ```json
 {
   "settings": {
@@ -1034,6 +1095,7 @@ Create `service/src/main/resources/opensearch/observations.json`:
 - [ ] **Step 4: Create astronomers mapping**
 
 Create `service/src/main/resources/opensearch/astronomers.json`:
+
 ```json
 {
   "settings": {
@@ -1075,6 +1137,7 @@ Create `service/src/main/resources/opensearch/astronomers.json`:
 - [ ] **Step 5: Create publications mapping**
 
 Create `service/src/main/resources/opensearch/publications.json`:
+
 ```json
 {
   "settings": {
@@ -1124,6 +1187,7 @@ git commit -m "feat: add OpenSearch index mapping files with k-NN vector fields 
 ### Task 6: ResourceType Enum & Domain POJOs (T2, part 2)
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/domain/ResourceType.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/domain/CelestialObject.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/domain/Mission.java`
@@ -1134,6 +1198,7 @@ git commit -m "feat: add OpenSearch index mapping files with k-NN vector fields 
 - [ ] **Step 1: Create ResourceType enum**
 
 Create `service/src/main/java/com/example/nebullamasearch/domain/ResourceType.java`:
+
 ```java
 package com.example.nebullamasearch.domain;
 
@@ -1187,6 +1252,7 @@ public enum ResourceType {
 - [ ] **Step 2: Create CelestialObject POJO**
 
 Create `service/src/main/java/com/example/nebullamasearch/domain/CelestialObject.java`:
+
 ```java
 package com.example.nebullamasearch.domain;
 
@@ -1211,6 +1277,7 @@ public class CelestialObject {
 - [ ] **Step 3: Create Mission POJO**
 
 Create `service/src/main/java/com/example/nebullamasearch/domain/Mission.java`:
+
 ```java
 package com.example.nebullamasearch.domain;
 
@@ -1234,6 +1301,7 @@ public class Mission {
 - [ ] **Step 4: Create Observation POJO**
 
 Create `service/src/main/java/com/example/nebullamasearch/domain/Observation.java`:
+
 ```java
 package com.example.nebullamasearch.domain;
 
@@ -1255,6 +1323,7 @@ public class Observation {
 - [ ] **Step 5: Create Astronomer POJO**
 
 Create `service/src/main/java/com/example/nebullamasearch/domain/Astronomer.java`:
+
 ```java
 package com.example.nebullamasearch.domain;
 
@@ -1279,6 +1348,7 @@ public class Astronomer {
 - [ ] **Step 6: Create Publication POJO**
 
 Create `service/src/main/java/com/example/nebullamasearch/domain/Publication.java`:
+
 ```java
 package com.example.nebullamasearch.domain;
 
@@ -1319,12 +1389,14 @@ git commit -m "feat: add ResourceType enum and domain POJOs for all five index t
 ### Task 7: OpenSearch Client Config Bean (T2, part 3)
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/config/OpenSearchProperties.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/config/OpenSearchConfig.java`
 
 - [ ] **Step 1: Create OpenSearchProperties**
 
 Create `service/src/main/java/com/example/nebullamasearch/config/OpenSearchProperties.java`:
+
 ```java
 package com.example.nebullamasearch.config;
 
@@ -1350,6 +1422,7 @@ public class OpenSearchProperties {
 - [ ] **Step 2: Create OpenSearchConfig**
 
 Create `service/src/main/java/com/example/nebullamasearch/config/OpenSearchConfig.java`:
+
 ```java
 package com.example.nebullamasearch.config;
 
@@ -1381,6 +1454,7 @@ public class OpenSearchConfig {
 Add `@ConfigurationPropertiesScan` to the main application class:
 
 Modify `service/src/main/java/com/example/nebullamasearch/NebullamaSearchApplication.java`:
+
 ```java
 package com.example.nebullamasearch;
 
@@ -1401,6 +1475,7 @@ public class NebullamaSearchApplication {
 - [ ] **Step 4: Verify startup with OpenSearch running**
 
 With `docker-compose up -d` running:
+
 ```bash
 cd service && ./gradlew bootRun
 ```
@@ -1421,12 +1496,14 @@ git commit -m "feat: add OpenSearch client config bean and properties binding"
 ### Task 8: IndexInitializer — test first (T2, part 4)
 
 **Files:**
+
 - Create: `service/src/test/java/com/example/nebullamasearch/config/IndexInitializerTest.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/config/IndexInitializer.java`
 
 - [ ] **Step 1: Write the failing test**
 
 Create `service/src/test/java/com/example/nebullamasearch/config/IndexInitializerTest.java`:
+
 ```java
 package com.example.nebullamasearch.config;
 
@@ -1515,6 +1592,7 @@ Expected: FAIL — `IndexInitializer` class does not exist yet.
 - [ ] **Step 3: Implement IndexInitializer**
 
 Create `service/src/main/java/com/example/nebullamasearch/config/IndexInitializer.java`:
+
 ```java
 package com.example.nebullamasearch.config;
 
@@ -1582,6 +1660,7 @@ Expected: all three tests PASS. Note: first run downloads the OpenSearch Docker 
 - [ ] **Step 5: Write local dev setup guide**
 
 Fill in `docs/guides/local-dev-setup.md` (replacing the placeholder from Task 1):
+
 ```markdown
 # Local Dev Setup
 
@@ -1598,45 +1677,62 @@ Fill in `docs/guides/local-dev-setup.md` (replacing the placeholder from Task 1)
 ## Start the Infrastructure
 
 ```bash
+
 docker-compose up -d
-```
+
+```text
 
 Wait ~30 seconds for OpenSearch to be healthy:
 ```bash
+
 docker-compose ps
+
 # opensearch should show "healthy"
-```
+
+```text
 
 ## Pull Ollama Models (First Time Only)
 
 ```bash
+
 ./scripts/init.sh
-```
+
+```text
 
 This pulls `nomic-embed-text` (~270MB) and `mistral:7b` (~4GB). Run once; models persist in the `nebullama-ollama-data` Docker volume.
 
 ## Start the Service
 
 ```bash
+
 cd service
 ./gradlew bootRun
-```
+
+```text
 
 ## Verify Everything Works
 
 ```bash
+
 # Service health
-curl http://localhost:8080/actuator/health
+
+curl <http://localhost:8080/actuator/health>
+
 # Expected: {"status":"UP"}
 
 # OpenSearch cluster health
-curl http://localhost:9200/_cluster/health
+
+curl <http://localhost:9200/_cluster/health>
+
 # Expected: {"status":"yellow"} or {"status":"green"}
 
 # Verify indexes were created
-curl http://localhost:9200/_cat/indices?v
+
+curl <http://localhost:9200/_cat/indices?v>
+
 # Expected: five indexes (celestial_objects, missions, observations, astronomers, publications)
-```
+
+```text
 
 Open in browser:
 - **GraphiQL**: http://localhost:8080/graphiql
@@ -1688,6 +1784,7 @@ Before moving to Phase 2, verify:
 ## What's Next
 
 **Phase 2 — Data Pipeline** covers:
+
 - T3: Seed data fetch script (Python — SIMBAD, NASA API, MAST, Wikipedia, ADS)
 - T4: Ollama embedding service (Java)
 - T5: REST ingest API (`/api/v1/ingest/{resourceType}` + bulk)

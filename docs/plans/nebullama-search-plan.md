@@ -22,7 +22,7 @@ A local-dev Spring Boot HTTP service that exposes a GraphQL search API and a RES
 Services to define:
 
 | Service | Image | Notes |
-|---|---|---|
+| --- | --- | --- |
 | OpenSearch | `opensearchproject/opensearch:2.x` | Single node, no security plugin for local dev; named Docker volume mounted to `/usr/share/opensearch/data` for index persistence across restarts |
 | OpenSearch Dashboards | `opensearchproject/opensearch-dashboards:2.x` | Optional but useful for index inspection |
 | Ollama | `ollama/ollama` | Mount a volume for model persistence; pull model on startup via entrypoint script |
@@ -36,6 +36,7 @@ Services to define:
 ### OpenSearch Index Configuration
 
 Each index must include:
+
 - Standard analyzed text fields for BM25 (`keyword`, `name`, `description`, etc.)
 - A `embedding` field of type `knn_vector` with dimension matching the chosen embedding model (768 for `nomic-embed-text`)
 - Index settings enabling `knn: true`
@@ -48,10 +49,11 @@ Each index must include:
 Five indexes representing distinct but interrelated astronomy resource types. Cross-index linkage is intentional — queries like "Crab Nebula" or "Hubble" should surface results from multiple indexes.
 
 ### 1. `celestial_objects`
+
 Astronomical objects: stars, nebulae, galaxies, pulsars, black holes, star clusters, etc.
 
 | Field | Type | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `id` | keyword | |
 | `name` | text | Common name (e.g. "Crab Nebula") |
 | `designations` | text[] | Catalog IDs: M1, NGC 1952, etc. |
@@ -64,10 +66,11 @@ Astronomical objects: stars, nebulae, galaxies, pulsars, black holes, star clust
 | `embedding` | knn_vector | |
 
 ### 2. `missions`
+
 Space missions: past, present, and planned. NASA, ESA, JAXA, private.
 
 | Field | Type | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `id` | keyword | |
 | `name` | text | e.g. "Hubble Space Telescope", "Voyager 1" |
 | `agency` | keyword | NASA, ESA, JAXA, SpaceX, etc. |
@@ -79,10 +82,11 @@ Space missions: past, present, and planned. NASA, ESA, JAXA, private.
 | `embedding` | knn_vector | |
 
 ### 3. `observations`
+
 Specific observational records: a telescope or instrument pointing at a target and producing data.
 
 | Field | Type | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `id` | keyword | |
 | `target_name` | text | Links conceptually to `celestial_objects.name` |
 | `instrument` | keyword | e.g. "HST/ACS", "JWST/NIRCam", "VLA" |
@@ -93,10 +97,11 @@ Specific observational records: a telescope or instrument pointing at a target a
 | `embedding` | knn_vector | |
 
 ### 4. `astronomers`
+
 People: historical and contemporary astronomers, physicists, and cosmologists.
 
 | Field | Type | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `id` | keyword | |
 | `name` | text | |
 | `birth_year` | integer | |
@@ -109,10 +114,11 @@ People: historical and contemporary astronomers, physicists, and cosmologists.
 | `embedding` | knn_vector | |
 
 ### 5. `publications`
+
 Scientific papers and books related to astronomy.
 
 | Field | Type | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `id` | keyword | |
 | `title` | text | |
 | `authors` | keyword[] | |
@@ -140,14 +146,15 @@ Seed data should be ingestible via the REST ingest endpoint.
 All seed data is real; sourced from public APIs and Wikipedia. No synthetic or LLM-generated content.
 
 | Index | Source |
-|---|---|
+| --- | --- |
 | `celestial_objects` | [SIMBAD](http://simbad.cds.unistra.fr/simbad/) via TAP/ADQL — names, types, distances, designations, discovery info |
 | `missions` | [NASA API](https://api.nasa.gov/) + Wikipedia infoboxes — name, agency, type, launch year, status, targets, description |
 | `observations` | [MAST Portal](https://mast.stsci.edu/) — real HST/JWST observation records including instrument, date, wavelength band, proposal abstracts as notes |
 | `astronomers` | Wikipedia article prose and infoboxes — biography, known_for, associated objects and missions |
 | `publications` | [NASA ADS API](https://ui.adsabs.harvard.edu/help/api/) — real papers with title, authors, abstract, DOI, journal, year |
 
-**Process:**
+### Process
+
 1. Choose a set of well-connected subjects (e.g. Crab Nebula, Cygnus X-1, Andromeda Galaxy) that have rich coverage across all five sources
 2. Query each source for records related to those subjects to ensure cross-index linkage
 3. Transform raw API responses into the target schema shape
@@ -274,6 +281,7 @@ For every `search` call:
 ### Intent Extraction Prompt Contract
 
 The LLM call for intent extraction should:
+
 - Use a system prompt that instructs the model to respond **only** with a JSON object
 - Extract: `cleanedQuery` (string), `resourceTypeHints` (array), `filters` (object with any recognized field-level filters), `searchMode` suggestion (`keyword` | `semantic` | `hybrid`)
 - Have a strict timeout; fall back to raw query + full hybrid search if LLM call fails or returns unparseable JSON
@@ -285,7 +293,7 @@ The LLM call for intent extraction should:
 ### Tech Stack
 
 | Concern | Library/Approach |
-|---|---|
+| --- | --- |
 | Framework | Spring Boot 3.x (Java 21) |
 | GraphQL | `spring-boot-starter-graphql` (Spring for GraphQL) |
 | OpenSearch client | `opensearch-java` (official OpenSearch Java client) |
@@ -353,7 +361,7 @@ search:
 
 ### Repository Structure
 
-```
+```text
 nebullama-search/
 ├── .gitignore
 ├── README.md
@@ -409,7 +417,7 @@ nebullama-search/
 
 ### Package Structure
 
-```
+```text
 com.example.nebullamasearch
 ├── config/          # OpenSearch client, Ollama client beans
 ├── ingest/          # REST controllers, ingest service, embedding service
@@ -437,7 +445,7 @@ com.example.nebullamasearch
 
 A placeholder pixel art SVG icon (`docs/assets/nebullama-icon.svg`) is included in the repo. It depicts a llama in a spacesuit with a gold reflective visor, a chest control panel, antenna, and nebula wisps in the background — 64x64 pixel art style, scales cleanly as a favicon or README badge.
 
-**Midjourney prompt (for a polished final version):**
+### Midjourney prompt (for a polished final version)
 
 > A cute llama wearing a NASA-style spacesuit with a gold reflective visor helmet, floating in deep space surrounded by a colorful nebula in purples, pinks, and teals. Pixel art style, 64x64 sprite, dark space background with scattered stars, retro game aesthetic, clean crisp pixels, warm gold visor reflection, small antenna on helmet, chest control panel with tiny colored lights. --style raw --ar 1:1 --v 6
 
@@ -464,7 +472,7 @@ All docs live in `docs/` at the repo root, structured as an Obsidian vault with 
 
 ### Vault Structure
 
-```
+```text
 docs/
 ├── .obsidian/
 │   ├── app.json               # enable Mermaid, set default theme
@@ -577,56 +585,65 @@ graph TD
 
 ### Guide Content Requirements
 
-**`guides/local-dev-setup.md`**
+### `guides/local-dev-setup.md`
+
 - Prerequisites: Java 21, Docker, Docker Compose, Gradle, Node 20+
 - Step by step: clone → `docker-compose up -d` → `scripts/init.sh` → `./gradlew bootRun`
 - Verification: health check endpoint, GraphiQL at `localhost:8080/graphiql`, Dashboards at `localhost:5601`
 - Troubleshooting: Ollama model not found, OpenSearch heap issues, port conflicts
 
-**`guides/frontend-dev-setup.md`**
+### `guides/frontend-dev-setup.md`
+
 - Prerequisites: Node 20+, npm
 - Step by step: `cd frontend && npm install && npm run dev`
 - Vite proxy config explained; why it is needed to avoid CORS in dev
 - Verify the React app at `localhost:5173` with the Spring Boot service running
 
-**`guides/running-searches.md`**
+### `guides/running-searches.md`
+
 - How to use the React UI: search bar, filter panel, result cards, detail view
 - How to read the query interpretation panel (searchMode, extractedFilters, rewrittenQuery)
 - How to open GraphiQL for raw query access
 - Annotated example queries: bare string search, filtered search, single-index search
 - curl equivalents for all GraphQL examples
 
-**`guides/data-ingestion.md`**
+### `guides/data-ingestion.md`
+
 - How to run `scripts/fetch_seed_data.py` (dependencies, ADS token setup)
 - How to bulk ingest each seed file via curl
 - How to verify documents landed in OpenSearch Dashboards
 - How to add new documents manually
 
-**`api-reference/graphql-schema.md`**
+### `api-reference/graphql-schema.md`
+
 - Full GraphQL schema reproduced with field-level annotations
 - Example query for each operation (`search`, `searchIndex`)
 - `SearchMode` explanation (KEYWORD vs SEMANTIC vs HYBRID)
 - `QueryInterpretation` fields explained
 
-**`api-reference/ingest-rest-api.md`**
+### `api-reference/ingest-rest-api.md`
+
 - Endpoint table with method, path, request body, response
 - Full curl examples for single and bulk ingest per resource type
 - Field reference per resource type (which fields are required, which are optional)
 - Error response shapes (invalid resource type, OpenSearch write failure)
 
-**`concepts/hybrid-search.md`**
+### `concepts/hybrid-search.md`
+
 - What BM25 is; term frequency, inverse document frequency, length normalization
 - What k-NN vector search is; approximate nearest neighbors; HNSW; cosine similarity
 - Why hybrid beats either alone; concrete astronomy examples (exact designation lookup vs semantic query)
 - How scores are combined; the `hybrid-weight` config values and how to tune them
 
-**`concepts/vector-embeddings.md`**
+### `concepts/vector-embeddings.md`
+
 - What an embedding is; high-dimensional space; geometric proximity as semantic similarity
 - Why model choice matters; `nomic-embed-text` and why it is suited for retrieval
 - Vector dimensions and why the index mapping must match the model (768 for `nomic-embed-text`; 1024 for Titan v2)
 - How embeddings are generated at ingest time and query time; the Ollama API call
 
-**`concepts/intent-extraction.md`**
+### `concepts/intent-extraction.md`
+
 - What intent extraction does; raw query → structured filters + cleaned query
 - The LLM prompt contract; why JSON-only output is required; example input/output
 - Fallback behavior when the LLM times out or returns unparseable output
@@ -637,30 +654,35 @@ graph TD
 
 Cover the following:
 
-**Replacing Ollama with Bedrock**
+### Replacing Ollama with Bedrock
+
 - Swap `ollama.base-url` config for Bedrock API endpoint
 - Embeddings: use `amazon.titan-embed-text-v2` in place of `nomic-embed-text`
 - Intent extraction: use `anthropic.claude-3-haiku` in place of `mistral`
 - Note the dimension difference: Titan v2 produces 1024-dimension vectors; index mappings must match
 - Spring Boot service needs `software.amazon.awssdk:bedrockruntime` dependency and IAM role with `bedrock:InvokeModel`
 
-**Replacing OpenSearch (Docker) with OpenSearch Serverless**
+### Replacing OpenSearch (Docker) with OpenSearch Serverless
+
 - Create a vector search collection in OSS
 - Update `opensearch.host` to the OSS endpoint
 - Auth switches from no-auth to SigV4; use `software.amazon.awssdk:opensearchserverless` + request signing interceptor on the `opensearch-java` client
 - Index creation via OSS API (same mapping schema)
 
-**ECS Fargate**
+### ECS Fargate
+
 - Dockerize the Spring Boot service: provide a `service/Dockerfile` using `eclipse-temurin:21-jre`
 - Push image to ECR
 - Task definition: env vars for OSS endpoint and Bedrock region pulled from Secrets Manager
 - Service behind an ALB with health check on `/actuator/health`
 
-**IAM**
+### IAM
+
 - Task role needs: `bedrock:InvokeModel`, `aoss:APIAccessAll` on the OSS collection
 - No hardcoded credentials; use task role only
 
-**Cost note**
+### Cost note
+
 - OSS minimum billing is 2 OCUs (~$350/month); flag this clearly as not suitable for a hobby project at production scale; recommend keeping Docker OpenSearch for personal use
 
 ---
@@ -672,7 +694,7 @@ A React single-page application in `frontend/` at the repo root. Runs locally vi
 ### Tech Stack
 
 | Concern | Library/Approach |
-|---|---|
+| --- | --- |
 | Framework | React 18 |
 | Build tool | Vite |
 | GraphQL client | Apollo Client |
@@ -681,7 +703,7 @@ A React single-page application in `frontend/` at the repo root. Runs locally vi
 
 ### Repo Structure
 
-```
+```text
 frontend/
 ├── index.html
 ├── package.json
@@ -707,27 +729,32 @@ frontend/
 
 ### Features
 
-**Search bar**
+### Search bar
+
 - Single text input; submits on Enter or button click
 - No required syntax; bare natural language works
 - URL state: query string reflected in `?q=` so results are shareable/bookmarkable
 
-**Resource type filter panel**
+### Resource type filter panel
+
 - Checkbox group for the five resource types: `CELESTIAL_OBJECTS`, `MISSIONS`, `OBSERVATIONS`, `ASTRONOMERS`, `PUBLICATIONS`
 - All checked by default (cross-index search); unchecking narrows results to selected indexes
 - Filters passed as `resourceTypes` in `SearchFilters`
 
-**Result list**
+### Result list
+
 - Paginated results (offset-based; 10 per page)
 - Each result shown as a card with: resource type badge, name/title, relevance score, short excerpt from `source`
 - Cards are clickable to open detail view
 
-**Result detail view**
+### Result detail view
+
 - Slide-in panel or modal showing full `source` fields for the selected hit
 - Fields rendered based on resource type (e.g. `constellation` + `distance_ly` for celestial objects; `authors` + `abstract` for publications)
 - Resource type badge and score shown in header
 
-**Query interpretation panel**
+### Query interpretation panel
+
 - Shown below the search bar after every query
 - Displays: `searchMode` (KEYWORD / SEMANTIC / HYBRID), `rewrittenQuery` if different from input, `extractedFilters` as a readable tag list
 - Collapsible; useful for debugging and demonstrating the intent extraction layer
