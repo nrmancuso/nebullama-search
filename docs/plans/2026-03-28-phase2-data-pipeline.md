@@ -13,7 +13,7 @@
 ## File Map
 
 | File | Create/Modify | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | `scripts/fetch_seed_data.py` | Create | Fetches ~200 real astronomy docs from public APIs; writes five seed JSON files |
 | `scripts/requirements.txt` | Create | Python dependencies for the fetch script |
 | `data/seed_celestial_objects.json` | Created by script | 40 celestial object documents |
@@ -44,12 +44,13 @@
 ### Task 1: Python Requirements and Script Skeleton (T3 — part 1)
 
 **Files:**
+
 - Create: `scripts/requirements.txt`
 - Create: `scripts/fetch_seed_data.py` (skeleton only — full fetch in Tasks 2–6)
 
 - [ ] **Step 1: Create `scripts/requirements.txt`**
 
-```
+```text
 requests==2.32.3
 wikipedia-api==0.7.1
 ```
@@ -150,7 +151,6 @@ WIKI = wikipediaapi.Wikipedia(
 # Helpers
 # ---------------------------------------------------------------------------
 
-
 def get_wiki_summary(title: str) -> str:
     """Return the first ~3 paragraphs of a Wikipedia article as plain text."""
     page = WIKI.page(title)
@@ -159,7 +159,6 @@ def get_wiki_summary(title: str) -> str:
     text = page.text
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
     return "\n\n".join(paragraphs[:3])
-
 
 def get_wiki_infobox_fields(title: str, fields: list[str]) -> dict:
     """
@@ -184,13 +183,11 @@ def get_wiki_infobox_fields(title: str, fields: list[str]) -> dict:
                     break
     return result
 
-
 def save(filename: str, docs: list[dict]) -> None:
     path = DATA_DIR / filename
     with open(path, "w", encoding="utf-8") as f:
         json.dump(docs, f, indent=2, ensure_ascii=False)
     print(f"  Saved {len(docs)} docs → {path}")
-
 
 def dedupe(docs: list[dict], key: str) -> list[dict]:
     seen = set()
@@ -202,36 +199,28 @@ def dedupe(docs: list[dict], key: str) -> list[dict]:
             out.append(d)
     return out
 
-
 # ---------------------------------------------------------------------------
 # Index fetchers (defined in Tasks 2–6)
 # ---------------------------------------------------------------------------
 
-
 def fetch_celestial_objects() -> list[dict]:
     raise NotImplementedError
-
 
 def fetch_missions() -> list[dict]:
     raise NotImplementedError
 
-
 def fetch_observations() -> list[dict]:
     raise NotImplementedError
-
 
 def fetch_astronomers() -> list[dict]:
     raise NotImplementedError
 
-
 def fetch_publications() -> list[dict]:
     raise NotImplementedError
-
 
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-
 
 def main() -> None:
     print("=== nebullama-search seed data fetch ===\n")
@@ -258,7 +247,6 @@ def main() -> None:
 
     print("Done.")
 
-
 if __name__ == "__main__":
     main()
 ```
@@ -273,7 +261,8 @@ python scripts/fetch_seed_data.py
 ```
 
 Expected output:
-```
+
+```text
 === nebullama-search seed data fetch ===
 
 [celestial_objects] Fetching…
@@ -306,6 +295,7 @@ git commit -m "feat(T3): add seed data fetch script skeleton with helpers and co
 ### Task 2: Fetch Celestial Objects (T3 — SIMBAD + Wikipedia)
 
 **Files:**
+
 - Modify: `scripts/fetch_seed_data.py` — implement `fetch_celestial_objects()`
 
 - [ ] **Step 1: Implement `fetch_celestial_objects()`**
@@ -458,6 +448,7 @@ git commit -m "feat(T3): implement fetch_celestial_objects via SIMBAD TAP + Wiki
 ### Task 3: Fetch Missions and Astronomers (T3 — Wikipedia)
 
 **Files:**
+
 - Modify: `scripts/fetch_seed_data.py` — implement `fetch_missions()` and `fetch_astronomers()`
 
 - [ ] **Step 1: Implement `fetch_missions()`**
@@ -737,6 +728,7 @@ git commit -m "feat(T3): implement fetch_missions and fetch_astronomers via Wiki
 ### Task 4: Fetch Observations and Publications (T3 — MAST + NASA ADS)
 
 **Files:**
+
 - Modify: `scripts/fetch_seed_data.py` — implement `fetch_observations()` and `fetch_publications()`
 
 - [ ] **Step 1: Implement `fetch_observations()`**
@@ -949,7 +941,6 @@ def fetch_publications() -> list[dict]:
             print(f"  WARN: query '{query_term}' — {exc}")
 
     return dedupe(docs, "title")[:40]
-
 
 def _fallback_publications() -> list[dict]:
     """
@@ -1231,6 +1222,7 @@ git commit -m "feat(T3): implement fetch_observations (MAST) and fetch_publicati
 ### Task 5: OllamaProperties Config Bean (T4 — part 1)
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/config/OllamaProperties.java`
 - Modify: `service/src/main/resources/application.yml` (verify binding keys)
 
@@ -1315,6 +1307,7 @@ git commit -m "feat(T4): add OllamaProperties @ConfigurationProperties bean"
 ### Task 6: EmbeddingException and OllamaEmbeddingService — Test First (T4)
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/ingest/EmbeddingException.java`
 - Create: `service/src/test/java/com/example/nebullamasearch/ingest/OllamaEmbeddingServiceTest.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/ingest/OllamaEmbeddingService.java`
@@ -1512,6 +1505,7 @@ public class OllamaEmbeddingService {
      * @param text the text to embed
      * @return float[] of dimension 768 (for nomic-embed-text)
      * @throws EmbeddingException on HTTP error or JSON parse failure
+
      */
     public float[] embed(String text) {
         Map<String, String> requestBody = Map.of(
@@ -1543,6 +1537,7 @@ public class OllamaEmbeddingService {
             throw new EmbeddingException(
                     "Ollama embedding request failed with status " + ex.getStatusCode().value()
                     + ": " + ex.getResponseBodyAsString(),
+
                     ex
             );
         } catch (EmbeddingException ex) {
@@ -1561,7 +1556,8 @@ cd service && ./gradlew test --tests "com.example.nebullamasearch.ingest.OllamaE
 ```
 
 Expected:
-```
+
+```text
 OllamaEmbeddingServiceTest > embed_sendsCorrectRequestBody() PASSED
 OllamaEmbeddingServiceTest > embed_returns768DimFloatArray() PASSED
 OllamaEmbeddingServiceTest > embed_throwsEmbeddingExceptionOn500() PASSED
@@ -1584,6 +1580,7 @@ git commit -m "feat(T4): add OllamaEmbeddingService with WireMock tests"
 ### Task 7: IngestResult Record and IngestService — Test First (T5)
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/ingest/IngestResult.java`
 - Create: `service/src/test/java/com/example/nebullamasearch/ingest/IngestServiceTest.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/ingest/IngestService.java`
@@ -1838,6 +1835,7 @@ public class IngestService {
     /**
      * Which field of the document body is used as the text for embedding,
      * keyed by resource type.
+
      */
     private static final Map<ResourceType, String> PRIMARY_TEXT_FIELD = Map.of(
             ResourceType.CELESTIAL_OBJECTS, "description",
@@ -1865,6 +1863,7 @@ public class IngestService {
      * @param resourceType the target index
      * @param doc          document fields (no id, no embedding)
      * @return IngestResult with generated id and success flag
+
      */
     public IngestResult ingestOne(ResourceType resourceType, Map<String, Object> doc) {
         String id = UUID.randomUUID().toString();
@@ -1884,6 +1883,7 @@ public class IngestService {
      * @param resourceType the target index
      * @param docs         list of document maps
      * @return list of IngestResult, one per input document, in the same order
+
      */
     public List<IngestResult> ingestBulk(ResourceType resourceType, List<Map<String, Object>> docs) {
         List<Future<IngestResult>> futures = new ArrayList<>(docs.size());
@@ -1955,7 +1955,8 @@ cd service && ./gradlew test --tests "com.example.nebullamasearch.ingest.IngestS
 ```
 
 Expected:
-```
+
+```text
 IngestServiceTest > singleIngest_writesDocumentWithEmbeddingToOpenSearch() PASSED
 IngestServiceTest > bulkIngest_writesAllDocuments() PASSED
 IngestServiceTest > bulkIngest_partialFailureReturnsCorrectResults() PASSED
@@ -1978,6 +1979,7 @@ git commit -m "feat(T5): add IngestService with virtual-thread bulk ingest and T
 ### Task 8: IngestController (T5)
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/ingest/IngestController.java`
 
 The controller tests are included inside `IngestServiceTest` per the spec (invalid resourceType → 400). Add the HTTP-layer tests now via `@WebMvcTest` slicing. Then implement the controller.
@@ -2107,6 +2109,7 @@ public class IngestController {
     /**
      * POST /api/v1/ingest/{resourceType}
      * Ingest a single document. Returns 201 with {"id": "<uuid>"}.
+
      */
     @PostMapping("/{resourceType}")
     public ResponseEntity<Map<String, String>> ingestOne(
@@ -2121,6 +2124,7 @@ public class IngestController {
     /**
      * POST /api/v1/ingest/{resourceType}/bulk
      * Ingest a list of documents. Returns 207 with per-document success/failure.
+
      */
     @PostMapping("/{resourceType}/bulk")
     public ResponseEntity<List<IngestResult>> ingestBulk(
@@ -2143,6 +2147,7 @@ public class IngestController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Unknown resource type: '" + value + "'. Valid values: "
                     + "celestial_objects, missions, observations, astronomers, publications");
+
         }
     }
 }
@@ -2170,7 +2175,8 @@ cd service && ./gradlew test --tests "com.example.nebullamasearch.ingest.*"
 ```
 
 Expected:
-```
+
+```text
 OllamaEmbeddingServiceTest > embed_sendsCorrectRequestBody() PASSED
 OllamaEmbeddingServiceTest > embed_returns768DimFloatArray() PASSED
 OllamaEmbeddingServiceTest > embed_throwsEmbeddingExceptionOn500() PASSED
@@ -2198,6 +2204,7 @@ git commit -m "feat(T5): add IngestController with single (201) and bulk (207) e
 ### Task 9: Seed Ingest Convenience Script (T15)
 
 **Files:**
+
 - Create: `scripts/ingest_seed.sh`
 
 - [ ] **Step 1: Create `scripts/ingest_seed.sh`**
@@ -2206,12 +2213,12 @@ git commit -m "feat(T5): add IngestController with single (201) and bulk (207) e
 #!/usr/bin/env bash
 # ingest_seed.sh — bulk-ingest all five seed JSON files into nebullama-search.
 #
-# Prerequisites:
+# Prerequisites
 #   1. docker-compose up -d (OpenSearch running)
 #   2. ./gradlew bootRun (service running on localhost:8080)
 #   3. python scripts/fetch_seed_data.py (seed files present in data/)
 #
-# Usage:
+# Usage
 #   bash scripts/ingest_seed.sh
 #
 # Non-zero exit if any index has a failed document.
@@ -2327,7 +2334,8 @@ bash /Users/nick/IdeaProjects/nebullama-search/scripts/ingest_seed.sh
 ```
 
 Expected output (if seed files are missing):
-```
+
+```text
 [HH:MM:SS] Checking seed files...
   MISSING: .../data/seed_celestial_objects.json
   ...
@@ -2336,7 +2344,8 @@ Run: python scripts/fetch_seed_data.py
 ```
 
 Or (if files exist but service is not running):
-```
+
+```text
 [HH:MM:SS] Checking service health at http://localhost:8080/actuator/health ...
 ERROR: Service not healthy. ...
 Run: ./gradlew bootRun
@@ -2356,6 +2365,7 @@ git commit -m "feat(T15): add ingest_seed.sh convenience script with pre-flight 
 ### Task 10: Fill Documentation Placeholders
 
 **Files:**
+
 - Modify: `docs/guides/data-ingestion.md`
 - Modify: `docs/api-reference/ingest-rest-api.md`
 
@@ -2377,8 +2387,10 @@ This guide explains how to fetch real astronomy seed data from public APIs and l
 ## 1. Install Python dependencies
 
 ```bash
+
 pip install -r scripts/requirements.txt
-```
+
+```text
 
 ## 2. (Optional) Get a free NASA ADS token
 
@@ -2392,12 +2404,16 @@ To get a token:
 ## 3. Fetch seed data
 
 ```bash
-# Without ADS token (uses fallback publications):
+
+# Without ADS token (uses fallback publications)
+
 python scripts/fetch_seed_data.py
 
-# With ADS token (fetches real papers):
+# With ADS token (fetches real papers)
+
 ADS_TOKEN=your_token_here python scripts/fetch_seed_data.py
-```
+
+```text
 
 The script prints progress per index and writes five files to `data/`:
 
@@ -2414,8 +2430,10 @@ The script is idempotent — re-running overwrites the files.
 ## 4. Ingest seed data
 
 ```bash
+
 bash scripts/ingest_seed.sh
-```
+
+```text
 
 This script checks that seed files exist, verifies the service is healthy, then bulk-ingests all five indexes. It prints per-index summaries and exits non-zero on any failure.
 
@@ -2424,19 +2442,22 @@ This script checks that seed files exist, verifies the service is healthy, then 
 Open http://localhost:5601 → Dev Tools → Console:
 
 ```
+
 GET celestial_objects/_count
 GET missions/_count
 GET observations/_count
 GET astronomers/_count
 GET publications/_count
-```
+
+```text
 
 Each should return `{"count": 40, ...}`.
 
 ## Manual single-document ingest
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/ingest/celestial_objects \
+
+curl -X POST <http://localhost:8080/api/v1/ingest/celestial_objects> \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Crab Nebula",
@@ -2445,7 +2466,8 @@ curl -X POST http://localhost:8080/api/v1/ingest/celestial_objects \
     "distance_ly": 6523.0,
     "description": "The Crab Nebula is a supernova remnant and pulsar wind nebula in Taurus."
   }'
-```
+
+```text
 
 Response: `201 Created` with `{"id": "<uuid>"}`.
 
@@ -2484,8 +2506,10 @@ Do **not** include `id` or `embedding` in the request body — these are generat
 #### curl examples
 
 ```bash
+
 # Celestial object
-curl -X POST http://localhost:8080/api/v1/ingest/celestial_objects \
+
+curl -X POST <http://localhost:8080/api/v1/ingest/celestial_objects> \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Crab Nebula",
@@ -2496,7 +2520,8 @@ curl -X POST http://localhost:8080/api/v1/ingest/celestial_objects \
   }'
 
 # Mission
-curl -X POST http://localhost:8080/api/v1/ingest/missions \
+
+curl -X POST <http://localhost:8080/api/v1/ingest/missions> \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Hubble Space Telescope",
@@ -2509,7 +2534,8 @@ curl -X POST http://localhost:8080/api/v1/ingest/missions \
   }'
 
 # Astronomer
-curl -X POST http://localhost:8080/api/v1/ingest/astronomers \
+
+curl -X POST <http://localhost:8080/api/v1/ingest/astronomers> \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Jocelyn Bell Burnell",
@@ -2519,7 +2545,8 @@ curl -X POST http://localhost:8080/api/v1/ingest/astronomers \
     "associated_objects": ["PSR B1919+21"],
     "biography": "Dame Jocelyn Bell Burnell discovered the first radio pulsars in 1967..."
   }'
-```
+
+```text
 
 ---
 
@@ -2540,17 +2567,20 @@ Documents are processed in parallel using virtual threads. One document's failur
 **Response shape (207):**
 
 ```json
+
 [
   {"id": "550e8400-e29b-41d4-a716-446655440000", "success": true, "error": null},
   {"id": "6ba7b810-9dad-11d1-80b4-00c04fd430c8", "success": true, "error": null},
   {"id": "6ba7b811-9dad-11d1-80b4-00c04fd430c8", "success": false, "error": "OpenSearch write failed: ..."}
 ]
-```
+
+```text
 
 #### curl example
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/ingest/publications/bulk \
+
+curl -X POST <http://localhost:8080/api/v1/ingest/publications/bulk> \
   -H "Content-Type: application/json" \
   -d '[
     {
@@ -2572,15 +2602,18 @@ curl -X POST http://localhost:8080/api/v1/ingest/publications/bulk \
       "doi": "10.1086/150581"
     }
   ]'
-```
+
+```text
 
 #### Bulk ingest from a seed file
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/ingest/celestial_objects/bulk \
+
+curl -X POST <http://localhost:8080/api/v1/ingest/celestial_objects/bulk> \
   -H "Content-Type: application/json" \
   --data "@data/seed_celestial_objects.json"
-```
+
+```text
 
 ---
 
@@ -2656,6 +2689,7 @@ curl -X POST http://localhost:8080/api/v1/ingest/celestial_objects/bulk \
 | Unknown `resourceType` | 400 | `{"status":400,"error":"Bad Request","message":"Unknown resource type: 'xyz'..."}` |
 | OpenSearch unavailable | 500 | Spring default error body |
 | Ollama unavailable | 500 | Spring default error body |
+
 ```
 
 - [ ] **Step 3: Commit documentation**
@@ -2718,7 +2752,8 @@ bash scripts/ingest_seed.sh
 ```
 
 Expected:
-```
+
+```text
 [HH:MM:SS] celestial_objects: 40/40 succeeded
 [HH:MM:SS] missions: 40/40 succeeded
 [HH:MM:SS] observations: 40/40 succeeded
@@ -2754,7 +2789,8 @@ print('embedding[0]:', emb[0] if emb else 'MISSING')
 ```
 
 Expected:
-```
+
+```text
 name: <some object name>
 embedding length: 768
 embedding[0]: 0.10000000149011612

@@ -13,7 +13,7 @@
 ## File Map
 
 | Action | Path | Purpose |
-|--------|------|---------|
+| -------- | ------ | --------- |
 | Create | `scripts/run-integration-tests.sh` | Stack readiness + test runner + CI teardown |
 | Modify | `settings.gradle.kts` | Add `integration-tests` to root include |
 | Create | `integration-tests/build.gradle.kts` | Subproject build — JUnit, WebFlux, Jackson |
@@ -33,6 +33,7 @@
 ## Task 1: Startup Script
 
 **Files:**
+
 - Create: `scripts/run-integration-tests.sh`
 
 - [ ] **Step 1: Create the script**
@@ -167,6 +168,7 @@ git commit -m "chore: add integration test startup script"
 ## Task 2: Gradle Subproject Wiring
 
 **Files:**
+
 - Modify: `settings.gradle.kts`
 - Create: `integration-tests/build.gradle.kts`
 
@@ -217,7 +219,8 @@ tasks.withType<Test> {
 ```
 
 Expected output includes:
-```
+
+```text
 +--- Project ':integration-tests'
 +--- Project ':service'
 ```
@@ -242,6 +245,7 @@ git commit -m "chore: add integration-tests Gradle subproject"
 ## Task 3: IntegrationTestBase
 
 **Files:**
+
 - Create: `integration-tests/src/test/java/com/example/nebullamasearch/it/IntegrationTestBase.java`
 
 - [ ] **Step 1: Create the directory tree**
@@ -284,6 +288,7 @@ public abstract class IntegrationTestBase {
             fail("nebullama-search service is not running at " + BASE_URL +
                  ". Start with: docker-compose up -d && cd service && ./gradlew bootRun\n"
                  + e.getMessage());
+
         }
     }
 }
@@ -309,6 +314,7 @@ git commit -m "test(it): add IntegrationTestBase with health-check guard"
 ## Task 4: IngestIT
 
 **Files:**
+
 - Create: `integration-tests/src/test/java/com/example/nebullamasearch/it/IngestIT.java`
 
 - [ ] **Step 1: Write `IngestIT.java`**
@@ -506,6 +512,7 @@ git commit -m "test(it): add IngestIT end-to-end ingest tests"
 ## Task 5: BM25SearchIT
 
 **Files:**
+
 - Create: `integration-tests/src/test/java/com/example/nebullamasearch/it/BM25SearchIT.java`
 
 - [ ] **Step 1: Write `BM25SearchIT.java`**
@@ -673,6 +680,7 @@ git commit -m "test(it): add BM25SearchIT end-to-end keyword search tests"
 ## Task 6: KNNSearchIT
 
 **Files:**
+
 - Create: `integration-tests/src/test/java/com/example/nebullamasearch/it/KNNSearchIT.java`
 
 - [ ] **Step 1: Write `KNNSearchIT.java`**
@@ -751,6 +759,7 @@ git commit -m "test(it): add KNNSearchIT end-to-end semantic search tests"
 ## Task 7: HybridSearchIT
 
 **Files:**
+
 - Create: `integration-tests/src/test/java/com/example/nebullamasearch/it/HybridSearchIT.java`
 
 - [ ] **Step 1: Write `HybridSearchIT.java`**
@@ -860,6 +869,7 @@ git commit -m "test(it): add HybridSearchIT deduplication and interpretation tes
 ## Task 8: CrossIndexSearchIT
 
 **Files:**
+
 - Create: `integration-tests/src/test/java/com/example/nebullamasearch/it/CrossIndexSearchIT.java`
 
 - [ ] **Step 1: Write `CrossIndexSearchIT.java`**
@@ -944,6 +954,7 @@ git commit -m "test(it): add CrossIndexSearchIT multi-resource-type test"
 ## Task 9: GraphQLApiIT
 
 **Files:**
+
 - Create: `integration-tests/src/test/java/com/example/nebullamasearch/it/GraphQLApiIT.java`
 
 - [ ] **Step 1: Write `GraphQLApiIT.java`**
@@ -1078,6 +1089,7 @@ git commit -m "test(it): add GraphQLApiIT pagination and single-index restrictio
 ## Task 10: Integration Tests README
 
 **Files:**
+
 - Create: `integration-tests/README.md`
 
 - [ ] **Step 1: Write `integration-tests/README.md`**
@@ -1092,29 +1104,38 @@ End-to-end tests that run against the full nebullama-search stack (OpenSearch + 
 ### Option 1: Automated script (recommended)
 
 ```bash
+
 ./scripts/run-integration-tests.sh
-```
+
+```text
 
 This starts the stack if not running, runs the tests, and leaves the stack up for fast re-runs.
 
 ### Option 2: Manual (stack already running)
 
 ```bash
+
 # Terminal 1
+
 docker-compose up -d
 
 # Terminal 2
+
 cd service && ./gradlew bootRun
 
 # Terminal 3 (from project root)
+
 ./gradlew :integration-tests:test
-```
+
+```text
 
 ### CI
 
 ```bash
+
 CI=true ./scripts/run-integration-tests.sh
-```
+
+```text
 
 The stack is torn down automatically after tests complete.
 
@@ -1136,6 +1157,7 @@ All test classes extend `IntegrationTestBase`, which guards against running when
 | `HybridSearchIT` | Duplicate-free hybrid results, intent interpretation in response |
 | `CrossIndexSearchIT` | Multi-resource-type hits from a single query |
 | `GraphQLApiIT` | Pagination, single-index restriction via `searchIndex` |
+
 ```
 
 - [ ] **Step 2: Commit**
@@ -1150,6 +1172,7 @@ git commit -m "docs: add integration-tests README"
 ## Task 11: AWS Architecture Diagram
 
 **Files:**
+
 - Create: `docs/architecture/aws-architecture.md`
 
 - [ ] **Step 1: Create the directory**
@@ -1166,6 +1189,7 @@ mkdir -p docs/architecture
 This diagram shows how nebullama-search maps onto AWS managed services when the local Docker Compose stack is replaced for production or staging deployments.
 
 ```mermaid
+
 graph TD
     ALB["Application Load Balancer"]
     ECS["ECS Fargate\nnebullama-search service"]
@@ -1179,7 +1203,8 @@ graph TD
     ECS --> Bedrock
     ECS --> SM
     ECR --> ECS
-```
+
+```text
 
 ## Component Mapping
 
@@ -1208,6 +1233,7 @@ git commit -m "docs: add AWS architecture diagram"
 ## Task 12: AWS Deployment Guide
 
 **Files:**
+
 - Create: `docs/deployment/aws.md`
 
 - [ ] **Step 1: Create the directory**
@@ -1243,11 +1269,13 @@ This guide covers replacing the local Docker Compose stack (OpenSearch + Ollama)
 Add to `service/build.gradle.kts`:
 
 ```kotlin
+
 dependencies {
     // ... existing dependencies ...
     implementation("software.amazon.awssdk:bedrockruntime:2.25.60")
 }
-```
+
+```text
 
 ### New service implementations
 
@@ -1256,6 +1284,7 @@ Create two new classes implementing the existing interfaces:
 **`BedrockEmbeddingService.java`** — implements `EmbeddingService`:
 
 ```java
+
 @Service
 @ConditionalOnProperty(name = "embedding.provider", havingValue = "bedrock")
 public class BedrockEmbeddingService implements EmbeddingService {
@@ -1278,11 +1307,13 @@ public class BedrockEmbeddingService implements EmbeddingService {
         // ... JSON parsing to float[] using ObjectMapper ...
     }
 }
-```
+
+```text
 
 **`BedrockChatService.java`** — implements `ChatService` (used by intent extraction):
 
 ```java
+
 @Service
 @ConditionalOnProperty(name = "chat.provider", havingValue = "bedrock")
 public class BedrockChatService implements ChatService {
@@ -1302,11 +1333,13 @@ public class BedrockChatService implements ChatService {
         // Parse response: choices[0].message.content
     }
 }
-```
+
+```text
 
 ### Spring configuration (`application-aws.yml`)
 
 ```yaml
+
 embedding:
   provider: bedrock
 
@@ -1315,13 +1348,15 @@ chat:
 
 aws:
   region: us-east-1  # or whichever region you enable Bedrock models in
-```
+
+```text
 
 Run with: `SPRING_PROFILES_ACTIVE=aws ./gradlew bootRun`
 
 ### Bean configuration (`AwsConfig.java`)
 
 ```java
+
 @Configuration
 @Profile("aws")
 public class AwsConfig {
@@ -1337,11 +1372,13 @@ public class AwsConfig {
                 .build();
     }
 }
-```
+
+```text
 
 ### IAM permissions required (task role)
 
 ```json
+
 {
   "Effect": "Allow",
   "Action": "bedrock:InvokeModel",
@@ -1350,7 +1387,8 @@ public class AwsConfig {
     "arn:aws:bedrock:<region>::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
   ]
 }
-```
+
+```text
 
 Replace `<region>` with the AWS region where you have Bedrock model access enabled (e.g. `us-east-1`). Request model access in the Bedrock console under **Model access** before deploying.
 
@@ -1373,6 +1411,7 @@ Create each of the five indexes using the same mapping JSON as the local Docker 
 Example for `celestial_objects` (POST to `https://<collection-endpoint>/celestial_objects`):
 
 ```json
+
 {
   "settings": {
     "index": {
@@ -1396,7 +1435,8 @@ Example for `celestial_objects` (POST to `https://<collection-endpoint>/celestia
     }
   }
 }
-```
+
+```text
 
 Repeat for `missions`, `observations`, `astronomers`, and `publications`.
 
@@ -1407,31 +1447,37 @@ Amazon OpenSearch Serverless requires AWS Signature Version 4 on every HTTP requ
 Gradle dependency in `service/build.gradle.kts`:
 
 ```kotlin
+
 implementation("software.amazon.awssdk:opensearchserverless:2.25.60")
 implementation("software.amazon.awssdk:auth:2.25.60")
-```
+
+```text
 
 In `OpenSearchConfig.java`, when the `aws` profile is active, configure the `RestClientBuilder` with a request interceptor that adds `Authorization`, `X-Amz-Date`, and `X-Amz-Security-Token` headers using `Aws4Signer` from the SDK.
 
 ### Spring configuration (`application-aws.yml`)
 
 ```yaml
+
 opensearch:
-  host: https://<id>.<region>.aoss.amazonaws.com
+  host: <https://<i>d>.<region>.aoss.amazonaws.com
   port: 443
   scheme: https
   aoss: true  # enables SigV4 signing interceptor
-```
+
+```text
 
 ### IAM permissions required (task role)
 
 ```json
+
 {
   "Effect": "Allow",
   "Action": "aoss:APIAccessAll",
   "Resource": "arn:aws:aoss:<region>:<account-id>:collection/<collection-id>"
 }
-```
+
+```text
 
 Also create a **data access policy** in the OSS console granting the task role's IAM principal permission to `aoss:CreateIndex`, `aoss:WriteDocuments`, `aoss:ReadDocument`, and `aoss:DescribeIndex` on your collection.
 
@@ -1444,35 +1490,45 @@ Also create a **data access policy** in the OSS console granting the task role's
 Create `service/Dockerfile`:
 
 ```dockerfile
+
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY build/libs/nebullama-search-*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-```
+
+```text
 
 ### Build the JAR and image
 
 ```bash
+
 cd service
 ./gradlew bootJar
 docker build -t nebullama-search:latest .
-```
+
+```text
 
 ### Push to Amazon ECR
 
 ```bash
+
 # Create the repository (one-time)
+
 aws ecr create-repository --repository-name nebullama-search --region <region>
 
 # Authenticate Docker to ECR
+
 aws ecr get-login-password --region <region> \
+
   | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
 
 # Tag and push
+
 docker tag nebullama-search:latest <account-id>.dkr.ecr.<region>.amazonaws.com/nebullama-search:latest
 docker push <account-id>.dkr.ecr.<region>.amazonaws.com/nebullama-search:latest
-```
+
+```text
 
 ---
 
@@ -1498,23 +1554,27 @@ Inject secrets from AWS Secrets Manager rather than hardcoding values:
 In the task definition JSON, reference secrets using the `"valueFrom"` syntax:
 
 ```json
+
 {
   "name": "OPENSEARCH_HOST",
   "valueFrom": "arn:aws:secretsmanager:<region>:<account-id>:secret:nebullama-search/opensearch-host"
 }
-```
+
+```text
 
 ### Health check
 
 ```json
+
 {
-  "command": ["CMD-SHELL", "curl -sf http://localhost:8080/actuator/health || exit 1"],
+  "command": ["CMD-SHELL", "curl -sf <http://localhost:8080/actuator/health> || exit 1"],
   "interval": 30,
   "timeout": 5,
   "retries": 3,
   "startPeriod": 60
 }
-```
+
+```text
 
 ### ALB target group
 
@@ -1530,6 +1590,7 @@ In the task definition JSON, reference secrets using the `"valueFrom"` syntax:
 Create a single IAM role (e.g. `nebullama-search-task-role`) with the following inline policy. No hardcoded credentials are needed anywhere — the ECS task metadata endpoint provides credentials automatically.
 
 ```json
+
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -1558,7 +1619,8 @@ Create a single IAM role (e.g. `nebullama-search-task-role`) with the following 
     }
   ]
 }
-```
+
+```text
 
 Attach this role as the **task role** (not the task execution role) in the ECS task definition.
 ```
@@ -1580,7 +1642,7 @@ This task verifies everything works end-to-end against a live local stack. It as
 
 ```bash
 docker-compose up -d
-# Wait for OpenSearch to be healthy:
+# Wait for OpenSearch to be healthy
 until curl -sf http://localhost:9200/_cluster/health > /dev/null; do sleep 3; done
 echo "OpenSearch healthy"
 ```
@@ -1633,7 +1695,7 @@ This checklist defines "done" for the complete nebullama-search project across a
 ### Service
 
 - [ ] `cd service && ./gradlew bootRun` starts without error
-- [ ] `GET http://localhost:8080/actuator/health` returns `{"status":"UP"}`
+- [ ] `GET <http://localhost:8080/actuator/healt>h` returns `{"status":"UP"}`
 - [ ] `POST /api/v1/ingest/celestial_objects` with a valid body returns 201 with an `id`
 - [ ] `POST /api/v1/ingest/celestial_objects/bulk` with a list of docs returns 207 with per-doc results
 - [ ] `DELETE /api/v1/ingest/celestial_objects/{id}` removes the document

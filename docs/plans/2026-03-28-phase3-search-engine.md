@@ -13,8 +13,9 @@
 ## File Map
 
 ### New files — DTOs
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `service/src/main/java/com/example/nebullamasearch/search/SearchRequest.java` | Record: `query`, `resourceTypes`, `filters`, `pagination` |
 | `service/src/main/java/com/example/nebullamasearch/search/SearchFilters.java` | Record: all optional keyword/range filter fields |
 | `service/src/main/java/com/example/nebullamasearch/search/Pagination.java` | Record: `from`, `size` with compact constructor guard and static default |
@@ -22,27 +23,31 @@
 | `service/src/main/java/com/example/nebullamasearch/search/SearchHit.java` | Record: `id`, `resourceType`, `score`, `source` |
 
 ### New files — search logic
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `service/src/main/java/com/example/nebullamasearch/search/SearchService.java` | `searchBM25`, `searchKNN`, `searchHybrid` |
 | `service/src/main/java/com/example/nebullamasearch/search/HybridScorer.java` | Static `normalize(List<SearchHit>)` and `combine(...)` methods |
 
 ### New files — tests
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `service/src/test/java/com/example/nebullamasearch/search/SearchServiceBM25Test.java` | Testcontainers + WireMock: four BM25 search scenarios |
 | `service/src/test/java/com/example/nebullamasearch/search/SearchServiceKNNTest.java` | Testcontainers + WireMock: three k-NN scenarios including WireMock verification |
 | `service/src/test/java/com/example/nebullamasearch/search/HybridScorerTest.java` | Pure unit tests for normalization and combination logic |
 | `service/src/test/java/com/example/nebullamasearch/search/SearchServiceHybridTest.java` | Testcontainers + WireMock: two hybrid integration scenarios |
 
 ### New files — docs
+
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `docs/concepts/hybrid-search.md` | Explains BM25, k-NN, why hybrid wins, score combination, weight tuning |
 
 ### Modified files
+
 | File | Change |
-|---|---|
+| --- | --- |
 | `service/src/main/resources/application.yml` | Add `search.knn-k`, `search.hybrid-weight.bm25`, `search.hybrid-weight.knn` if not already present |
 
 ---
@@ -54,6 +59,7 @@
 ### Task 1: Search DTOs (T6 prerequisites)
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/search/SearchFilters.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/search/Pagination.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/search/SearchHit.java`
@@ -65,6 +71,7 @@ These are plain records with no logic except the `Pagination` compact constructo
 - [ ] **Step 1: Create `SearchFilters`**
 
 Create `service/src/main/java/com/example/nebullamasearch/search/SearchFilters.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -83,6 +90,7 @@ public record SearchFilters(
 - [ ] **Step 2: Create `Pagination`**
 
 Create `service/src/main/java/com/example/nebullamasearch/search/Pagination.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -101,6 +109,7 @@ public record Pagination(int from, int size) {
 - [ ] **Step 3: Create `SearchHit`**
 
 Create `service/src/main/java/com/example/nebullamasearch/search/SearchHit.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -118,6 +127,7 @@ public record SearchHit(
 - [ ] **Step 4: Create `SearchResponse`**
 
 Create `service/src/main/java/com/example/nebullamasearch/search/SearchResponse.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -129,6 +139,7 @@ public record SearchResponse(long total, List<SearchHit> hits) {}
 - [ ] **Step 5: Create `SearchRequest`**
 
 Create `service/src/main/java/com/example/nebullamasearch/search/SearchRequest.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -160,12 +171,14 @@ git commit -m "feat: add search DTOs — SearchRequest, SearchResponse, SearchHi
 ### Task 2: `SearchService` skeleton and configuration
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/search/SearchService.java`
 - Modify: `service/src/main/resources/application.yml`
 
 - [ ] **Step 1: Verify config keys are present in `application.yml`**
 
 Open `service/src/main/resources/application.yml`. Confirm or add these entries under `search:`:
+
 ```yaml
 search:
   hybrid-weight:
@@ -177,6 +190,7 @@ search:
 - [ ] **Step 2: Create `SearchService` skeleton**
 
 Create `service/src/main/java/com/example/nebullamasearch/search/SearchService.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -254,6 +268,7 @@ git commit -m "feat: add SearchService skeleton with config injection"
 ### Task 3: BM25 search — failing test first (T6)
 
 **Files:**
+
 - Create: `service/src/test/java/com/example/nebullamasearch/search/SearchServiceBM25Test.java`
 
 The test class uses Testcontainers to spin up real OpenSearch and WireMock to stub Ollama. BM25 tests don't call Ollama at all, but WireMock needs to be present for the `OllamaEmbeddingService` bean to initialize. The stub is configured but these tests don't trigger it.
@@ -261,6 +276,7 @@ The test class uses Testcontainers to spin up real OpenSearch and WireMock to st
 - [ ] **Step 1: Write the failing test class**
 
 Create `service/src/test/java/com/example/nebullamasearch/search/SearchServiceBM25Test.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -535,6 +551,7 @@ Expected: tests fail with `UnsupportedOperationException: not yet implemented`
 ### Task 4: Implement `searchBM25` (T6)
 
 **Files:**
+
 - Modify: `service/src/main/java/com/example/nebullamasearch/search/SearchService.java`
 
 The implementation builds a `SearchRequest` body as a `JsonObject` (using the opensearch-java low-level JSON builder), sends it via `openSearchClient.search(...)`, and maps the hits back to `SearchHit` records.
@@ -544,6 +561,7 @@ The implementation builds a `SearchRequest` body as a `JsonObject` (using the op
 Open `service/src/main/java/com/example/nebullamasearch/search/SearchService.java`.
 
 Replace the entire file with:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -862,11 +880,13 @@ git commit -m "feat: implement searchBM25 with multi_match, filter clauses, and 
 ### Task 5: k-NN search — failing tests (T7)
 
 **Files:**
+
 - Create: `service/src/test/java/com/example/nebullamasearch/search/SearchServiceKNNTest.java`
 
 - [ ] **Step 1: Write the failing k-NN test class**
 
 Create `service/src/test/java/com/example/nebullamasearch/search/SearchServiceKNNTest.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -1057,6 +1077,7 @@ Expected: tests fail (k-NN method throws `UnsupportedOperationException` — thi
 ### Task 6: Verify k-NN tests pass and commit (T7)
 
 **Files:**
+
 - Modify: `service/src/main/java/com/example/nebullamasearch/search/SearchService.java` (already done in Task 4)
 
 The `searchKNN` implementation was written in Task 4. The `buildKnnQueryJson` method produces the raw JSON needed by OpenSearch 2.x. Run the tests now.
@@ -1085,12 +1106,14 @@ git commit -m "feat: implement searchKNN and verify with Testcontainers + WireMo
 ### Task 7: `HybridScorer` — failing unit tests (T8)
 
 **Files:**
+
 - Create: `service/src/test/java/com/example/nebullamasearch/search/HybridScorerTest.java`
 - Create: `service/src/main/java/com/example/nebullamasearch/search/HybridScorer.java` (stub)
 
 - [ ] **Step 1: Write the failing `HybridScorerTest`**
 
 Create `service/src/test/java/com/example/nebullamasearch/search/HybridScorerTest.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -1217,6 +1240,7 @@ class HybridScorerTest {
 - [ ] **Step 2: Create `HybridScorer` stub so the test class compiles**
 
 Create `service/src/main/java/com/example/nebullamasearch/search/HybridScorer.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -1249,11 +1273,13 @@ Expected: `7 tests, 7 failures` with `UnsupportedOperationException`
 ### Task 8: Implement `HybridScorer` (T8)
 
 **Files:**
+
 - Modify: `service/src/main/java/com/example/nebullamasearch/search/HybridScorer.java`
 
 - [ ] **Step 1: Implement `HybridScorer`**
 
 Replace the stub with:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -1266,6 +1292,7 @@ public class HybridScorer {
      * Min-max normalises scores to [0, 1].
      * Returns a map from hit id → normalised score.
      * If all scores are equal (range == 0), every score normalises to 1.0.
+
      */
     public static Map<String, Float> normalize(List<SearchHit> hits) {
         if (hits.isEmpty()) return Map.of();
@@ -1286,6 +1313,7 @@ public class HybridScorer {
      * Combines BM25 and k-NN result sets into a single deduplicated list,
      * sorted descending by weighted combined score.
      * Does NOT apply pagination — that is the caller's responsibility.
+
      */
     public static List<SearchHit> combine(
             List<SearchHit> bm25Hits,
@@ -1344,11 +1372,13 @@ git commit -m "feat: implement HybridScorer with min-max normalisation and weigh
 ### Task 9: Hybrid integration tests (T8)
 
 **Files:**
+
 - Create: `service/src/test/java/com/example/nebullamasearch/search/SearchServiceHybridTest.java`
 
 - [ ] **Step 1: Write the hybrid integration test class**
 
 Create `service/src/test/java/com/example/nebullamasearch/search/SearchServiceHybridTest.java`:
+
 ```java
 package com.example.nebullamasearch.search;
 
@@ -1547,6 +1577,7 @@ Run: `cd service && ./gradlew test 2>&1 | tail -30`
 Expected: all tests pass. No failures, no errors.
 
 If any test fails:
+
 - `UnsupportedOperationException` in `searchKNN` or `searchHybrid` → the implementation wasn't wired in; re-check `SearchService.java`
 - `IllegalArgumentException: knn field type not configured` → the `IndexInitializer` didn't create the index with `knn: true` and `knn_vector` field; check that `IndexInitializer` ran before the test indexed the doc
 - `WireMockServer not started` → `wireMock.start()` must be called inside `@DynamicPropertySource` (it is in the test above, so this shouldn't happen)
@@ -1554,6 +1585,7 @@ If any test fails:
 - [ ] **Step 2: Commit if nothing was already committed**
 
 If all tests passed without changes, no commit needed here. Otherwise:
+
 ```bash
 git add -p
 git commit -m "fix: resolve test failures in Phase 3 search suite"
@@ -1564,11 +1596,13 @@ git commit -m "fix: resolve test failures in Phase 3 search suite"
 ### Task 11: Write `docs/concepts/hybrid-search.md` (T8 docs)
 
 **Files:**
+
 - Modify: `docs/concepts/hybrid-search.md` (replace Phase 1 placeholder)
 
 - [ ] **Step 1: Write the hybrid search concept doc**
 
 Replace the contents of `docs/concepts/hybrid-search.md` with:
+
 ```markdown
 # Hybrid Search
 
@@ -1624,16 +1658,20 @@ BM25 and k-NN scores are on completely different scales — BM25 scores are unbo
 **Step 1 — Min-max normalization (applied separately to each result set):**
 
 ```
+
 normalizedScore = (score - min) / (max - min)
-```
+
+```text
 
 This maps every BM25 score to [0, 1] and every k-NN score to [0, 1] independently. If all scores in a result set are equal (e.g., a single result), the score normalizes to 1.0.
 
 **Step 2 — Weighted combination:**
 
 ```
+
 finalScore = (0.4 × normalizedBm25) + (0.6 × normalizedKnn)
-```
+
+```text
 
 A document that appears only in BM25 results gets `normalizedKnn = 0`. A document that appears only in k-NN results gets `normalizedBm25 = 0`.
 
@@ -1646,11 +1684,13 @@ A document that appears only in BM25 results gets `normalizedKnn = 0`. A documen
 The weights are controlled by:
 
 ```yaml
+
 search:
   hybrid-weight:
     bm25: 0.4
     knn: 0.6
-```
+
+```text
 
 The default `knn: 0.6` gives slight preference to semantic similarity. This is appropriate for a discovery use case where users often don't know exact catalog identifiers.
 
@@ -1667,9 +1707,11 @@ The default `knn: 0.6` gives slight preference to semantic similarity. This is a
 The weights must sum to 1.0 for the combined scores to stay in the [0, 1] range. The `knn-k` parameter controls how many nearest neighbors OpenSearch returns in a k-NN query:
 
 ```yaml
+
 search:
   knn-k: 10
-```
+
+```text
 
 Increasing `knn-k` improves recall at the cost of latency. For a small local dataset this can be set to 50 or 100 without noticeable slowdown.
 ```
@@ -1711,4 +1753,5 @@ Phase 4 (T9, T10) adds:
 3. **Full search pipeline** — the GraphQL `search` query runs intent extraction, constructs a `SearchRequest` from extracted filters, calls `searchHybrid`, and returns hits + interpretation for every query.
 
 4. **Docs** — `docs/concepts/intent-extraction.md` and `docs/architecture/search-pipeline.md` (Mermaid sequence diagram).
-```
+
+```text
