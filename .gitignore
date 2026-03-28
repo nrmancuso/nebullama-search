@@ -86,4 +86,4 @@ http-client.private.env.json
 .idea/**/copilot.data.migration.*.xml
 
 .claude/settings.local.json
-
+docs/.obsidian/workspace.json
