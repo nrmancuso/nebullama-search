@@ -1,0 +1,8 @@
+{
+  "theme": "obsidian",
+  "defaultViewMode": "preview",
+  "livePreview": true,
+  "legacyEditor": false,
+  "foldIndent": true,
+  "showFrontmatter": false
+}
