@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: nebullama-search
+  output:
+    ansi:
+      enabled: always
+  threads:
+    virtual:
+      enabled: true
+  graphql:
+    graphiql:
+      enabled: true
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+opensearch:
+  host: localhost
+  port: 9200
+  scheme: http
+
+ollama:
+  base-url: http://localhost:11434
+  embedding-model: nomic-embed-text
+  intent-model: mistral
+  connect-timeout-ms: 5000
+  read-timeout-ms: 10000
+
+search:
+  hybrid-weight:
+    bm25: 0.4
+    knn: 0.6
+  knn-k: 10
+  intent-extraction:
+    enabled: true
+    timeout-ms: 3000
