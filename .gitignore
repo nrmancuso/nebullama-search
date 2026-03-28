@@ -87,3 +87,41 @@ http-client.private.env.json
 
 .claude/settings.local.json
 docs/.obsidian/workspace.json
+
+# Java / Gradle
+.gradle/
+build/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+!service/gradle/wrapper/gradle-wrapper.jar
+out/
+.classpath
+.project
+.settings/
+
+# Spring Boot
+spring.log
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.python-version
+.env
+
+# Seed data (generated — large files, not committed)
+data/seed_*.json
+
+# Docker volumes (local only)
+volumes/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Obsidian workspace (local, not shared)
+docs/.obsidian/workspace-mobile.json
+docs/.obsidian/cache

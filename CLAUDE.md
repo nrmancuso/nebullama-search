@@ -56,6 +56,10 @@ Run locally: `npx markdownlint-cli2 "**/*.md"`
 Two-tier: unit tests (fast, no containers) and integration tests (Testcontainers + WireMock).
 Do not mock OpenSearch in integration tests — use real containers.
 
+## Docker
+
+Always pin Docker image versions (e.g. `ollama/ollama:0.18.3`, not `ollama/ollama:latest`).
+
 ## Plans
 
 Implementation plans live in `docs/plans/`. Phase files follow the naming pattern
