@@ -125,3 +125,6 @@ Thumbs.db
 # Obsidian workspace (local, not shared)
 docs/.obsidian/workspace-mobile.json
 docs/.obsidian/cache
+
+# Git worktrees
+.worktrees/
