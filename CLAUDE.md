@@ -64,3 +64,9 @@ Always pin Docker image versions (e.g. `ollama/ollama:0.18.3`, not `ollama/ollam
 
 Implementation plans live in `docs/plans/`. Phase files follow the naming pattern
 `YYYY-MM-DD-phase<N>-<name>.md`. Use checkbox syntax (`- [ ]`) for task tracking.
+
+## Docs
+
+When completing a feature, check whether any placeholder docs in `docs/` should be
+updated to reflect what was built. Placeholders are marked with `> 🚧`. If a section
+is now implemented, replace the placeholder with real content.
