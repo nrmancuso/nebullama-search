@@ -40,6 +40,9 @@ public class OllamaEmbeddingService {
               .retrieve()
               .body(String.class);
 
+      if (responseBody == null) {
+        throw new EmbeddingException("Ollama returned an empty response body");
+      }
       JsonNode root = objectMapper.readTree(responseBody);
       JsonNode embeddingNode = root.get("embedding");
       if (embeddingNode == null || !embeddingNode.isArray()) {
