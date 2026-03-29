@@ -281,7 +281,129 @@ def fetch_celestial_objects() -> list[dict]:
 
 
 def fetch_missions() -> list[dict]:
-    raise NotImplementedError
+    """Fetch mission data from Wikipedia for anchor + extra missions."""
+    extra_missions = [
+        "New Horizons",
+        "Mars Reconnaissance Orbiter",
+        "Opportunity rover",
+        "Curiosity rover",
+        "Perseverance rover",
+        "Parker Solar Probe",
+        "Solar and Heliospheric Observatory",
+        "Ulysses (spacecraft)",
+        "INTEGRAL",
+        "NuSTAR",
+        "WISE (spacecraft)",
+        "Planck (spacecraft)",
+        "WMAP",
+        "Rosetta (spacecraft)",
+        "Dawn (spacecraft)",
+        "Deep Impact (spacecraft)",
+        "Stardust (spacecraft)",
+        "OSIRIS-REx",
+        "Hayabusa",
+        "Hayabusa2",
+        "BepiColombo",
+        "Mars Express",
+        "Venus Express",
+        "Juno (spacecraft)",
+        "Galileo (spacecraft)",
+        "Pioneer 10",
+        "Pioneer 11",
+        "Voyager 2",
+    ]
+    all_missions = ANCHOR_MISSIONS + extra_missions
+
+    status_keywords = {
+        "active": "active",
+        "operational": "active",
+        "ongoing": "active",
+        "retired": "retired",
+        "decommissioned": "retired",
+        "ended": "retired",
+        "crashed": "retired",
+        "lost": "lost",
+        "failed": "lost",
+        "planned": "planned",
+        "future": "planned",
+    }
+
+    agency_keywords = [
+        "NASA", "ESA", "JAXA", "Roscosmos", "ISRO", "CNSA", "SpaceX",
+        "Boeing", "Arianespace", "CSA",
+    ]
+
+    docs: list[dict] = []
+    for title in all_missions:
+        if len(docs) >= DOCS_PER_INDEX:
+            break
+        try:
+            page = WIKI.page(title)
+            if not page.exists():
+                print(f"  WIKI miss: {title}")
+                continue
+
+            text = page.text
+            paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+            description = "\n\n".join(paragraphs[:3])
+
+            # Infer agency
+            agency = None
+            for ag in agency_keywords:
+                if ag.lower() in text.lower():
+                    agency = ag
+                    break
+
+            # Infer launch_year (first 4-digit year 1957-2035 in first 2000 chars)
+            year_matches = re.findall(r"\b(19[5-9]\d|20[0-3]\d)\b", text[:2000])
+            launch_year = int(year_matches[0]) if year_matches else None
+
+            # Infer status
+            status = "retired"
+            text_lower = text.lower()
+            for kw, val in status_keywords.items():
+                if kw in text_lower[:3000]:
+                    status = val
+                    break
+
+            # Infer mission_type
+            mission_type = "observatory"
+            if any(w in text_lower for w in ["lander", "landing"]):
+                mission_type = "lander"
+            elif any(w in text_lower for w in ["rover"]):
+                mission_type = "rover"
+            elif any(w in text_lower for w in ["flyby", "fly-by"]):
+                mission_type = "flyby"
+            elif any(w in text_lower for w in ["crewed", "manned", "astronaut"]):
+                mission_type = "crewed"
+
+            # Cross-reference targets from anchor objects
+            targets = [
+                obj for obj in ANCHOR_OBJECTS if obj.lower() in text_lower
+            ]
+
+            clean_title = title.replace(" (spacecraft)", "").replace(
+                " rover", " Rover"
+            )
+
+            doc = {
+                "resource_type": "missions",
+                "name": clean_title,
+                "agency": agency,
+                "mission_type": mission_type,
+                "launch_year": launch_year,
+                "status": status,
+                "targets": targets[:5],
+                "description": description,
+            }
+            docs.append(doc)
+            print(f"  OK: {clean_title} ({agency}, {status})")
+            time.sleep(0.3)
+
+        except Exception as exc:
+            print(f"  WARN: {title} -- {exc}")
+
+    return dedupe(docs, "name")[:DOCS_PER_INDEX]
 
 
 def fetch_observations() -> list[dict]:
