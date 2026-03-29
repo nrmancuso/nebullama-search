@@ -112,8 +112,6 @@ __pycache__/
 .python-version
 .env
 
-# Seed data (generated — large files, not committed)
-data/seed_*.json
 
 # Docker volumes (local only)
 volumes/
