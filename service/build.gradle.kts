@@ -33,7 +33,7 @@ dependencies {
     testImplementation("org.springframework:spring-webflux")
     testImplementation("org.testcontainers:testcontainers:1.20.6")
     testImplementation("org.testcontainers:junit-jupiter:1.20.6")
-    testImplementation("org.wiremock:wiremock:3.5.4")
+    testImplementation("org.wiremock:wiremock-jetty12:3.5.4")
 }
 
 tasks.withType<Test> {
