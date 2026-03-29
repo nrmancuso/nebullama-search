@@ -1,0 +1,29 @@
+[
+  {
+    "resource_type": "observations",
+    "target_name": "Crab Nebula",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Crab Nebula. Target observed as part of a survey program to characterise the morphological and spectral properties of Crab Nebula."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Andromeda Galaxy",
+    "instrument": "NICMOS/NIC2",
+    "observatory": "HST",
+    "observation_date": "1997-12-02",
+    "wavelength_band": "infrared",
+    "notes": "Stellar Distributions in Nearby Galaxy Nuclei"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Cygnus X-1",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Cygnus X-1. Target observed as part of a survey program to characterise the morphological and spectral properties of Cygnus X-1."
+  }
+]
