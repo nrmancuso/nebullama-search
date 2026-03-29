@@ -26,11 +26,12 @@ Valid prefixes:
 
 ## CI
 
-Three jobs run on every push to `main` and on all PRs (`.github/workflows/lint.yml`):
+Four jobs run on every push to `main` and on all PRs (`.github/workflows/lint.yml`):
 
 - **actionlint** — validates GitHub Actions workflow YAML
 - **markdown** — `markdownlint-cli2` over all `**/*.md` files; config in `.markdownlint.json`
 - **spellcheck** — `cspell` over `**/*.md`, `**/*.g4`, `**/*.java`
+- **format** — `spotlessCheck` via Gradle; enforces Google Java Style
 
 Commit message format is checked separately on PRs (`.github/workflows/commit-message.yml`).
 
@@ -45,6 +46,15 @@ Run locally: `npx markdownlint-cli2 "**/*.md"`
 
 When any markdown files have been created or modified, always run markdownlint before
 committing and fix any errors.
+
+## Java Formatting
+
+All Java code must comply with Google Java Style, enforced by Spotless with
+google-java-format. Claude Code hooks auto-format `.java` files after edits.
+
+Run locally: `cd service && ./gradlew spotlessApply`
+
+Check only: `cd service && ./gradlew spotlessCheck`
 
 ## Tech Stack
 
