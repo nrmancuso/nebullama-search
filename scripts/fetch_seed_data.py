@@ -660,7 +660,63 @@ def fetch_astronomers() -> list[dict]:
 
 
 def fetch_publications() -> list[dict]:
-    raise NotImplementedError
+    """
+    Fetch astronomy papers from NASA ADS API.
+    Requires ADS_TOKEN env var.
+    """
+    ads_url = "https://api.adsabs.harvard.edu/v1/search/query"
+    headers = {"Authorization": f"Bearer {ADS_TOKEN}"}
+
+    docs: list[dict] = []
+    for query_term in ADS_SEARCH_TERMS:
+        if len(docs) >= DOCS_PER_INDEX:
+            break
+        try:
+            params = {
+                "q": query_term,
+                "fl": "title,author,year,pub,abstract,keyword,doi,bibcode",
+                "rows": 4,
+                "sort": "citation_count desc",
+            }
+            resp = requests.get(
+                ads_url, headers=headers, params=params, timeout=20
+            )
+            resp.raise_for_status()
+            papers = resp.json().get("response", {}).get("docs", [])
+
+            for paper in papers:
+                if len(docs) >= DOCS_PER_INDEX:
+                    break
+                title = (
+                    paper.get("title", [""])[0] if paper.get("title") else ""
+                )
+                if not title:
+                    continue
+                abstract = paper.get("abstract") or f"Research paper: {title}"
+                authors = paper.get("author", [])[:8]
+                doi_list = paper.get("doi", [])
+                doi = doi_list[0] if doi_list else None
+                topics = paper.get("keyword", [])[:10]
+
+                doc = {
+                    "resource_type": "publications",
+                    "title": title,
+                    "authors": authors,
+                    "year": paper.get("year"),
+                    "journal": paper.get("pub"),
+                    "abstract": abstract[:3000],
+                    "topics": topics,
+                    "doi": doi,
+                }
+                docs.append(doc)
+                print(f"  OK: {title[:70]}")
+
+            time.sleep(0.3)
+
+        except Exception as exc:
+            print(f"  WARN: query '{query_term}' -- {exc}")
+
+    return dedupe(docs, "title")[:DOCS_PER_INDEX]
 
 
 # ---------------------------------------------------------------------------
