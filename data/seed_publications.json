@@ -1,0 +1,874 @@
+[
+  {
+    "resource_type": "publications",
+    "title": "Confinement of the Crab pulsar's wind by its supernova remnant.",
+    "authors": [
+      "Kennel, C. F.",
+      "Coroniti, F. V."
+    ],
+    "year": "1984",
+    "journal": "The Astrophysical Journal",
+    "abstract": "A steady state, spherically symmetric, magnetohydrodynamic model of the Crab nebula is constructed. A highly relativistic positronic pulsar wind is terminated by a strong MHD shock that decelerates the flow and increases its pressure to match boundary conditions imposed by the recently discovered supernova remnant that surrounds the nebula. If the magnetic luminosity of the pulsar wind upstream of the shock is about 0.3 percent of its particle luminosity, the pressure and velocity boundary conditions imposed by the remnant place the shock where it is inferred to be: near the outer boundary of an underluminous region observed to surround the pulsar. It is necessary to include the weak magnetization of the wind to satisfy the boundary conditions and to calculate the regular synchrotron radiation self-consistently.",
+    "topics": [
+      "Cosmic Plasma",
+      "Crab Nebula",
+      "Pulsars",
+      "Stellar Winds",
+      "Supernova Remnants",
+      "Boundary Conditions",
+      "Boundary Value Problems",
+      "Flow Velocity",
+      "Magnetohydrodynamics",
+      "Shock Waves"
+    ],
+    "doi": "10.1086/162356"
+  },
+  {
+    "resource_type": "publications",
+    "title": "On the Nature of Pulsars. I. Theory",
+    "authors": [
+      "Ostriker, J. P.",
+      "Gunn, J. E."
+    ],
+    "year": "1969",
+    "journal": "The Astrophysical Journal",
+    "abstract": "We present in this paper the initial installment of a quantitative exploration of one particular pulsar model. We first make plausible and then assume that the seat of the pulsar phenomenon is a rotating neutron star having a dipolar magnetic field which is not parallel to the rotation axis. We then show that such stars may be expected to emit large amounts (1050_1052 ergs) of magnetic-dipole and gravitational- quadrupole radiation, that these energy losses are inevitably associated with losses of angular momentum and increases in the rotation periods, and that the emitted low-frequency magnetic-dipole radiation is extremely efficient at accelerating charged particles to relativistic energies. An explicit expression for the period as a function of time allows us to calculate the age of the Crab Nebula (with 20 percent accuracy) and to predict the so far unobserved second derivative of the period (d2P/dt2). We also de- termine the luminosity of the nebula and the highest-energy electrons presently being injected into it- both numbers found to be in good agreement with independent observations. In extreme cases the ac- celeration mechanism can produce protons with energies up to m~c2(e2/Gm~)'/3 or 1021 eV, which is somewhat in excess of the most energetic cosmic rays yet observed. The theory predicts a relation be- tween period, F, and rate of change of period, dP/dt 3 X 10'5/P(sec), which is well observed, in the mean, for pulsars. Finally, after determining the magnetic decay time to be about 4 million years, we predict that few pulsars should be found with periods in excess of 1.5 seconds, also in good accord with observations. We do not discuss the origin of the pulses themselves",
+    "topics": [],
+    "doi": "10.1086/150160"
+  },
+  {
+    "resource_type": "publications",
+    "title": "The origin of the magnetic field and relativistic particles in the Crab Nebula",
+    "authors": [
+      "Rees, M. J.",
+      "Gunn, J. E."
+    ],
+    "year": "1974",
+    "journal": "Monthly Notices of the Royal Astronomical Society",
+    "abstract": "The power from the Crab Pulsar NP 0531 probably emerges partly as 30 Hz waves and partly as a relativistic wind containing a toroidal magnetic field. A shock discontinuity is expected where the pressure of the relativistic outflow balances the pressure within the nebula. This shock would occur at a radius Rs which is about 10 per cent of the total nebular radius Rneb. The relativistic particles and the magnetic flux would accumulate in the region Rs &lt;R &lt;Rneb. The magnetic field in this region would build up to equipartition strength, even if this field embodied only a few per cent of the relativistic energy outflow from the pulsar. The 30 Hz waves would be absorbed at R Rs, their energy being transferred to relativistic electrons. The continuum from the bulk of the nebula would then be entirely synchrotron radiation. The relevance of this model to various observed features of the Crab Nebula is briefly explored.",
+    "topics": [],
+    "doi": "10.1093/mnras/167.1.1"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Observation of TeV Gamma Rays from the Crab Nebula Using the Atmospheric Cerenkov Imaging Technique",
+    "authors": [
+      "Weekes, T. C.",
+      "Cawley, M. F.",
+      "Fegan, D. J.",
+      "Gibbs, K. G.",
+      "Hillas, A. M.",
+      "Kowk, P. W.",
+      "Lamb, R. C.",
+      "Lewis, D. A."
+    ],
+    "year": "1989",
+    "journal": "The Astrophysical Journal",
+    "abstract": "The Whipple Observatory 10-m reflector, operating as a 37-pixel camera, has been used to observe the Crab Nebula in TeV gamma rays. By selecting gamma-ray images based on their predicted properties, more than 98 percent of the background is rejected; a detection is reported at the 9.0-sigma level, corresponding to a flux of 1.8 x 10 to the -11th photons sq cm/s above 0.7 TeV (with a factor of 1.5 uncertainty in both flux and energy). Less than 25 percent of the observed flux is pulsed at the period of PSR 0531. There is no evidence for variability on time scales from months to years. Although continuum emission from the pulsar cannot be ruled out, it seems more likely that the observed flux comes from the hard Compton synchrotron spectrum of the nebula.",
+    "topics": [
+      "Cerenkov Counters",
+      "Crab Nebula",
+      "Gamma Ray Astronomy",
+      "Imaging Techniques",
+      "Pulsars",
+      "Azimuth",
+      "Electron Energy",
+      "Image Processing",
+      "Monte Carlo Method",
+      "Periodic Variations"
+    ],
+    "doi": "10.1086/167599"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Gaia Data Release 3. Summary of the content and survey properties",
+    "authors": [
+      "Gaia Collaboration",
+      "Vallenari, A.",
+      "Brown, A. G. A.",
+      "Prusti, T.",
+      "de Bruijne, J. H. J.",
+      "Arenou, F.",
+      "Babusiaux, C.",
+      "Biermann, M."
+    ],
+    "year": "2023",
+    "journal": "Astronomy and Astrophysics",
+    "abstract": "Context. We present the third data release of the European Space Agency's Gaia mission, Gaia DR3. This release includes a large variety of new data products, notably a much expanded radial velocity survey and a very extensive astrophysical characterisation of Gaia sources. <BR /> Aims: We outline the content and the properties of Gaia DR3, providing an overview of the main improvements in the data processing in comparison with previous data releases (where applicable) and a brief discussion of the limitations of the data in this release. <BR /> Methods: The Gaia DR3 catalogue is the outcome of the processing of raw data collected with the Gaia instruments during the first 34 months of the mission by the Gaia Data Processing and Analysis Consortium. <BR /> Results: The Gaia DR3 catalogue contains the same source list, celestial positions, proper motions, parallaxes, and broad band photometry in the G, G<SUB>BP</SUB>, and G<SUB>RP</SUB> pass-bands already present in the Early Third Data Release, Gaia EDR3. Gaia DR3 introduces an impressive wealth of new data products. More than 33 million objects in the ranges G<SUB>RVS</SUB> &lt; 14 and 3100 &lt; T<SUB>eff</SUB> &lt; 14 500, have new determinations of their mean radial velocities based on data collected by Gaia. We provide G<SUB>RVS</SUB> magnitudes for most sources with radial velocities, and a line broadening parameter is listed for a subset of these. Mean Gaia spectra are made available to the community. The Gaia DR3 catalogue includes about 1 million mean spectra from the radial velocity spectrometer, and about 220 million low-resolution blue and red prism photometer BP/RP mean spectra. The results of the analysis of epoch photometry are provided for some 10 million sources across 24 variability types. Gaia DR3 includes astrophysical parameters and source class probabilities for about 470 million and 1500 million sources, respectively, including stars, galaxies, and quasars. Orbital elements and trend parameters are provided for some 800 000 astrometric, spectroscopic and eclipsing binaries. More than 150 000 Solar System objects, including new discoveries, with preliminary orbital solutions and individual epoch observations are part of this release. Reflectance spectra derived from the epoch BP/RP spectral data are published for about 60 000 asteroids. Finally, an additional data set is provided, namely the Gaia Andromeda Photometric Survey, consisting of the photometric time series for all sources located in a 5.5 degree radius field centred on the Andromeda galaxy. <BR /> Conclusions: This data release represents a major advance with respect to Gaia DR2 and Gaia EDR3 because of the unprecedented quantity, quality, and variety of source astrophysical data. To date this is the largest collection of all-sky spectrophotometry, radial velocities, variables, and astrophysical parameters derived from both low- and high-resolution spectra and includes a spectrophotometric and dynamical survey of SS",
+    "topics": [
+      "techniques: photometric",
+      "techniques: spectroscopic",
+      "techniques: radial velocities",
+      "catalogs",
+      "astrometry",
+      "parallaxes",
+      "Astrophysics - Astrophysics of Galaxies"
+    ],
+    "doi": "10.1051/0004-6361/202243940"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Where Are the Missing Galactic Satellites?",
+    "authors": [
+      "Klypin, Anatoly",
+      "Kravtsov, Andrey V.",
+      "Valenzuela, Octavio",
+      "Prada, Francisco"
+    ],
+    "year": "1999",
+    "journal": "The Astrophysical Journal",
+    "abstract": "According to the hierarchical clustering scenario, galaxies are assembled by merging and accretion of numerous satellites of different sizes and masses. This ongoing process is not 100% efficient in destroying all of the accreted satellites, as evidenced by the satellites of our Galaxy and of M31. Using published data, we have compiled the circular velocity (V<SUB>circ</SUB>) distribution function (VDF) of galaxy satellites in the Local Group. We find that within the volumes of radius of 570 kpc (400 h<SUP>-1</SUP> kpc assuming the Hubble constant1 h=0.7) centered on the Milky Way and Andromeda, the average VDF is roughly approximated as n(&gt;V<SUB>circ</SUB>)~55+/-11(V<SUB>circ</SUB>/10 km s<SUP>-1</SUP>)<SUP>-1.4+/-0.4</SUP> h<SUP>3</SUP> Mpc<SUP>-3</SUP> for V<SUB>circ</SUB> in the range ~10-70 km s<SUP>-1</SUP>. The observed VDF is compared with results of high-resolution cosmological simulations. We find that the VDF in models is very different from the observed one: n(&gt;V<SUB>circ</SUB>)~1200(V<SUB>circ</SUB>/10 km s<SUP>-1</SUP>)<SUP>-2.75</SUP> h<SUP>3</SUP> Mpc<SUP>-3</SUP>. Cosmological models thus predict that a halo the size of our Galaxy should have about 50 dark matter satellites with circular velocity greater than 20 km s<SUP>-1</SUP> and mass greater than 3×10<SUP>8</SUP> M<SUB>solar</SUB> within a 570 kpc radius. This number is significantly higher than the approximately dozen satellites actually observed around our Galaxy. The difference is even larger if we consider the abundance of satellites in simulated galaxy groups similar to the Local Group. The models predict ~300 satellites inside a 1.5 Mpc radius, while only ~40 satellites are observed in the Local Group. The observed and predicted VDFs cross at ~50 km s<SUP>-1</SUP>, indicating that the predicted abundance of satellites with V<SUB>circ</SUB>&gt;~50 km s<SUP>-1</SUP> is in reasonably good agreement with observations. We conclude, therefore, that unless a large fraction of the Local Group satellites has been missed in observations, there is a dramatic discrepancy between observations and hierarchical models, regardless of the model parameters. We discuss several possible explanations for this discrepancy including identification of some satellites with the high-velocity clouds observed in the Local Group and the existence of dark satellites that failed to accrete gas and form stars either because of the expulsion of gas in the supernovae-driven winds or because of gas heating by the intergalactic ionizing background.",
+    "topics": [
+      "COSMOLOGY: THEORY",
+      "GALAXIES: CLUSTERS: GENERAL",
+      "GALAXIES: INTERACTIONS",
+      "GALAXY: FORMATION",
+      "GALAXIES: LOCAL GROUP",
+      "METHODS: NUMERICAL",
+      "Cosmology: Theory",
+      "Galaxies: Clusters: General",
+      "Galaxies: Interactions",
+      "Galaxy: Formation"
+    ],
+    "doi": "10.1086/307643"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Inward Bound---The Search For Supermassive Black Holes In Galactic Nuclei",
+    "authors": [
+      "Kormendy, John",
+      "Richstone, Douglas"
+    ],
+    "year": "1995",
+    "journal": "Annual Review of Astronomy and Astrophysics",
+    "abstract": "Dynamical searches reveal central dark objects with masses $\\sim 10^6$to $10^{9.5}$ \\msun in the Galaxy, \\m31, \\mm32, M87, NGC 3115, NGC 3377, NGC 4258, and NGC 4594. Indirect arguments suggest but do not prove that these are supermassive black holes (BHs) like those postulated as quasar engines. This paper reviews dynamical search techniques, the robustness of the evidence, and BH demographics. Stellar-dynamical evidence is generally more robust than gas-dynamical evidence (gas velocities can be nongravitational), but gas measurements reach closer to the Schwarzschild radius, and in NGC 4258 they show a Keplerian rotation curve. A statistical survey finds BHs in $\\sim 20\\%$ of nearby E--Sbc galaxies, consistent with predictions based on quasar energetics. BH masses are proportional to the mass of the bulge component. Most candidates are inactive; in some cases, the abundance of fuel is not easily reconciled with BH starvation. Flashes caused by the accretion of individual stars may provide a test of the BH picture.",
+    "topics": [],
+    "doi": "10.1146/annurev.aa.33.090195.003053"
+  },
+  {
+    "resource_type": "publications",
+    "title": "A 2.4% Determination of the Local Value of the Hubble Constant",
+    "authors": [
+      "Riess, Adam G.",
+      "Macri, Lucas M.",
+      "Hoffmann, Samantha L.",
+      "Scolnic, Dan",
+      "Casertano, Stefano",
+      "Filippenko, Alexei V.",
+      "Tucker, Brad E.",
+      "Reid, Mark J."
+    ],
+    "year": "2016",
+    "journal": "The Astrophysical Journal",
+    "abstract": "We use the Wide Field Camera 3 (WFC3) on the Hubble Space Telescope (HST) to reduce the uncertainty in the local value of the Hubble constant from 3.3% to 2.4%. The bulk of this improvement comes from new near-infrared (NIR) observations of Cepheid variables in 11 host galaxies of recent type Ia supernovae (SNe Ia), more than doubling the sample of reliable SNe Ia having a Cepheid-calibrated distance to a total of 19; these in turn leverage the magnitude-redshift relation based on ∼300 SNe Ia at z &lt; 0.15. All 19 hosts as well as the megamaser system NGC 4258 have been observed with WFC3 in the optical and NIR, thus nullifying cross-instrument zeropoint errors in the relative distance estimates from Cepheids. Other noteworthy improvements include a 33% reduction in the systematic uncertainty in the maser distance to NGC 4258, a larger sample of Cepheids in the Large Magellanic Cloud (LMC), a more robust distance to the LMC based on late-type detached eclipsing binaries (DEBs), HST observations of Cepheids in M31, and new HST-based trigonometric parallaxes for Milky Way (MW) Cepheids. We consider four geometric distance calibrations of Cepheids: (I) megamasers in NGC 4258, (II) 8 DEBs in the LMC, (III) 15 MW Cepheids with parallaxes measured with HST/FGS, HST/WFC3 spatial scanning and/or Hipparcos, and (IV) 2 DEBs in M31. The Hubble constant from each is 72.25 ± 2.51, 72.04 ± 2.67, 76.18 ± 2.37, and 74.50 ± 3.27 km s<SUP>-1</SUP> Mpc<SUP>-1</SUP>, respectively. Our best estimate of H <SUB>0</SUB> = 73.24 ± 1.74 km s<SUP>-1</SUP> Mpc<SUP>-1</SUP> combines the anchors NGC 4258, MW, and LMC, yielding a 2.4% determination (all quoted uncertainties include fully propagated statistical and systematic components). This value is 3.4σ higher than 66.93 ± 0.62 km s<SUP>-1</SUP> Mpc<SUP>-1</SUP> predicted by ΛCDM with 3 neutrino flavors having a mass of 0.06 eV and the new Planck data, but the discrepancy reduces to 2.1σ relative to the prediction of 69.3 ± 0.7 km s<SUP>-1</SUP> Mpc<SUP>-1</SUP> based on the comparably precise combination of WMAP+ACT+SPT+BAO observations, suggesting that systematic uncertainties in CMB radiation measurements may play a role in the tension. If we take the conflict between Planck high-redshift measurements and our local determination of H <SUB>0</SUB> at face value, one plausible explanation could involve an additional source of dark radiation in the early universe in the range of ∆N <SUB>eff</SUB> ≈ 0.4-1. We anticipate further significant improvements in H <SUB>0</SUB> from upcoming parallax measurements of long-period MW Cepheids. <P />Based on observations with the NASA/ESA Hubble Space Telescope, obtained at the Space Telescope Science Institute, which is operated by AURA, Inc., under NASA contract NAS 5-26555.",
+    "topics": [
+      "cosmological parameters",
+      "cosmology: observations",
+      "distance scale",
+      "galaxies: distances and redshifts",
+      "Astrophysics - Cosmology and Nongalactic Astrophysics",
+      "Astrophysics - Astrophysics of Galaxies"
+    ],
+    "doi": "10.3847/0004-637X/826/1/56"
+  },
+  {
+    "resource_type": "publications",
+    "title": "X-ray fluorescence from the inner disc in Cygnus X-1.",
+    "authors": [
+      "Fabian, A. C.",
+      "Rees, M. J.",
+      "Stella, L.",
+      "White, N. E."
+    ],
+    "year": "1989",
+    "journal": "Monthly Notices of the Royal Astronomical Society",
+    "abstract": "The quasi-blackbody plus power-law spectra of many accreting black-hole sources suggests that relatively cold matter is surrounded by hard X-ray emitting plasma. Fluorescent iron lines are produced by X-irradiation of the cold gas. The shape and variability of these lines can be used to map the innermost regions around the black hole. In the case of a disc geometry for the cold gas, the effects of doppler-broadening and gravitational and transverse redshifts produce a characteristic line profile which depends upon inclination. We show here that the broad, iron emission line found in Cyg X-1 by Barr, White &amp; Page is well modelled by fluorescent emission from the inner parts of an accretion disc inclined at ~3O degrees. The mass of the central object and properties of the accretion flow can be determined by future higher resolution studies of this and similar sources, including Active Galaxies.",
+    "topics": [
+      "Accretion Disks",
+      "Black Holes (Astronomy)",
+      "Cygnus Constellation",
+      "X Ray Fluorescence",
+      "X Ray Spectra",
+      "Black Body Radiation",
+      "Emission Spectra",
+      "Line Spectra",
+      "Red Shift",
+      "Astrophysics"
+    ],
+    "doi": "10.1093/mnras/238.3.729"
+  },
+  {
+    "resource_type": "publications",
+    "title": "A two-temperature accretion disk model for Cygnus X-1: structure and spectrum.",
+    "authors": [
+      "Shapiro, S. L.",
+      "Lightman, A. P.",
+      "Eardley, D. M."
+    ],
+    "year": "1976",
+    "journal": "The Astrophysical Journal",
+    "abstract": "A model for Cygnus X-1, involving an accretion disk around a black hole, is presented which can explain the observed X-ray spectrum from 8 to 500 keV. In particular, a detailed model is constructed for the structure of an accretion disk whose inner region is considerably hotter and geometrically thicker than previous disk models. The inner region of the disk is optically thin to absorption, is gas-pressure dominated, and yields, from first principles, electron temperatures of 1 billion K and ion temperatures 3 to 300 times hotter. The spectrum above 8 keV is produced by inverse Compton scattering of soft X-ray photons in the two-temperature inner region of the disk. This spectrum is computed by numerical integration of the Kompane'ets equation, modified to account for escape of photons from a region of finite (order unity) electron-scattering optical depth.",
+    "topics": [
+      "Astronomical Models",
+      "Black Holes (Astronomy)",
+      "Radiative Transfer",
+      "X Ray Sources",
+      "X Ray Stars",
+      "Compton Effect",
+      "Disks (Shapes)",
+      "Electron Energy",
+      "Emission Spectra",
+      "Ion Temperature"
+    ],
+    "doi": "10.1086/154162"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Accretion Disc Models for Compact X-Ray Sources",
+    "authors": [
+      "Pringle, J. E.",
+      "Rees, M. J."
+    ],
+    "year": "1972",
+    "journal": "Astronomy and Astrophysics",
+    "abstract": "Summary. The accretion process is considered, in cases when the infalling matter possesses angular momentum and forms a disc spinning around a central compact mass. This situation occurs when gas falls onto a black hole or neutron star from a binary companion, and may be relevant to galactic X-ray sources. The spectrum of the radiation emitted by gas spiralling down into a black hole is calculated and compared with the data on Cygnus X-1. Rapid irregular variability is expected in this model. If the compact object is a neutron star, the gas dynamics near the star may be controlled by the stellar magnetic field. The main X-ray emission then comes not from the disc, but from regions on the stellar surface near the magnetic poles. An interpretation of Centaurus X-3 involving a rotating magnetized neutron star is proposed. It is emphasized that accretion discs can display a wide range of properties (depending on the accretion rate, viscosity, etc.). Tentative interpretation of some other phenomena are also proposed. Key words: accretion - binary stars - X-ray sources",
+    "topics": [],
+    "doi": null
+  },
+  {
+    "resource_type": "publications",
+    "title": "Bimodal behavior of accretion disks: theory and application to Cygnus X-1 transitions.",
+    "authors": [
+      "Ichimaru, S."
+    ],
+    "year": "1977",
+    "journal": "The Astrophysical Journal",
+    "abstract": "A theory of Newtonian accretion disks is developed based on an explicit formulation of viscous stresses arising from turbulent magnetic fields which are generated by Keplerian differential rotation of plasmas. It is particularly pointed out that two physically distinct states exist in the middle part of the accretion disk surrounding a black hole; a transition from one state to the other takes place when the physical conditions of the accreting gas near the disk outer boundary cross over the critical conditions separating the two states. The thermal stability of those states is examined. It is also found that within a certain inner radius, the disk develops into a single high-temperature state, irrespective of the critical conditions; copious emission of hard X-rays arises from this inner domain. These results are applied to construct a definite numerical model of Cyg X-1 accounting for observed features of its transitions, such as magnitudes and spectral distributions of the X-ray luminosity, transition times, and variabilities. The possibility of transient X-ray sources associated with accretion onto black holes is predicted.",
+    "topics": [
+      "Binary Stars",
+      "Black Holes (Astronomy)",
+      "Magnetohydrodynamic Turbulence",
+      "Stellar Mass Accretion",
+      "X Ray Sources",
+      "Angular Momentum",
+      "Astronomical Models",
+      "Conservation Laws",
+      "Thermal Stability",
+      "X Ray Spectra"
+    ],
+    "doi": "10.1086/155314"
+  },
+  {
+    "resource_type": "publications",
+    "title": "CANDELS: The Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey",
+    "authors": [
+      "Grogin, Norman A.",
+      "Kocevski, Dale D.",
+      "Faber, S. M.",
+      "Ferguson, Henry C.",
+      "Koekemoer, Anton M.",
+      "Riess, Adam G.",
+      "Acquaviva, Viviana",
+      "Alexander, David M."
+    ],
+    "year": "2011",
+    "journal": "The Astrophysical Journal Supplement Series",
+    "abstract": "The Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey (CANDELS) is designed to document the first third of galactic evolution, over the approximate redshift (z) range 8-1.5. It will image &gt;250,000 distant galaxies using three separate cameras on the Hubble Space Telescope, from the mid-ultraviolet to the near-infrared, and will find and measure Type Ia supernovae at z &gt; 1.5 to test their accuracy as standardizable candles for cosmology. Five premier multi-wavelength sky regions are selected, each with extensive ancillary data. The use of five widely separated fields mitigates cosmic variance and yields statistically robust and complete samples of galaxies down to a stellar mass of 10<SUP>9</SUP> M <SUB>☉</SUB> to z ≈ 2, reaching the knee of the ultraviolet luminosity function of galaxies to z ≈ 8. The survey covers approximately 800 arcmin<SUP>2</SUP> and is divided into two parts. The CANDELS/Deep survey (5σ point-source limit H = 27.7 mag) covers ~125 arcmin<SUP>2</SUP> within Great Observatories Origins Deep Survey (GOODS)-N and GOODS-S. The CANDELS/Wide survey includes GOODS and three additional fields (Extended Groth Strip, COSMOS, and Ultra-deep Survey) and covers the full area to a 5σ point-source limit of H &gt;~ 27.0 mag. Together with the Hubble Ultra Deep Fields, the strategy creates a three-tiered \"wedding-cake\" approach that has proven efficient for extragalactic surveys. Data from the survey are nonproprietary and are useful for a wide variety of science investigations. In this paper, we describe the basic motivations for the survey, the CANDELS team science goals and the resulting observational requirements, the field selection and geometry, and the observing design. The Hubble data processing and products are described in a companion paper.",
+    "topics": [
+      "cosmology: observations",
+      "galaxies: high-redshift",
+      "Astrophysics - Cosmology and Nongalactic Astrophysics"
+    ],
+    "doi": "10.1088/0067-0049/197/2/35"
+  },
+  {
+    "resource_type": "publications",
+    "title": "CANDELS: The Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey—The Hubble Space Telescope Observations, Imaging Data Products, and Mosaics",
+    "authors": [
+      "Koekemoer, Anton M.",
+      "Faber, S. M.",
+      "Ferguson, Henry C.",
+      "Grogin, Norman A.",
+      "Kocevski, Dale D.",
+      "Koo, David C.",
+      "Lai, Kamson",
+      "Lotz, Jennifer M."
+    ],
+    "year": "2011",
+    "journal": "The Astrophysical Journal Supplement Series",
+    "abstract": "This paper describes the Hubble Space Telescope imaging data products and data reduction procedures for the Cosmic Assembly Near-infrared Deep Extragalactic Legacy Survey (CANDELS). This survey is designed to document the evolution of galaxies and black holes at z ≈ 1.5-8, and to study Type Ia supernovae at z &gt; 1.5. Five premier multi-wavelength sky regions are selected, each with extensive multi-wavelength observations. The primary CANDELS data consist of imaging obtained in the Wide Field Camera 3 infrared channel (WFC3/IR) and the WFC3 ultraviolet/optical channel, along with the Advanced Camera for Surveys (ACS). The CANDELS/Deep survey covers ~125 arcmin<SUP>2</SUP> within GOODS-N and GOODS-S, while the remainder consists of the CANDELS/Wide survey, achieving a total of ~800 arcmin<SUP>2</SUP> across GOODS and three additional fields (Extended Groth Strip, COSMOS, and Ultra-Deep Survey). We summarize the observational aspects of the survey as motivated by the scientific goals and present a detailed description of the data reduction procedures and products from the survey. Our data reduction methods utilize the most up-to-date calibration files and image combination procedures. We have paid special attention to correcting a range of instrumental effects, including charge transfer efficiency degradation for ACS, removal of electronic bias-striping present in ACS data after Servicing Mission 4, and persistence effects and other artifacts in WFC3/IR. For each field, we release mosaics for individual epochs and eventual mosaics containing data from all epochs combined, to facilitate photometric variability studies and the deepest possible photometry. A more detailed overview of the science goals and observational design of the survey are presented in a companion paper.",
+    "topics": [
+      "cosmology: observations",
+      "galaxies: high-redshift",
+      "Astrophysics - Cosmology and Nongalactic Astrophysics"
+    ],
+    "doi": "10.1088/0067-0049/197/2/36"
+  },
+  {
+    "resource_type": "publications",
+    "title": "The Great Observatories Origins Deep Survey: Initial Results from Optical and Near-Infrared Imaging",
+    "authors": [
+      "Giavalisco, M.",
+      "Ferguson, H. C.",
+      "Koekemoer, A. M.",
+      "Dickinson, M.",
+      "Alexander, D. M.",
+      "Bauer, F. E.",
+      "Bergeron, J.",
+      "Biagetti, C."
+    ],
+    "year": "2004",
+    "journal": "The Astrophysical Journal",
+    "abstract": "This special issue of the Astrophysical Journal Letters is dedicated to presenting initial results from the Great Observatories Origins Deep Survey (GOODS) that are primarily, but not exclusively, based on multiband imaging data obtained with the Hubble Space Telescope and the Advanced Camera for Surveys (ACS). The survey covers roughly 320 arcmin<SUP>2</SUP> in the ACS F435W, F606W, F814W, and F850LP bands, divided into two well-studied fields. Existing deep observations from the Chandra X-Ray Observatory and ground-based facilities are supplemented with new, deep imaging in the optical and near-infrared from the European Southern Observatory and from the Kitt Peak National Observatory. Deep observations with the Space Infrared Telescope Facility are scheduled. Reduced data from all facilities are being released worldwide within 3-6 months of acquisition. Together, this data set provides two deep reference fields for studies of distant normal and active galaxies, supernovae, and faint stars in our own Galaxy. This Letter serves to outline the survey strategy and describe the specific data that have been used in the accompanying letters, summarizing the reduction procedures and sensitivity limits. <P />Based on observations obtained with the NASA/ESA Hubble Space Telescope obtained at the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy (AURA), Inc., under NASA contract NAS5-26555 observations collected at the European Southern Observatory, Chile (ESO programmes 168.A-0845, 64.O-0643, 66.A-0572, 68.A-0544, 164-O-0561, 169.A-0725, 267.A-5729, 66.A-0451, 68.A-0375, 168.A-0485, 164.O-0561, 267.A-5729, 169.A-0725, 64.O-0621, and 170.A-0788) and observations collected at the Kitt Peak National Observatory (KPNO), National Optical Astronomical Observatories (NOAO), which is operated by AURA, Inc., under cooperative agreement with the National Science Foundation.",
+    "topics": [
+      "Cosmology: Observations",
+      "Galaxies: Distances and Redshifts",
+      "Galaxies: Evolution",
+      "Galaxies: Formation",
+      "Astrophysics"
+    ],
+    "doi": "10.1086/379232"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Dust Absorption and the Ultraviolet Luminosity Density at z ~ 3 as Calibrated by Local Starburst Galaxies",
+    "authors": [
+      "Meurer, Gerhardt R.",
+      "Heckman, Timothy M.",
+      "Calzetti, Daniela"
+    ],
+    "year": "1999",
+    "journal": "The Astrophysical Journal",
+    "abstract": "We refine a technique to measure the absorption-corrected ultraviolet (UV) luminosity of starburst galaxies using rest-frame UV quantities alone and apply it to Lyman-limit U dropouts at z~3 found in the Hubble Deep Field (HDF). The method is based on an observed correlation between the ratio of far-infrared (FIR) to UV fluxes with spectral slope β (a UV color). A simple fit to this relation allows the UV flux absorbed by dust and reprocessed to the FIR to be calculated, and hence the dust-free UV luminosity to be determined. International Ultraviolet Explorer spectra and Infrared Astronomical Satellite fluxes of local starbursts are used to calibrate the F<SUB>FIR</SUB>/F<SUB>1600</SUB> versus β relation in terms of A<SUB>1600</SUB> (the dust absorption at 1600 Å) and the transformation from broadband photometric color to β. Both calibrations are almost completely independent of theoretical stellar-population models. We show that the recent marginal and nondetections of HDF U dropouts at radio and submillimeter wavelengths are consistent with their assumed starburst nature and our calculated A<SUB>1600</SUB>. This is also true of recent observations of the ratio of optical emission-line flux to UV flux density in the brightest U dropouts. This latter ratio turns out not to be a good indicator of dust extinction. In U dropouts, absolute magnitude M<SUB>1600,0</SUB> correlates with β: brighter galaxies are redder, as is observed to be the case for local starburst galaxies. This suggests that a mass-metallicity relationship is already in place at z~3. The absorption-corrected UV luminosity function of U dropouts extends up to M<SUB>1600,0</SUB>~-24 AB mag, corresponding to a star formation rate ~200 \\Mscr<SUB>solar</SUB> yr<SUP>-1</SUP> (H<SUB>0</SUB>=50 km s<SUP>-1</SUP> Mpc<SUP>-3</SUP> and q<SUB>0</SUB>=0.5 are assumed throughout). The absorption-corrected UV luminosity density at z~3 is ρ<SUB>1600,0</SUB>&gt;=1.4×10<SUP>27</SUP> ergs<SUP>-1</SUP> Hz<SUP>-1</SUP> Mpc<SUP>-1</SUP>. It is still a lower limit since completeness corrections have not been done and because only galaxies with A<SUB>1600</SUB>&lt;~3.6 mag are blue enough in the UV to be selected as U dropouts. The luminosity-weighted mean dust-absorption factor of our sample is 5.4+/-0.9 at 1600 Å. <P />Based on observations with the NASA/ESA Hubble Space Telescope obtained at the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555.",
+    "topics": [
+      "GALAXIES: ISM",
+      "GALAXIES: PHOTOMETRY",
+      "INFRARED: GALAXIES",
+      "ULTRAVIOLET: GALAXIES",
+      "Galaxies: ISM",
+      "Galaxies: Photometry",
+      "Infrared: Galaxies",
+      "Ultraviolet: Galaxies",
+      "Astrophysics"
+    ],
+    "doi": "10.1086/307523"
+  },
+  {
+    "resource_type": "publications",
+    "title": "The James Webb Space Telescope",
+    "authors": [
+      "Gardner, Jonathan P.",
+      "Mather, John C.",
+      "Clampin, Mark",
+      "Doyon, Rene",
+      "Greenhouse, Matthew A.",
+      "Hammel, Heidi B.",
+      "Hutchings, John B.",
+      "Jakobsen, Peter"
+    ],
+    "year": "2006",
+    "journal": "Space Science Reviews",
+    "abstract": "The James Webb Space Telescope (JWST) is a large (6.6 m), cold (&lt;50 K), infrared (IR)-optimized space observatory that will be launched early in the next decade into orbit around the second Earth Sun Lagrange point. The observatory will have four instruments: a near-IR camera, a near-IR multiobject spectrograph, and a tunable filter imager will cover the wavelength range, 0.6 &lt; ; &lt; 5.0 μ m, while the mid-IR instrument will do both imaging and spectroscopy from 5.0 &lt; ; &lt; 29 μ m. The JWST science goals are divided into four themes. The key objective of The End of the Dark Ages: First Light and Reionization theme is to identify the first luminous sources to form and to determine the ionization history of the early universe. The key objective of The Assembly of Galaxies theme is to determine how galaxies and the dark matter, gas, stars, metals, morphological structures, and active nuclei within them evolved from the epoch of reionization to the present day. The key objective of The Birth of Stars and Protoplanetary Systems theme is to unravel the birth and early evolution of stars, from infall on to dust-enshrouded protostars to the genesis of planetary systems. The key objective of the Planetary Systems and the Origins of Life theme is to determine the physical and chemical properties of planetary systems including our own, and investigate the potential for the origins of life in those systems. Within these themes and objectives, we have derived representative astronomical observations. To enable these observations, JWST consists of a telescope, an instrument package, a spacecraft, and a sunshield. The telescope consists of 18 beryllium segments, some of which are deployed. The segments will be brought into optical alignment on-orbit through a process of periodic wavefront sensing and control. The instrument package contains the four science instruments and a fine guidance sensor. The spacecraft provides pointing, orbit maintenance, and communications. The sunshield provides passive thermal control. The JWST operations plan is based on that used for previous space observatories, and the majority of JWST observing time will be allocated to the international astronomical community through annual peer-reviewed proposal opportunities.",
+    "topics": [
+      "galaxies: formation",
+      "infrared: general",
+      "planetary systems",
+      "space vehicles: instruments",
+      "stars: formation",
+      "Astrophysics"
+    ],
+    "doi": "10.1007/s11214-006-8315-7"
+  },
+  {
+    "resource_type": "publications",
+    "title": "The Near-Infrared Spectrograph (NIRSpec) on the James Webb Space Telescope. I. Overview of the instrument and its capabilities",
+    "authors": [
+      "Jakobsen, P.",
+      "Ferruit, P.",
+      "Alves de Oliveira, C.",
+      "Arribas, S.",
+      "Bagnasco, G.",
+      "Barho, R.",
+      "Beck, T. L.",
+      "Birkmann, S."
+    ],
+    "year": "2022",
+    "journal": "Astronomy and Astrophysics",
+    "abstract": "We provide an overview of the design and capabilities of the near-infrared spectrograph (NIRSpec) onboard the James Webb Space Telescope. NIRSpec is designed to be capable of carrying out low-resolution (R = 30‒330) prism spectroscopy over the wavelength range 0.6-5.3 μm and higher resolution (R = 500‒1340 or R = 1320‒3600) grating spectroscopy over 0.7-5.2 μm, both in single-object mode employing any one of five fixed slits, or a 3.1 × 3.2 arcsec<SUP>2</SUP> integral field unit, or in multiobject mode employing a novel programmable micro-shutter device covering a 3.6 × 3.4 arcmin<SUP>2</SUP> field of view. The all-reflective optical chain of NIRSpec and the performance of its different components are described, and some of the trade-offs made in designing the instrument are touched upon. The faint-end spectrophotometric sensitivity expected of NIRSpec, as well as its dependency on the energetic particle environment that its two detector arrays are likely to be subjected to in orbit are also discussed.",
+    "topics": [
+      "instrumentation: spectrographs",
+      "space vehicles: instruments",
+      "Astrophysics - Instrumentation and Methods for Astrophysics"
+    ],
+    "doi": "10.1051/0004-6361/202142663"
+  },
+  {
+    "resource_type": "publications",
+    "title": "3D-HST: A Wide-field Grism Spectroscopic Survey with the Hubble Space Telescope",
+    "authors": [
+      "Brammer, Gabriel B.",
+      "van Dokkum, Pieter G.",
+      "Franx, Marijn",
+      "Fumagalli, Mattia",
+      "Patel, Shannon",
+      "Rix, Hans-Walter",
+      "Skelton, Rosalind E.",
+      "Kriek, Mariska"
+    ],
+    "year": "2012",
+    "journal": "The Astrophysical Journal Supplement Series",
+    "abstract": "We present 3D-HST, a near-infrared spectroscopic Treasury program with the Hubble Space Telescope for studying the physical processes that shape galaxies in the distant universe. 3D-HST provides rest-frame optical spectra for a sample of ~7000 galaxies at 1 &lt; z &lt; 3.5, the epoch when ~60% of all star formation took place, the number density of quasars peaked, the first galaxies stopped forming stars, and the structural regularity that we see in galaxies today must have emerged. 3D-HST will cover three quarters (625 arcmin<SUP>2</SUP>) of the CANDELS Treasury survey area with two orbits of primary WFC3/G141 grism coverage and two to four orbits with the ACS/G800L grism in parallel. In the IR, these exposure times yield a continuum signal-to-noise ratio of ~5 per resolution element at H <SUB>140</SUB> ~ 23.1 and a 5σ emission-line sensitivity of ~5 × 10<SUP>-17</SUP> erg s<SUP>-1</SUP> cm<SUP>-2</SUP> for typical objects, improving by a factor of ~2 for compact sources in images with low sky background levels. The WFC3/G141 spectra provide continuous wavelength coverage from 1.1 to 1.6 μm at a spatial resolution of ~0farcs13, which, combined with their depth, makes them a unique resource for studying galaxy evolution. We present an overview of the preliminary reduction and analysis of the grism observations, including emission-line and redshift measurements from combined fits to the extracted grism spectra and photometry from ancillary multi-wavelength catalogs. The present analysis yields redshift estimates with a precision of σ(z) = 0.0034(1 + z), or σ(v) ≈ 1000 km s<SUP>-1</SUP>. We illustrate how the generalized nature of the survey yields near-infrared spectra of remarkable quality for many different types of objects, including a quasar at z = 4.7, quiescent galaxies at z ~ 2, and the most distant T-type brown dwarf star known. The combination of the CANDELS and 3D-HST surveys will provide the definitive imaging and spectroscopic data set for studies of the 1 &lt; z &lt; 3.5 universe until the launch of the James Webb Space Telescope. <P />Based on observations made with the NASA/ESA Hubble Space Telescope, obtained at the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555. These observations are associated with programs 12177 and 12328.",
+    "topics": [
+      "galaxies: high-redshift",
+      "surveys",
+      "Astrophysics - Cosmology and Nongalactic Astrophysics"
+    ],
+    "doi": "10.1088/0067-0049/200/2/13"
+  },
+  {
+    "resource_type": "publications",
+    "title": "A Comprehensive Study of Galaxies at z   9-16 Found in the Early JWST Data: Ultraviolet Luminosity Functions and Cosmic Star Formation History at the Pre-reionization Epoch",
+    "authors": [
+      "Harikane, Yuichi",
+      "Ouchi, Masami",
+      "Oguri, Masamune",
+      "Ono, Yoshiaki",
+      "Nakajima, Kimihiko",
+      "Isobe, Yuki",
+      "Umeda, Hiroya",
+      "Mawatari, Ken"
+    ],
+    "year": "2023",
+    "journal": "The Astrophysical Journal Supplement Series",
+    "abstract": "We conduct a comprehensive study on dropout galaxy candidates at z ~ 9-16 using the first 90 arcmin<SUP>2</SUP> James Webb Space Telescope (JWST) Near Infrared Camera images taken by the early release observations (ERO) and early release science programs. With the JWST simulation images, we find that a number of foreground interlopers are selected with a weak photo-z determination (∆χ <SUP>2</SUP> &gt; 4). We thus carefully apply a secure photo-z selection criterion (∆χ <SUP>2</SUP> &gt; 9) and conventional color criteria with confirmations of the ERO Near Infrared Spectrograph spectroscopic redshifts, and obtain a total of 23 dropout galaxies at z ~ 9-16, including two candidates at ${z}_{\\mathrm{phot}}={16.25}_{-0.46}^{+0.24}$ and ${16.41}_{-0.55}^{+0.66}$ . We perform thorough comparisons of dropout galaxies found in our work with recent JWST studies, and conclude that our galaxy sample is reliable enough for statistical analyses. We derive the UV luminosity functions at z ~ 9-16, and confirm that our UV luminosity functions at z ~ 9 and 12 agree with those determined by other Hubble Space Telescope and JWST studies. The cosmic star formation rate (SFR) density decreases from z ~ 9 to 12, and perhaps to 16, but the densities at z ~ 12-16 are higher than the constant star formation efficiency model. Interestingly, there are six bright galaxy candidates at z ~ 10-16 with M <SUB>UV</SUB> &lt; -19.5 mag and M <SUB>*</SUB> ~ 10<SUP>8-9</SUP> M <SUB>☉</SUB>. Because a majority (~80%) of these galaxies show no signatures of active galactic nuclei in their morphologies, the high cosmic SFR densities and the existence of these UV-luminous galaxies are explained by the lack of suppression of star formation by the UV background radiation at the pre-reionization epoch and/or an efficient UV radiation production by a top-heavy initial mass function with Population III-like star formation.",
+    "topics": [
+      "Galaxy evolution",
+      "Galaxy formation",
+      "High-redshift galaxies",
+      "594",
+      "595",
+      "734",
+      "Astrophysics - Astrophysics of Galaxies"
+    ],
+    "doi": "10.3847/1538-4365/acaaa9"
+  },
+  {
+    "resource_type": "publications",
+    "title": "The structure and origin of magnetic clouds in the solar wind",
+    "authors": [
+      "Bothmer, V.",
+      "Schwenn, R."
+    ],
+    "year": "1998",
+    "journal": "Annales Geophysicae",
+    "abstract": "Plasma and magnetic field data from the Helios 1/2 spacecraft have been used to investigate the structure of magnetic clouds (MCs) in the inner heliosphere. 46 MCs were identified in the Helios data for the period 1974-1981 between 0.3 and 1 AU. 85% of the MCs were associated with fast-forward interplanetary shock waves, supporting the close association between MCs and SMEs (solar mass ejections). Seven MCs were identified as direct consequences of Helios-directed SMEs, and the passage of MCs agreed with that of interplanetary plasma clouds (IPCs) identified as white-light brightness enhancements in the Helios photometer data. The total (plasma and magnetic field) pressure in MCs was higher and the plasma-&lt;beta&gt; lower than in the surrounding solar wind. Minimum variance analysis (MVA) showed that MCs can best be described as large-scale quasi-cylindrical magnetic flux tubes. The axes of the flux tubes usually had a small inclination to the ecliptic plane, with their azimuthal direction close to the east-west direction. The large-scale flux tube model for MCs was validated by the analysis of multi-spacecraft observations. MCs were observed over a range of up to ~60° in solar longitude in the ecliptic having the same magnetic configuration. The Helios observations further showed that over-expansion is a common feature of MCs. From a combined study of Helios, Voyager and IMP data we found that the radial diameter of MCs increases between 0.3 and 4.2 AU proportional to the distance, R, from the Sun as R0.8 (R in AU). The density decrease inside MCs was found to be proportional to R-2.4, thus being stronger compared to the average solar wind. Four different magnetic configurations, as expected from the flux-tube concept, for MCs have been observed in situ by the Helios probes. MCs with left- and right-handed magnetic helicity occurred with about equal frequencies during 1974-1981, but surprisingly, the majority (74%) of the MCs had a south to north (SN) rotation of the magnetic field vector relative to the ecliptic. In contrast, an investigation of solar wind data obtained near Earth's orbit during 1984-1991 showed a preference for NS-clouds. A direct correlation was found between MCs and large quiescent filament disappearances (disparition brusques, DBs). The magnetic configurations of the filaments, as inferred from the orientation of the prominence axis, the polarity of the overlying field lines and the hemispheric helicity pattern observed for filaments, agreed well with the in situ observed magnetic structure of the associated MCs. The results support the model of MCs as large-scale expanding quasi-cylindrical magnetic flux tubes in the solar wind, most likely caused by SMEs associated with eruptions of large quiescent filaments. We suggest that the hemispheric dependence of the magnetic helicity structure observed for solar filaments can explain the preferred orientation of MCs in interplanetary space as well as their solar cycle behavior.",
+    "topics": [],
+    "doi": "10.1007/s00585-997-0001-x"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Voyager 1 Observes Low-Energy Galactic Cosmic Rays in a Region Depleted of Heliospheric Ions",
+    "authors": [
+      "Stone, E. C.",
+      "Cummings, A. C.",
+      "McDonald, F. B.",
+      "Heikkila, B. C.",
+      "Lal, N.",
+      "Webber, W. R."
+    ],
+    "year": "2013",
+    "journal": "Science",
+    "abstract": "On 25 August 2012, Voyager 1 was at 122 astronomical units when the steady intensity of low-energy ions it had observed for the previous 6 years suddenly dropped for a third time and soon completely disappeared as the ions streamed away into interstellar space. Although the magnetic field observations indicate that Voyager 1 remained inside the heliosphere, the intensity of cosmic ray nuclei from outside the heliosphere abruptly increased. We report the spectra of galactic cosmic rays down to ~3 × 10<SUP>6</SUP> electron volts per nucleon, revealing H and He energy spectra with broad peaks from 10 × 10<SUP>6</SUP> to 40 × 10<SUP>6</SUP> electron volts per nucleon and an increasing galactic cosmic-ray electron intensity down to ~10 × 10<SUP>6</SUP> electron volts.",
+    "topics": [
+      "ASTRONOMY Physics, Planetary-Science, Ecology"
+    ],
+    "doi": "10.1126/science.1236408"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Voyager 1 Explores the Termination Shock Region and the Heliosheath Beyond",
+    "authors": [
+      "Stone, E. C.",
+      "Cummings, A. C.",
+      "McDonald, F. B.",
+      "Heikkila, B. C.",
+      "Lal, N.",
+      "Webber, W. R."
+    ],
+    "year": "2005",
+    "journal": "Science",
+    "abstract": "Voyager 1 crossed the termination shock of the supersonic flow of the solar wind on 16 December 2004 at a distance of 94.01 astronomical units from the Sun, becoming the first spacecraft to begin exploring the heliosheath, the outermost layer of the heliosphere. The shock is a steady source of low-energy protons with an energy spectrum ~E<SUP>-1.41 +/- 0.15</SUP> from 0.5 to ~3.5 megaelectron volts, consistent with a weak termination shock having a solar wind velocity jump ratio r = 2.6<SUP>+0.4</SUP><SUB>-0.2</SUB>. However, in contradiction to many predictions, the intensity of anomalous cosmic ray (ACR) helium did not peak at the shock, indicating that the ACR source is not in the shock region local to Voyager 1. The intensities of ~10-megaelectron volt electrons, ACRs, and galactic cosmic rays have steadily increased since late 2004 as the effects of solar modulation have decreased.",
+    "topics": [
+      "ASTRONOMY"
+    ],
+    "doi": "10.1126/science.1117684"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Model of the solar wind interaction with the local interstellar medium numerical solution of self-consistent problem",
+    "authors": [
+      "Baranov, V. B.",
+      "Malama, Yu. G."
+    ],
+    "year": "1993",
+    "journal": "Journal of Geophysical Research",
+    "abstract": "A self-consistent gasdynamic model of the solar wind interaction with the local interstellar medium (LISM), which took into account the mutual influence of the plasma component (electrons and protons) of the LISM and the LISM H atoms that penetrate into the heliosphere was constructed by Baranov et al. (1981) in the approximation of axial symmetry. This model, however, had a number of defects. In particular, the motion of the H atoms was described by hydrodynamical equations, although the mean free path of the H atoms and the characteristic length of the problem were comparable. An iterative method, that used a Monte Carlo simulation of H atom motion in the field of the plasma component hydrodynamic parameters, was suggested by Baranov et al. (1991) and only the first step of the iteration was realized (non-self-consistent problem solution). In this paper the results of the self-consistent problem solution for a single set of the undisturbed solar wind and LISM parameters are presented. The structure of the upwind as well as wake regions of the flow is calculated. The geometrical pattern of the flow (bow shock, heliopause, termination shock, Mach disc, etc.), the bulk velocity and the number densities of H atoms and plasma component are obtained and analyzed as a function of the distance from the Sun for different values of the polar angle. The effects of resonance charge exchange of the LISM H atoms as well as energetic H atoms ``born'' in the solar wind are taken into account. It is interesting to note that the effect of H atoms penetrating the solar wind results in the disappearance of the complicated flow structure as well as the supersonic regions between the heliopause and termination shock in the downwind region. In future we are going to compare our theoretical results with the results of Voyager 1/2, Pioneer 10/11, Ulysses spacecraft, and other experiments.",
+    "topics": [
+      "Flow Distribution",
+      "Interstellar Matter",
+      "Magnetohydrodynamic Flow",
+      "Plasma Composition",
+      "Plasma-Particle Interactions",
+      "Solar Wind",
+      "Hydrogen Atoms",
+      "Iterative Solution",
+      "Mathematical Models",
+      "Monte Carlo Method"
+    ],
+    "doi": "10.1029/93JA01171"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Cassini Observes the Active South Pole of Enceladus",
+    "authors": [
+      "Porco, C. C.",
+      "Helfenstein, P.",
+      "Thomas, P. C.",
+      "Ingersoll, A. P.",
+      "Wisdom, J.",
+      "West, R.",
+      "Neukum, G.",
+      "Denk, T."
+    ],
+    "year": "2006",
+    "journal": "Science",
+    "abstract": "Cassini has identified a geologically active province at the south pole of Saturn's moon Enceladus. In images acquired by the Imaging Science Subsystem (ISS), this region is circumscribed by a chain of folded ridges and troughs at ~55°S latitude. The terrain southward of this boundary is distinguished by its albedo and color contrasts, elevated temperatures, extreme geologic youth, and narrow tectonic rifts that exhibit coarse-grained ice and coincide with the hottest temperatures measured in the region. Jets of fine icy particles that supply Saturn's E ring emanate from this province, carried aloft by water vapor probably venting from subsurface reservoirs of liquid water. The shape of Enceladus suggests a possible intense heating epoch in the past by capture into a 1:4 secondary spin/orbit resonance.",
+    "topics": [
+      "PLANET SCI"
+    ],
+    "doi": "10.1126/science.1123013"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Encounter with Saturn: Voyager 1 Imaging Science Results",
+    "authors": [
+      "Smith, B. A.",
+      "Soderblom, L.",
+      "Beebe, R. F.",
+      "Boyce, J. M.",
+      "Briggs, G.",
+      "Bunker, A.",
+      "Collins, S. A.",
+      "Hansen, C."
+    ],
+    "year": "1981",
+    "journal": "Science",
+    "abstract": "As Voyager 1 flew through the Saturn system it returned photographs revealing many new and surprising characteristics of this complicated community of bodies. Saturn's atmosphere has numerous, low-contrast, discrete cloud features and a pattern of circulation significantly different from that of Jupiter. Titan is shrouded in a haze layer that varies in thickness and appearance. Among the icy satellites there is considerable variety in density, albedo, and surface morphology and substantial evidence for endogenic surface modification. Trends in density and crater characteristics are quite unlike those of the Galilean satellites. Small inner satellites, three of which were discovered in Voyager images, interact gravitationally with one another and with the ring particles in ways not observed elsewhere in the solar system. Saturn's broad A, B, and C rings contain hundreds of ``ringlets,'' and in the densest portion of the B ring there are numerous nonaxisymmetric features. The narrow F ring has three components which, in at least one instance, are kinked and crisscrossed. Two rings are observed beyond the F ring, and material is seen between the C ring and the planet.",
+    "topics": [
+      "Planetology",
+      "Saturn (Planet)",
+      "Spaceborne Photography",
+      "Voyager Project",
+      "Haze",
+      "Icy Satellites",
+      "Latitude",
+      "Natural Satellites",
+      "Planetary Mapping",
+      "Saturn Rings"
+    ],
+    "doi": "10.1126/science.212.4491.163"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Infrared Observations of the Saturnian System from Voyager 1",
+    "authors": [
+      "Hanel, R.",
+      "Conrath, B.",
+      "Flasar, F. M.",
+      "Kunde, V.",
+      "Maguire, W.",
+      "Pearl, J. C.",
+      "Pirraglia, J.",
+      "Samuelson, R."
+    ],
+    "year": "1981",
+    "journal": "Science",
+    "abstract": "During the passage of Voyager 1 through the Saturn system, the infrared instrument acquired spectral and radiometric data on Saturn, the rings, and Titan and other satellites. Infrared spectra of Saturn indicate the presence of H<SUB>2</SUB>, CH<SUB>4</SUB>, NH<SUB>3</SUB>, PH<SUB>3</SUB>, C<SUB>2</SUB>H<SUB>2</SUB>, C<SUB>2</SUB>H<SUB>6</SUB>, and possibly C<SUB>3</SUB>H<SUB>4</SUB> and C<SUB>3</SUB>H<SUB>8</SUB>. A hydrogen mole fraction of 0.94 is inferred with an uncertainty of a few percent, implying a depletion of helium in the atmosphere of Saturn relative to that of Jupiter. The atmospheric thermal structure of Saturn shows hemisphere asymmetries that are consistent with a response to the seasonally varying insolation. Extensive small-scale latitudinal structure is also observed. On Titan, positive identifications of infrared spectral features are made for CH<SUB>4</SUB>, C<SUB>2</SUB>H<SUB>2</SUB>, C<SUB>2</SUB>H<SUB>4</SUB>, C<SUB>2</SUB>H<SUB>6</SUB>, and HCN; tentative identifications are made for C<SUB>3</SUB>H<SUB>4</SUB> and C<SUB>3</SUB>H<SUB>8</SUB>. The infrared continuum opacity on Titan appears to be quite small between 500 and 600 cm<SUP>-1</SUP>, implying that the solid surface is a major contributor to the observed emission over this spectral range; between 500 and 200 cm<SUP>-1</SUP> the opacity increases with decreasing wave number, attaining an optical thickness in excess of 2 at 200 cm<SUP>-1</SUP>. Temperatures near the 1-millibar level are independent of longitude and local time but show a decrease of ~ 20 K between the equator and north pole, which suggests a seasonally dependent cyclostrophic zonal flow in the stratosphere of ~ 100 meters per second. Measurements of the C ring of Saturn yield a temperature of 85 ± 1 K and an infrared optical depth of 0.09 ± 0.01. Radiometer observations of sunlight transmitted through the ring system indicate an optical depth of 10<SUP>-1.3\\ ± 0.3</SUP> for the Cassini division. A phase integral of 1.02 ± 0.06 is inferred for Rhea, which agrees with values for other icy bodies in the solar system. Rhea eclipse observations indicate the presence of surface materials with both high and low thermal inertias, the former most likely a blocky component and the latter a frost.",
+    "topics": [
+      "Infrared Astronomy",
+      "Saturn Atmosphere",
+      "Saturn Rings",
+      "Titan",
+      "Voyager Project",
+      "Atmospheric Composition",
+      "Atmospheric Models",
+      "Atmospheric Temperature",
+      "Infrared Spectra",
+      "Lunar and Planetary Exploration; Saturn"
+    ],
+    "doi": "10.1126/science.212.4491.192"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Enceladus' Water Vapor Plume",
+    "authors": [
+      "Hansen, Candice J.",
+      "Esposito, L.",
+      "Stewart, A. I. F.",
+      "Colwell, J.",
+      "Hendrix, A.",
+      "Pryor, W.",
+      "Shemansky, D.",
+      "West, R."
+    ],
+    "year": "2006",
+    "journal": "Science",
+    "abstract": "The Cassini spacecraft flew close to Saturn's small moon Enceladus three times in 2005. Cassini's UltraViolet Imaging Spectrograph observed stellar occultations on two flybys and confirmed the existence, composition, and regionally confined nature of a water vapor plume in the south polar region of Enceladus. This plume provides an adequate amount of water to resupply losses from Saturn's E ring and to be the dominant source of the neutral OH and atomic oxygen that fill the Saturnian system.",
+    "topics": [
+      "PLANET SCI"
+    ],
+    "doi": "10.1126/science.1121254"
+  },
+  {
+    "resource_type": "publications",
+    "title": "A Direct Empirical Proof of the Existence of Dark Matter",
+    "authors": [
+      "Clowe, Douglas",
+      "Bradač, Maruša",
+      "Gonzalez, Anthony H.",
+      "Markevitch, Maxim",
+      "Randall, Scott W.",
+      "Jones, Christine",
+      "Zaritsky, Dennis"
+    ],
+    "year": "2006",
+    "journal": "The Astrophysical Journal",
+    "abstract": "We present new weak-lensing observations of 1E 0657-558 (z=0.296), a unique cluster merger, that enable a direct detection of dark matter, independent of assumptions regarding the nature of the gravitational force law. Due to the collision of two clusters, the dissipationless stellar component and the fluid-like X-ray-emitting plasma are spatially segregated. By using both wide-field ground-based images and HST/ACS images of the cluster cores, we create gravitational lensing maps showing that the gravitational potential does not trace the plasma distribution, the dominant baryonic mass component, but rather approximately traces the distribution of galaxies. An 8 σ significance spatial offset of the center of the total mass from the center of the baryonic mass peaks cannot be explained with an alteration of the gravitational force law and thus proves that the majority of the matter in the system is unseen. <P />Based on observations made with the NASA/ESA Hubble Space Telescope (HST), obtained at the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555, under program 10200, with the 6.5 m Magellan telescopes located at Las Campanas Observatory, Chile, with the ESO telescopes at the Paranal Observatory under program IDs 72.A-0511, 60.A-9203, and 64.O-0332, and with the NASA Chandra X-Ray Observatory, operated by the Smithsonian Astrophysics Observatory under contract to NASA.",
+    "topics": [
+      "Cosmology: Dark Matter",
+      "galaxies: clusters: individual (1E 0657-558)",
+      "Cosmology: Gravitational Lensing",
+      "Astrophysics"
+    ],
+    "doi": "10.1086/508162"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Collisional Plasma Models with APEC/APED: Emission-Line Diagnostics of Hydrogen-like and Helium-like Ions",
+    "authors": [
+      "Smith, Randall K.",
+      "Brickhouse, Nancy S.",
+      "Liedahl, Duane A.",
+      "Raymond, John C."
+    ],
+    "year": "2001",
+    "journal": "The Astrophysical Journal",
+    "abstract": "New X-ray observatories (Chandra and XMM-Newton) are providing a wealth of high-resolution X-ray spectra in which hydrogen- and helium-like ions are usually strong features. We present results from a new collisional-radiative plasma code, the Astrophysical Plasma Emission Code (APEC), which uses atomic data in the companion Astrophysical Plasma Emission Database (APED) to calculate spectral models for hot plasmas. APED contains the requisite atomic data such as collisional and radiative rates, recombination cross sections, dielectronic recombination rates, and satellite line wavelengths. We compare the APEC results to other plasma codes for hydrogen- and helium-like diagnostics and test the sensitivity of our results to the number of levels included in the models. We find that dielectronic recombination with hydrogen-like ions into high (n=6-10) principal quantum numbers affects some helium-like line ratios from low-lying (n=2) transitions.",
+    "topics": [
+      "Atomic Data",
+      "Atomic Processes",
+      "Plasmas",
+      "Radiation Mechanisms: Thermal",
+      "X-Rays: General",
+      "Astrophysics"
+    ],
+    "doi": "10.1086/322992"
+  },
+  {
+    "resource_type": "publications",
+    "title": "CIAO: Chandra's data analysis system",
+    "authors": [
+      "Fruscione, Antonella",
+      "McDowell, Jonathan C.",
+      "Allen, Glenn E.",
+      "Brickhouse, Nancy S.",
+      "Burke, Douglas J.",
+      "Davis, John E.",
+      "Durham, Nick",
+      "Elvis, Martin"
+    ],
+    "year": "2006",
+    "journal": "Observatory Operations: Strategies, Processes, and Systems",
+    "abstract": "The CIAO (Chandra Interactive Analysis of Observations) software package was first released in 1999 following the launch of the Chandra X-ray Observatory and is used by astronomers across the world to analyze Chandra data as well as data from other telescopes. From the earliest design discussions, CIAO was planned as a general-purpose scientific data analysis system optimized for X-ray astronomy, and consists mainly of command line tools (allowing easy pipelining and scripting) with a parameter-based interface layered on a flexible data manipulation I/O library. The same code is used for the standard Chandra archive pipeline, allowing users to recalibrate their data in a consistent way. We will discuss the lessons learned from the first six years of the software's evolution. Our initial approach to documentation evolved to concentrate on recipe-based \"threads\" which have proved very successful. A multi-dimensional abstract approach to data analysis has allowed new capabilities to be added while retaining existing interfaces. A key requirement for our community was interoperability with other data analysis systems, leading us to adopt standard file formats and an architecture which was as robust as possible to the input of foreign data files, as well as re-using a number of external libraries. We support users who are comfortable with coding themselves via a flexible user scripting paradigm, while the availability of tightly constrained pipeline programs are of benefit to less computationally-advanced users. As with other analysis systems, we have found that infrastructure maintenance and re-engineering is a necessary and significant ongoing effort and needs to be planned in to any long-lived astronomy software.",
+    "topics": [],
+    "doi": "10.1117/12.671760"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Black holes, white dwarfs and neutron stars. The physics of compact objects",
+    "authors": [
+      "Shapiro, Stuart L.",
+      "Teukolsky, Saul A."
+    ],
+    "year": "1983",
+    "journal": "A Wiley-Interscience Publication",
+    "abstract": "The physical properties of the astronomical compact objects are explored on a theoretical and observational basis in a textbook designed for a one-semester beginning-graduate-level astrophysics course. Overlapping topics from solid-state, nuclear, and particle physics, relativity theory, and hydrodynamics are considered. Subjects discussed include star deaths and the formation of the compact objects, the cold equation of state below and above neutron dip, white dwarfs and their cooling, perturbations of fluid configurations, rotation and magnetic fields, pulsars, compact X-ray sources, accretion onto compact objects, gravitational radiation, supermassive stars, stellar collapse, and supernova explosions.",
+    "topics": [
+      "Astrophysics",
+      "Black Holes (Astronomy)",
+      "Neutron Stars",
+      "Textbooks",
+      "White Dwarf Stars",
+      "Accretion Disks",
+      "Elementary Particle Interactions",
+      "Gravitational Collapse",
+      "Gravitational Waves",
+      "Magnetohydrodynamic Stability"
+    ],
+    "doi": "10.1002/9783527617661"
+  },
+  {
+    "resource_type": "publications",
+    "title": "A two-solar-mass neutron star measured using Shapiro delay",
+    "authors": [
+      "Demorest, P. B.",
+      "Pennucci, T.",
+      "Ransom, S. M.",
+      "Roberts, M. S. E.",
+      "Hessels, J. W. T."
+    ],
+    "year": "2010",
+    "journal": "Nature",
+    "abstract": "Neutron stars are composed of the densest form of matter known to exist in our Universe, the composition and properties of which are still theoretically uncertain. Measurements of the masses or radii of these objects can strongly constrain the neutron star matter equation of state and rule out theoretical models of their composition. The observed range of neutron star masses, however, has hitherto been too narrow to rule out many predictions of `exotic' non-nucleonic components. The Shapiro delay is a general-relativistic increase in light travel time through the curved space-time near a massive body. For highly inclined (nearly edge-on) binary millisecond radio pulsar systems, this effect allows us to infer the masses of both the neutron star and its binary companion to high precision. Here we present radio timing observations of the binary millisecond pulsar J1614-2230 that show a strong Shapiro delay signature. We calculate the pulsar mass to be (1.97+/-0.04)M<SUB>solar</SUB>, which rules out almost all currently proposed hyperon or boson condensate equations of state (M<SUB>solar</SUB>, solar mass). Quark matter can support a star this massive only if the quarks are strongly interacting and are therefore not `free' quarks.",
+    "topics": [
+      "Astrophysics - High Energy Astrophysical Phenomena",
+      "General Relativity and Quantum Cosmology",
+      "High Energy Physics - Experiment",
+      "Nuclear Experiment"
+    ],
+    "doi": "10.1038/nature09466"
+  },
+  {
+    "resource_type": "publications",
+    "title": "A Massive Pulsar in a Compact Relativistic Binary",
+    "authors": [
+      "Antoniadis, John",
+      "Freire, Paulo C. C.",
+      "Wex, Norbert",
+      "Tauris, Thomas M.",
+      "Lynch, Ryan S.",
+      "van Kerkwijk, Marten H.",
+      "Kramer, Michael",
+      "Bassa, Cees"
+    ],
+    "year": "2013",
+    "journal": "Science",
+    "abstract": "Many physically motivated extensions to general relativity (GR) predict substantial deviations in the properties of spacetime surrounding massive neutron stars. We report the measurement of a 2.01 ± 0.04 solar mass (M<SUB>☉</SUB>) pulsar in a 2.46-hour orbit with a 0.172 ± 0.003 M<SUB>☉</SUB> white dwarf. The high pulsar mass and the compact orbit make this system a sensitive laboratory of a previously untested strong-field gravity regime. Thus far, the observed orbital decay agrees with GR, supporting its validity even for the extreme conditions present in the system. The resulting constraints on deviations support the use of GR-based templates for ground-based gravitational wave detectors. Additionally, the system strengthens recent constraints on the properties of dense matter and provides insight to binary stellar astrophysics and pulsar recycling.",
+    "topics": [
+      "Pulsars",
+      "Neutron Stars",
+      "General relativity",
+      "Tests of General relativity",
+      "Gravitational Radiation",
+      "Stellar evolution",
+      "ASTRONOMY, ONLINE Astronomy, Applied-Physics, Planetary-Science",
+      "Astrophysics - High Energy Astrophysical Phenomena",
+      "Astrophysics - Solar and Stellar Astrophysics",
+      "Condensed Matter - Quantum Gases"
+    ],
+    "doi": "10.1126/science.1233232"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Pulsar Electrodynamics",
+    "authors": [
+      "Goldreich, Peter",
+      "Julian, William H."
+    ],
+    "year": "1969",
+    "journal": "The Astrophysical Journal",
+    "abstract": "Gold has suggested that pulsars are rotating magnetic neutron stars which formed in supernova explo- sions. We have investigated the simplest such model, one in which the magnetic dipole moment is aligned with the rotation axis. Our conclusions are as follows: In spite of its intense surface gravity, the star must possess a dense magnetosphere. The particles in the region threaded by those field lines which close within the light cylinder (of radius 5 X 1O~ p cm, where P sec is the stellar rotation period) rotate with the star. In the corotating zone the space-charge den- sity is 7 X 102 BZ/P electronic charges per cm3, where B~ (in gauss) is the component of magnetic field parallel to the rotation axis. The field lines which extend beyond the light cylinder close in a boundary zone near the supernova shell. Charged particles escape along these lines and are electrostatically accelerated up to energies of 3 X 1O'~ ZR63 B12 p-2 eV in the boundary zone. (Here, the stellar radius is R6 X 106 cm, and the magnetic field at the polar surface is B12 X 1012 gauss) Beyond the light cylinder the magnetic field becomes pre- dominantly toroidal. Its strength is 6 X 1O~ R63 B12 P~ ~ gauss at a distance of r~0 parsecs from the central star. The magnetic torque on the star causes its rotation period to lengthen at the rate P~ dP/dt = 10-8 B122 R64 p-2 M-' yr1 for an 211 solar-mass star. The rotational energy lost by the star is trans- ported out by the electromagnetic field and is then transmitted to the particles in the boundary zone. We compare our model with the observed properties of the Crab pulsar (NP 0332) and CP 1919",
+    "topics": [],
+    "doi": "10.1086/150119"
+  },
+  {
+    "resource_type": "publications",
+    "title": "The Structure of Cold Dark Matter Halos",
+    "authors": [
+      "Navarro, Julio F.",
+      "Frenk, Carlos S.",
+      "White, Simon D. M."
+    ],
+    "year": "1996",
+    "journal": "The Astrophysical Journal",
+    "abstract": "We use N-body simulations to investigate the structure of dark halos in the standard cold dark matter cosmogony. Halos are excised from simulations of cosmologically representative regions and are resimulated individually at high resolution. We study objects with masses ranging from those of dwarf galaxy halos to those of rich galaxy clusters. The spherically averaged density profiles of all our halos can be fitted over two decades in radius by scaling a simple \"universal\" profile. The characteristic over- density of a halo, or equivalently its concentration, correlates strongly with halo mass in a way that reflects the mass dependence of the epoch of halo formation. Halo profiles are approximately isothermal over a large range in radii but are significantly shallower than r -2 near the center and steeper than r<SUP>-2</SUP> near the virial radius. Matching the observed rotation curves of disk galaxies requires disk mass-to-light ratios to increase systematically with luminosity. Further, it suggests that the halos of bright galaxies depend only weakly on galaxy luminosity and have circular velocities significantly lower than the disk rotation speed. This may explain why luminosity and dynamics are uncorrelated in observed samples of binary galaxies and of satellite/spiral systems. For galaxy clusters, our halo models are consistent both with the presence of giant arcs and with the observed structure of the intracluster medium, and they suggest a simple explanation for the disparate estimates of cluster core radii found by previous authors. Our results also highlight two shortcomings of the CDM model. CDM halos are too concentrated to be consistent with the halo parameters inferred for dwarf irregulars, and the predicted abundance of galaxy halos is larger than the observed abundance of galaxies. The first problem may imply that the core structure of dwarf galaxies was altered by the galaxy formation process, and the second problem may imply that galaxies failed to form (or remain undetected) in many dark halos.",
+    "topics": [
+      "COSMOLOGY: THEORY",
+      "COSMOLOGY: DARK MATTER",
+      "GALAXIES: HALOS",
+      "METHODS: NUMERICAL",
+      "Astrophysics"
+    ],
+    "doi": "10.1086/177173"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Five-Year Wilkinson Microwave Anisotropy Probe Observations: Cosmological Interpretation",
+    "authors": [
+      "Komatsu, E.",
+      "Dunkley, J.",
+      "Nolta, M. R.",
+      "Bennett, C. L.",
+      "Gold, B.",
+      "Hinshaw, G.",
+      "Jarosik, N.",
+      "Larson, D."
+    ],
+    "year": "2009",
+    "journal": "The Astrophysical Journal Supplement Series",
+    "abstract": "The Wilkinson Microwave Anisotropy Probe (WMAP) 5-year data provide stringent limits on deviations from the minimal, six-parameter Λ cold dark matter model. We report these limits and use them to constrain the physics of cosmic inflation via Gaussianity, adiabaticity, the power spectrum of primordial fluctuations, gravitational waves, and spatial curvature. We also constrain models of dark energy via its equation of state, parity-violating interaction, and neutrino properties, such as mass and the number of species. We detect no convincing deviations from the minimal model. The six parameters and the corresponding 68% uncertainties, derived from the WMAP data combined with the distance measurements from the Type Ia supernovae (SN) and the Baryon Acoustic Oscillations (BAO) in the distribution of galaxies, are: Ω<SUB> b </SUB> h <SUP>2</SUP> = 0.02267<SUP>+0.00058</SUP> <SUB>-0.00059</SUB>, Ω<SUB> c </SUB> h <SUP>2</SUP> = 0.1131 ± 0.0034, Ω<SUB>Λ</SUB> = 0.726 ± 0.015, n<SUB>s</SUB> = 0.960 ± 0.013, τ = 0.084 ± 0.016, and ∆_{R}^2 = (2.445± 0.096)× 10^{-9} at k = 0.002 Mpc<SUP>-1</SUP>. From these, we derive σ<SUB>8</SUB> = 0.812 ± 0.026, H <SUB>0</SUB> = 70.5 ± 1.3 km s<SUP>-1</SUP> Mpc<SUP>-1</SUP>, Ω<SUB> b </SUB> = 0.0456 ± 0.0015, Ω<SUB> c </SUB> = 0.228 ± 0.013, Ω<SUB> m </SUB> h <SUP>2</SUP> = 0.1358<SUP>+0.0037</SUP> <SUB>-0.0036</SUB>, z <SUB>reion</SUB> = 10.9 ± 1.4, and t <SUB>0</SUB> = 13.72 ± 0.12 Gyr. With the WMAP data combined with BAO and SN, we find the limit on the tensor-to-scalar ratio of r &lt; 0.22(95%CL), and that n<SUB>s</SUB> &gt; 1 is disfavored even when gravitational waves are included, which constrains the models of inflation that can produce significant gravitational waves, such as chaotic or power-law inflation models, or a blue spectrum, such as hybrid inflation models. We obtain tight, simultaneous limits on the (constant) equation of state of dark energy and the spatial curvature of the universe: -0.14 &lt; 1 + w &lt; 0.12(95%CL) and -0.0179 &lt; Ω<SUB> k </SUB> &lt; 0.0081(95%CL). We provide a set of \"WMAP distance priors,\" to test a variety of dark energy models with spatial curvature. We test a time-dependent w with a present value constrained as -0.33 &lt; 1 + w <SUB>0</SUB> &lt; 0.21 (95% CL). Temperature and dark matter fluctuations are found to obey the adiabatic relation to within 8.9% and 2.1% for the axion-type and curvaton-type dark matter, respectively. The power spectra of TB and EB correlations constrain a parity-violating interaction, which rotates the polarization angle and converts E to B. The polarization angle could not be rotated more than -5fdg9 &lt; ∆α &lt; 2fdg4 (95% CL) between the decoupling and the present epoch. We find the limit on the total mass of massive neutrinos of ∑m <SUB>ν</SUB> &lt; 0.67 eV(95%CL), which is free from the uncertainty in the normalization of the large-scale structure data. The number of relativistic degrees of freedom (dof), expressed in units of the effective nu",
+    "topics": [
+      "cosmic microwave background",
+      "cosmology: observations",
+      "dark matter",
+      "early universe",
+      "instrumentation: detectors",
+      "space vehicles: instruments",
+      "telescopes",
+      "Astrophysics"
+    ],
+    "doi": "10.1088/0067-0049/180/2/330"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Ultralight scalars as cosmological dark matter",
+    "authors": [
+      "Hui, Lam",
+      "Ostriker, Jeremiah P.",
+      "Tremaine, Scott",
+      "Witten, Edward"
+    ],
+    "year": "2017",
+    "journal": "Physical Review D",
+    "abstract": "Many aspects of the large-scale structure of the Universe can be described successfully using cosmological models in which 27 ±1 % of the critical mass-energy density consists of cold dark matter (CDM). However, few—if any—of the predictions of CDM models have been successful on scales of ∼10 kpc or less. This lack of success is usually explained by the difficulty of modeling baryonic physics (star formation, supernova and black-hole feedback, etc.). An intriguing alternative to CDM is that the dark matter is an extremely light (m ∼10<SUP>-22</SUP> eV ) boson having a de Broglie wavelength λ ∼1 kpc , often called fuzzy dark matter (FDM). We describe the arguments from particle physics that motivate FDM, review previous work on its astrophysical signatures, and analyze several unexplored aspects of its behavior. In particular, (i) FDM halos or subhalos smaller than about 1 0<SUP>7</SUP>(m /10<SUP>-22</SUP> eV )<SUP>-3 /2</SUP> M<SUB>☉</SUB> do not form, and the abundance of halos smaller than a few times 1 0<SUP>10</SUP>(m /10<SUP>-22</SUP> eV )<SUP>-4 /3</SUP> M<SUB>☉</SUB> is substantially smaller in FDM than in CDM. (ii) FDM halos are comprised of a central core that is a stationary, minimum-energy solution of the Schrödinger-Poisson equation, sometimes called a \"soliton,\" surrounded by an envelope that resembles a CDM halo. The soliton can produce a distinct signature in the rotation curves of FDM-dominated systems. (iii) The transition between soliton and envelope is determined by a relaxation process analogous to two-body relaxation in gravitating N-body systems, which proceeds as if the halo were composed of particles with mass ∼ρ λ<SUP>3</SUP> where ρ is the halo density. (iv) Relaxation may have substantial effects on the stellar disk and bulge in the inner parts of disk galaxies, but has negligible effect on disk thickening or globular cluster disruption near the solar radius. (v) Relaxation can produce FDM disks but a FDM disk in the solar neighborhood must have a half-thickness of at least ∼300 (m /10<SUP>-22</SUP> eV )-2<SUP>/3</SUP> pc and a midplane density less than 0.2 (m /10<SUP>-22</SUP> eV )2<SUP>/3</SUP> times the baryonic disk density. (vi) Solitonic FDM subhalos evaporate by tunneling through the tidal radius and this limits the minimum subhalo mass inside ∼30 kpc of the Milky Way to a few times 1 0<SUP>8</SUP>(m /10<SUP>-22</SUP> eV )<SUP>-3 /2</SUP> M<SUB>☉</SUB> . (vii) If the dark matter in the Fornax dwarf galaxy is composed of CDM, most of the globular clusters observed in that galaxy should have long ago spiraled to its center, and this problem is resolved if the dark matter is FDM. (viii) FDM delays galaxy formation relative to CDM but its galaxy-formation history is consistent with current observations of high-redshift galaxies and the late reionization observed by Planck. If the dark matter is composed of FDM, most observations favor a particle mass ≳10<SUP>-22</SUP> eV and the most significant observational conseq",
+    "topics": [
+      "Astrophysics - Cosmology and Nongalactic Astrophysics",
+      "Astrophysics - Astrophysics of Galaxies",
+      "High Energy Physics - Phenomenology",
+      "High Energy Physics - Theory"
+    ],
+    "doi": "10.1103/PhysRevD.95.043541"
+  },
+  {
+    "resource_type": "publications",
+    "title": "Cold collapse and the core catastrophe",
+    "authors": [
+      "Moore, B.",
+      "Quinn, T.",
+      "Governato, F.",
+      "Stadel, J.",
+      "Lake, G."
+    ],
+    "year": "1999",
+    "journal": "Monthly Notices of the Royal Astronomical Society",
+    "abstract": "We show that a universe dominated by cold dark matter fails to reproduce the rotation curves of dark matter dominated galaxies, one of the key problems that it was designed to resolve. We perform numerical simulations of the formation of dark matter haloes, each containing &gt;~10<SUP>6</SUP> particles and resolved to 0.003 times the virial radius, allowing an accurate comparison with rotation curve data. A good fit to both Galactic and cluster-sized haloes can be achieved using the density profile ρ(r)~[(rr<SUB>s</SUB>)<SUP>1.5</SUP>(1+(rr<SUB>s</SUB>)<SUP>1.5</SUP>)] <SUP>-1</SUP>, where r<SUB>s</SUB> is a scale radius. This profile has a steeper asymptotic slope, ρ(r)~r<SUP>-1.5</SUP>, and a sharper turn-over than found by lower resolution studies. The central structure of relaxed haloes that form within a hierarchical universe has a remarkably small scatter. We compare the results with a sample of dark matter dominated, low surface brightness (LSB) galaxies with circular velocities in the range 100-300kms<SUP>-1</SUP>. The rotation curves of discs within cold dark matter haloes rise too steeply to match these data, which require a constant mass density in the central regions. The effects of Ω<SUB>mass</SUB> and Λ cannot reconcile the cold dark matter (CDM) model with data - even if we leave the concentration as a free parameter, we are unable to reproduce the observations with such a steep central density profile. It is important to confirm these results using stellar rather than Hi rotation curves for LSB galaxies. We test the effects of introducing a cut-off in the power spectrum that may occur in a universe dominated by warm dark matter. In this case, haloes form by a monolithic collapse but the final density profile barely changes, demonstrating that the merger history does not play a role in determining the halo structure.",
+    "topics": [
+      "GALAXIES: FORMATION",
+      "GALAXIES: HALOES",
+      "GALAXIES: KINEMATICS AND DYNAMICS",
+      "DARK MATTER",
+      "Astrophysics"
+    ],
+    "doi": "10.1046/j.1365-8711.1999.03039.x"
+  }
+]
