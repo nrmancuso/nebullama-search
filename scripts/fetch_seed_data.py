@@ -28,6 +28,7 @@ from pathlib import Path
 
 import requests
 import wikipediaapi
+from astroquery.simbad import Simbad
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -154,10 +155,19 @@ def dedupe(docs: list[dict], key: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
+def _init_simbad() -> Simbad:
+    """Configure a Simbad client with the fields we need."""
+    simbad = Simbad()
+    simbad.TIMEOUT = 10
+    simbad.add_votable_fields("otype", "plx")
+    return simbad
+
+
 def fetch_celestial_objects() -> list[dict]:
     """
     Fetch celestial object data from Wikipedia, with optional SIMBAD
-    enrichment for parallax/distance. Targets 40 documents.
+    enrichment (via astroquery) for object type and parallax/distance.
+    Targets 40 documents.
     """
     docs: list[dict] = []
 
@@ -194,7 +204,7 @@ def fetch_celestial_objects() -> list[dict]:
         "Small Magellanic Cloud",
     ]
 
-    # Known object types for well-known objects
+    # Fallback object types for when SIMBAD is unavailable
     known_types = {
         "Crab Nebula": "nebula", "Andromeda Galaxy": "galaxy",
         "Cygnus X-1": "black_hole", "Orion Nebula": "nebula",
@@ -220,7 +230,6 @@ def fetch_celestial_objects() -> list[dict]:
         "Small Magellanic Cloud": "galaxy",
     }
 
-    simbad_url = "https://simbad.cds.unistra.fr/simbad/tap/sync"
     simbad_otype_map = {
         "Star": "star", "**": "star", "PM*": "star", "V*": "star",
         "HB*": "star", "RG*": "star", "SG*": "star", "WR*": "star",
@@ -231,6 +240,8 @@ def fetch_celestial_objects() -> list[dict]:
         "Cl*": "cluster", "GlC": "cluster", "OpC": "cluster",
         "BH": "black_hole", "XB*": "black_hole",
     }
+
+    simbad = _init_simbad()
 
     for name in names:
         if len(docs) >= DOCS_PER_INDEX:
@@ -244,35 +255,17 @@ def fetch_celestial_objects() -> list[dict]:
             object_type = known_types.get(name, "other")
             distance_ly = None
 
-            # Try SIMBAD for distance and refined object type
+            # Try SIMBAD via astroquery for distance and refined object type
             try:
-                adql = (
-                    f"SELECT main_id, otype, plx_value "
-                    f"FROM basic "
-                    f"WHERE main_id = '{name}' "
-                    f"OR ids LIKE '%{name}%' "
-                    f"LIMIT 1"
-                )
-                resp = requests.get(
-                    simbad_url,
-                    params={
-                        "REQUEST": "doQuery",
-                        "LANG": "ADQL",
-                        "FORMAT": "json",
-                        "QUERY": adql,
-                    },
-                    timeout=8,
-                )
-                resp.raise_for_status()
-                data = resp.json()
-                rows = data.get("data", [])
-                cols = [c["name"] for c in data.get("metadata", [])]
-                if rows:
-                    row = dict(zip(cols, rows[0]))
-                    plx = row.get("plx_value")
+                result = simbad.query_object(name)
+                if result and len(result) > 0:
+                    row = result[0]
+                    # Parallax -> distance
+                    plx = row["PLX_VALUE"]
                     if plx and float(plx) > 0:
                         distance_ly = round(3260.0 / float(plx), 1)
-                    raw_otype = (row.get("otype") or "").strip()
+                    # Object type
+                    raw_otype = str(row["OTYPE"]).strip()
                     if raw_otype in simbad_otype_map:
                         object_type = simbad_otype_map[raw_otype]
                     print(f"  SIMBAD enriched: {name}")
