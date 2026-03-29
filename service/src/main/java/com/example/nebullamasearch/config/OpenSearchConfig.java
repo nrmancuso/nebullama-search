@@ -9,12 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenSearchConfig {
 
-    @Bean
-    public OpenSearchClient openSearchClient(OpenSearchProperties props) {
-        HttpHost host = new HttpHost(props.getScheme(), props.getHost(), props.getPort());
-        var transport = ApacheHttpClient5TransportBuilder
-                .builder(host)
-                .build();
-        return new OpenSearchClient(transport);
-    }
+  @Bean
+  public OpenSearchClient openSearchClient(OpenSearchProperties props) {
+    HttpHost host = new HttpHost(props.getScheme(), props.getHost(), props.getPort());
+    var transport = ApacheHttpClient5TransportBuilder.builder(host).build();
+    return new OpenSearchClient(transport);
+  }
 }

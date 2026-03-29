@@ -8,10 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 @SpringBootTest
 class NebullamaSearchApplicationTests {
 
-    @MockBean
-    IndexInitializer indexInitializer;
+  @MockBean IndexInitializer indexInitializer;
 
-    @Test
-    void contextLoads() {
-    }
+  @Test
+  void contextLoads() {}
 }
