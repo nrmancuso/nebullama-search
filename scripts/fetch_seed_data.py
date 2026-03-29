@@ -155,7 +155,129 @@ def dedupe(docs: list[dict], key: str) -> list[dict]:
 
 
 def fetch_celestial_objects() -> list[dict]:
-    raise NotImplementedError
+    """
+    Query SIMBAD TAP/ADQL for objects by name. Supplement description
+    with Wikipedia summary where available. Targets 40 documents.
+    """
+    docs: list[dict] = []
+
+    # Extended name list so we can dedupe down to 40
+    names = ANCHOR_OBJECTS + [
+        "Betelgeuse",
+        "Sirius",
+        "Proxima Centauri",
+        "Alpha Centauri",
+        "Barnard's Star",
+        "Polaris",
+        "Rigel",
+        "Vega",
+        "Antares",
+        "Aldebaran",
+        "Capella",
+        "Arcturus",
+        "Spica",
+        "Deneb",
+        "Altair",
+        "Fomalhaut",
+        "Epsilon Eridani",
+        "Tau Ceti",
+        "61 Cygni",
+        "Wolf 359",
+        "Lalande 21185",
+        "Ross 128",
+        "Groombridge 34",
+        "HD 209458",
+        "51 Pegasi",
+        "47 Tucanae",
+        "Omega Centauri",
+        "Large Magellanic Cloud",
+        "Small Magellanic Cloud",
+    ]
+
+    simbad_url = "https://simbad.cds.unistra.fr/simbad/tap/sync"
+
+    otype_map = {
+        "Star": "star", "**": "star", "PM*": "star", "V*": "star",
+        "HB*": "star", "RG*": "star", "SG*": "star", "WR*": "star",
+        "Psr": "pulsar", "Neb": "nebula", "SNR": "nebula",
+        "PN": "nebula", "HII": "nebula", "MoC": "nebula",
+        "Gl?": "galaxy", "G": "galaxy", "LIN": "galaxy",
+        "GiG": "galaxy", "SyG": "galaxy", "AGN": "galaxy",
+        "Cl*": "cluster", "GlC": "cluster", "OpC": "cluster",
+        "BH": "black_hole", "XB*": "black_hole",
+    }
+
+    for name in names:
+        if len(docs) >= DOCS_PER_INDEX:
+            break
+        try:
+            adql = (
+                f"SELECT main_id, otype, ra, dec, plx_value, "
+                f"rvz_redshift, sp_type "
+                f"FROM basic "
+                f"WHERE main_id = '{name}' "
+                f"OR ids LIKE '%{name}%' "
+                f"LIMIT 1"
+            )
+            resp = requests.get(
+                simbad_url,
+                params={
+                    "REQUEST": "doQuery",
+                    "LANG": "ADQL",
+                    "FORMAT": "json",
+                    "QUERY": adql,
+                },
+                timeout=15,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            rows = data.get("data", [])
+            cols = [c["name"] for c in data.get("metadata", [])]
+
+            if not rows:
+                print(f"  SIMBAD: no result for '{name}'")
+                continue
+
+            row = dict(zip(cols, rows[0]))
+            main_id = (row.get("main_id") or name).strip()
+
+            # Distance from parallax (arcsec -> ly: 3260 / parallax)
+            plx = row.get("plx_value")
+            distance_ly = None
+            if plx and float(plx) > 0:
+                distance_ly = round(3260.0 / float(plx), 1)
+
+            # Wikipedia description
+            description = get_wiki_summary(name)
+            if not description:
+                description = get_wiki_summary(main_id)
+            if not description:
+                description = (
+                    f"{main_id} is an astronomical object catalogued in SIMBAD."
+                )
+
+            raw_otype = (row.get("otype") or "").strip()
+            object_type = otype_map.get(raw_otype, "other")
+
+            doc = {
+                "resource_type": "celestial_objects",
+                "name": main_id,
+                "designations": [main_id],
+                "object_type": object_type,
+                "constellation": None,
+                "distance_ly": distance_ly,
+                "description": description,
+                "discovered_by": None,
+                "discovery_year": None,
+            }
+            docs.append(doc)
+            print(f"  OK: {main_id} ({object_type})")
+            time.sleep(0.3)
+
+        except Exception as exc:
+            print(f"  WARN: {name} -- {exc}")
+
+    return dedupe(docs, "name")[:DOCS_PER_INDEX]
 
 
 def fetch_missions() -> list[dict]:
