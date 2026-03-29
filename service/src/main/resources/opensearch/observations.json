@@ -1,0 +1,33 @@
+{
+  "settings": {
+    "index": {
+      "knn": true,
+      "number_of_shards": 1,
+      "number_of_replicas": 0
+    }
+  },
+  "mappings": {
+    "properties": {
+      "resource_type":      { "type": "keyword" },
+      "target_name":        { "type": "text" },
+      "instrument":         { "type": "keyword" },
+      "observatory":        { "type": "keyword" },
+      "observation_date":   { "type": "date" },
+      "wavelength_band":    { "type": "keyword" },
+      "notes":              { "type": "text" },
+      "embedding": {
+        "type": "knn_vector",
+        "dimension": 768,
+        "method": {
+          "name": "hnsw",
+          "space_type": "cosinesimil",
+          "engine": "lucene",
+          "parameters": {
+            "ef_construction": 128,
+            "m": 16
+          }
+        }
+      }
+    }
+  }
+}

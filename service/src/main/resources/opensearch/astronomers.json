@@ -1,0 +1,35 @@
+{
+  "settings": {
+    "index": {
+      "knn": true,
+      "number_of_shards": 1,
+      "number_of_replicas": 0
+    }
+  },
+  "mappings": {
+    "properties": {
+      "resource_type":        { "type": "keyword" },
+      "name":                 { "type": "text" },
+      "birth_year":           { "type": "integer" },
+      "death_year":           { "type": "integer" },
+      "nationality":          { "type": "keyword" },
+      "known_for":            { "type": "text" },
+      "associated_objects":   { "type": "keyword" },
+      "associated_missions":  { "type": "keyword" },
+      "biography":            { "type": "text" },
+      "embedding": {
+        "type": "knn_vector",
+        "dimension": 768,
+        "method": {
+          "name": "hnsw",
+          "space_type": "cosinesimil",
+          "engine": "lucene",
+          "parameters": {
+            "ef_construction": 128,
+            "m": 16
+          }
+        }
+      }
+    }
+  }
+}

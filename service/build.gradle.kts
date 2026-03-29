@@ -30,13 +30,15 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework:spring-webflux")
-    testImplementation("org.testcontainers:testcontainers:1.19.8")
-    testImplementation("org.testcontainers:junit-jupiter:1.19.8")
+    testImplementation("org.testcontainers:testcontainers:1.20.6")
+    testImplementation("org.testcontainers:junit-jupiter:1.20.6")
     testImplementation("org.wiremock:wiremock:3.5.4")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("api.version", "1.41")
+    environment("TESTCONTAINERS_RYUK_DISABLED", "true")
 }
 
 tasks.withType<Test>().configureEach {

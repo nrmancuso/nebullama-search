@@ -1,0 +1,35 @@
+{
+  "settings": {
+    "index": {
+      "knn": true,
+      "number_of_shards": 1,
+      "number_of_replicas": 0
+    }
+  },
+  "mappings": {
+    "properties": {
+      "resource_type":    { "type": "keyword" },
+      "name":             { "type": "text" },
+      "designations":     { "type": "text" },
+      "object_type":      { "type": "keyword" },
+      "constellation":    { "type": "keyword" },
+      "distance_ly":      { "type": "double" },
+      "description":      { "type": "text" },
+      "discovered_by":    { "type": "keyword" },
+      "discovery_year":   { "type": "integer" },
+      "embedding": {
+        "type": "knn_vector",
+        "dimension": 768,
+        "method": {
+          "name": "hnsw",
+          "space_type": "cosinesimil",
+          "engine": "lucene",
+          "parameters": {
+            "ef_construction": 128,
+            "m": 16
+          }
+        }
+      }
+    }
+  }
+}

@@ -81,7 +81,7 @@ and creates it from the classpath JSON mapping if absent. Throws
 
 ## Data Flow
 
-```
+```text
 App startup
   → IndexInitializer.run()
     → for each ResourceType:
