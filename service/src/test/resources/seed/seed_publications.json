@@ -1,0 +1,52 @@
+[
+  {
+    "resource_type": "publications",
+    "title": "Confinement of the Crab pulsar's wind by its supernova remnant.",
+    "authors": [
+      "Kennel, C. F.",
+      "Coroniti, F. V."
+    ],
+    "year": "1984",
+    "journal": "The Astrophysical Journal",
+    "abstract": "A steady state, spherically symmetric, magnetohydrodynamic model of the Crab nebula is constructed. A highly relativistic positronic pulsar wind is terminated by a strong MHD shock that decelerates the flow and increases its pressure to match boundary conditions imposed by the recently discovered supernova remnant that surrounds the nebula. If the magnetic luminosity of the pulsar wind upstream of the shock is about 0.3 percent of its particle luminosity, the pressure and velocity boundary conditions imposed by the remnant place the shock where it is inferred to be: near the outer boundary of an underluminous region observed to surround the pulsar. It is necessary to include the weak magnetization of the wind to satisfy the boundary conditions and to calculate the regular synchrotron radiation self-consistently.",
+    "topics": [
+      "Cosmic Plasma",
+      "Crab Nebula",
+      "Pulsars",
+      "Stellar Winds",
+      "Supernova Remnants",
+      "Boundary Conditions",
+      "Boundary Value Problems",
+      "Flow Velocity",
+      "Magnetohydrodynamics",
+      "Shock Waves"
+    ],
+    "doi": "10.1086/162356"
+  },
+  {
+    "resource_type": "publications",
+    "title": "On the Nature of Pulsars. I. Theory",
+    "authors": [
+      "Ostriker, J. P.",
+      "Gunn, J. E."
+    ],
+    "year": "1969",
+    "journal": "The Astrophysical Journal",
+    "abstract": "We present in this paper the initial installment of a quantitative exploration of one particular pulsar model. We first make plausible and then assume that the seat of the pulsar phenomenon is a rotating neutron star having a dipolar magnetic field which is not parallel to the rotation axis. We then show that such stars may be expected to emit large amounts (1050_1052 ergs) of magnetic-dipole and gravitational- quadrupole radiation, that these energy losses are inevitably associated with losses of angular momentum and increases in the rotation periods, and that the emitted low-frequency magnetic-dipole radiation is extremely efficient at accelerating charged particles to relativistic energies. An explicit expression for the period as a function of time allows us to calculate the age of the Crab Nebula (with 20 percent accuracy) and to predict the so far unobserved second derivative of the period (d2P/dt2). We also de- termine the luminosity of the nebula and the highest-energy electrons presently being injected into it- both numbers found to be in good agreement with independent observations. In extreme cases the ac- celeration mechanism can produce protons with energies up to m~c2(e2/Gm~)'/3 or 1021 eV, which is somewhat in excess of the most energetic cosmic rays yet observed. The theory predicts a relation be- tween period, F, and rate of change of period, dP/dt 3 X 10'5/P(sec), which is well observed, in the mean, for pulsars. Finally, after determining the magnetic decay time to be about 4 million years, we predict that few pulsars should be found with periods in excess of 1.5 seconds, also in good accord with observations. We do not discuss the origin of the pulses themselves",
+    "topics": [],
+    "doi": "10.1086/150160"
+  },
+  {
+    "resource_type": "publications",
+    "title": "The origin of the magnetic field and relativistic particles in the Crab Nebula",
+    "authors": [
+      "Rees, M. J.",
+      "Gunn, J. E."
+    ],
+    "year": "1974",
+    "journal": "Monthly Notices of the Royal Astronomical Society",
+    "abstract": "The power from the Crab Pulsar NP 0531 probably emerges partly as 30 Hz waves and partly as a relativistic wind containing a toroidal magnetic field. A shock discontinuity is expected where the pressure of the relativistic outflow balances the pressure within the nebula. This shock would occur at a radius Rs which is about 10 per cent of the total nebular radius Rneb. The relativistic particles and the magnetic flux would accumulate in the region Rs &lt;R &lt;Rneb. The magnetic field in this region would build up to equipartition strength, even if this field embodied only a few per cent of the relativistic energy outflow from the pulsar. The 30 Hz waves would be absorbed at R Rs, their energy being transferred to relativistic electrons. The continuum from the bulk of the nebula would then be entirely synchrotron radiation. The relevance of this model to various observed features of the Crab Nebula is briefly explored.",
+    "topics": [],
+    "doi": "10.1093/mnras/167.1.1"
+  }
+]

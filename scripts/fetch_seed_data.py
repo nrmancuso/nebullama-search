@@ -156,8 +156,8 @@ def dedupe(docs: list[dict], key: str) -> list[dict]:
 
 def fetch_celestial_objects() -> list[dict]:
     """
-    Query SIMBAD TAP/ADQL for objects by name. Supplement description
-    with Wikipedia summary where available. Targets 40 documents.
+    Fetch celestial object data from Wikipedia, with optional SIMBAD
+    enrichment for parallax/distance. Targets 40 documents.
     """
     docs: list[dict] = []
 
@@ -194,9 +194,34 @@ def fetch_celestial_objects() -> list[dict]:
         "Small Magellanic Cloud",
     ]
 
-    simbad_url = "https://simbad.cds.unistra.fr/simbad/tap/sync"
+    # Known object types for well-known objects
+    known_types = {
+        "Crab Nebula": "nebula", "Andromeda Galaxy": "galaxy",
+        "Cygnus X-1": "black_hole", "Orion Nebula": "nebula",
+        "Sagittarius A*": "black_hole", "Pleiades": "cluster",
+        "Centaurus A": "galaxy", "Omega Nebula": "nebula",
+        "Eagle Nebula": "nebula", "Whirlpool Galaxy": "galaxy",
+        "Horsehead Nebula": "nebula", "Vela Pulsar": "pulsar",
+        "Betelgeuse": "star", "Sirius": "star",
+        "Proxima Centauri": "star", "Alpha Centauri": "star",
+        "Barnard's Star": "star", "Polaris": "star",
+        "Rigel": "star", "Vega": "star",
+        "Antares": "star", "Aldebaran": "star",
+        "Capella": "star", "Arcturus": "star",
+        "Spica": "star", "Deneb": "star",
+        "Altair": "star", "Fomalhaut": "star",
+        "Epsilon Eridani": "star", "Tau Ceti": "star",
+        "61 Cygni": "star", "Wolf 359": "star",
+        "Lalande 21185": "star", "Ross 128": "star",
+        "Groombridge 34": "star", "HD 209458": "star",
+        "51 Pegasi": "star", "47 Tucanae": "cluster",
+        "Omega Centauri": "cluster",
+        "Large Magellanic Cloud": "galaxy",
+        "Small Magellanic Cloud": "galaxy",
+    }
 
-    otype_map = {
+    simbad_url = "https://simbad.cds.unistra.fr/simbad/tap/sync"
+    simbad_otype_map = {
         "Star": "star", "**": "star", "PM*": "star", "V*": "star",
         "HB*": "star", "RG*": "star", "SG*": "star", "WR*": "star",
         "Psr": "pulsar", "Neb": "nebula", "SNR": "nebula",
@@ -211,58 +236,53 @@ def fetch_celestial_objects() -> list[dict]:
         if len(docs) >= DOCS_PER_INDEX:
             break
         try:
-            adql = (
-                f"SELECT main_id, otype, ra, dec, plx_value, "
-                f"rvz_redshift, sp_type "
-                f"FROM basic "
-                f"WHERE main_id = '{name}' "
-                f"OR ids LIKE '%{name}%' "
-                f"LIMIT 1"
-            )
-            resp = requests.get(
-                simbad_url,
-                params={
-                    "REQUEST": "doQuery",
-                    "LANG": "ADQL",
-                    "FORMAT": "json",
-                    "QUERY": adql,
-                },
-                timeout=15,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            rows = data.get("data", [])
-            cols = [c["name"] for c in data.get("metadata", [])]
-
-            if not rows:
-                print(f"  SIMBAD: no result for '{name}'")
-                continue
-
-            row = dict(zip(cols, rows[0]))
-            main_id = (row.get("main_id") or name).strip()
-
-            # Distance from parallax (arcsec -> ly: 3260 / parallax)
-            plx = row.get("plx_value")
-            distance_ly = None
-            if plx and float(plx) > 0:
-                distance_ly = round(3260.0 / float(plx), 1)
-
-            # Wikipedia description
             description = get_wiki_summary(name)
             if not description:
-                description = get_wiki_summary(main_id)
-            if not description:
-                description = (
-                    f"{main_id} is an astronomical object catalogued in SIMBAD."
-                )
+                print(f"  WIKI miss: {name}")
+                continue
 
-            raw_otype = (row.get("otype") or "").strip()
-            object_type = otype_map.get(raw_otype, "other")
+            object_type = known_types.get(name, "other")
+            distance_ly = None
+
+            # Try SIMBAD for distance and refined object type
+            try:
+                adql = (
+                    f"SELECT main_id, otype, plx_value "
+                    f"FROM basic "
+                    f"WHERE main_id = '{name}' "
+                    f"OR ids LIKE '%{name}%' "
+                    f"LIMIT 1"
+                )
+                resp = requests.get(
+                    simbad_url,
+                    params={
+                        "REQUEST": "doQuery",
+                        "LANG": "ADQL",
+                        "FORMAT": "json",
+                        "QUERY": adql,
+                    },
+                    timeout=8,
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                rows = data.get("data", [])
+                cols = [c["name"] for c in data.get("metadata", [])]
+                if rows:
+                    row = dict(zip(cols, rows[0]))
+                    plx = row.get("plx_value")
+                    if plx and float(plx) > 0:
+                        distance_ly = round(3260.0 / float(plx), 1)
+                    raw_otype = (row.get("otype") or "").strip()
+                    if raw_otype in simbad_otype_map:
+                        object_type = simbad_otype_map[raw_otype]
+                    print(f"  SIMBAD enriched: {name}")
+            except Exception:
+                print(f"  SIMBAD unavailable for {name}, using Wikipedia only")
 
             doc = {
                 "resource_type": "celestial_objects",
-                "name": main_id,
-                "designations": [main_id],
+                "name": name,
+                "designations": [name],
                 "object_type": object_type,
                 "constellation": None,
                 "distance_ly": distance_ly,
@@ -271,7 +291,7 @@ def fetch_celestial_objects() -> list[dict]:
                 "discovery_year": None,
             }
             docs.append(doc)
-            print(f"  OK: {main_id} ({object_type})")
+            print(f"  OK: {name} ({object_type})")
             time.sleep(0.3)
 
         except Exception as exc:
@@ -409,14 +429,57 @@ def fetch_missions() -> list[dict]:
 def fetch_observations() -> list[dict]:
     """
     Fetch HST/JWST observation records from MAST Portal for anchor objects.
+    Uses catalog IDs (M1, NGC, etc.) since MAST indexes by catalog name.
     No auth key required.
     """
     mast_url = "https://mast.stsci.edu/api/v0/invoke"
 
-    targets = ANCHOR_OBJECTS + [
-        "Betelgeuse", "Sirius", "Proxima Centauri", "Centaurus A",
-        "Eagle Nebula", "Whirlpool Galaxy", "Horsehead Nebula",
-        "Vela Pulsar", "Omega Centauri", "Large Magellanic Cloud",
+    # (display_name, mast_search_name) — MAST uses catalog IDs, not common names
+    targets = [
+        ("Crab Nebula", "M1"),
+        ("Andromeda Galaxy", "M31"),
+        ("Cygnus X-1", "CYG-X-1"),
+        ("Orion Nebula", "M42"),
+        ("Sagittarius A*", "SGR-A*"),
+        ("Pleiades", "M45"),
+        ("Centaurus A", "NGC5128"),
+        ("Omega Nebula", "M17"),
+        ("Eagle Nebula", "M16"),
+        ("Whirlpool Galaxy", "M51"),
+        ("Horsehead Nebula", "HORSEHEAD"),
+        ("Vela Pulsar", "VELA"),
+        ("Betelgeuse", "BETELGEUSE"),
+        ("Sirius", "SIRIUS"),
+        ("Proxima Centauri", "PROXIMA-CEN"),
+        ("Alpha Centauri", "ALF-CEN"),
+        ("Vega", "VEGA"),
+        ("Polaris", "POLARIS"),
+        ("Rigel", "RIGEL"),
+        ("Antares", "ANTARES"),
+        ("Aldebaran", "ALDEBARAN"),
+        ("Arcturus", "ARCTURUS"),
+        ("Fomalhaut", "FOMALHAUT"),
+        ("47 Tucanae", "47TUC"),
+        ("Omega Centauri", "NGC5139"),
+        ("Large Magellanic Cloud", "LMC"),
+        ("Small Magellanic Cloud", "SMC"),
+        ("Eta Carinae", "ETA-CAR"),
+        ("Ring Nebula", "M57"),
+        ("Sombrero Galaxy", "M104"),
+        ("Triangulum Galaxy", "M33"),
+        ("Pinwheel Galaxy", "M101"),
+        ("Cat's Eye Nebula", "NGC6543"),
+        ("Helix Nebula", "NGC7293"),
+        ("Dumbbell Nebula", "M27"),
+        ("Globular Cluster M13", "M13"),
+        ("Omega Nebula", "M17"),
+        ("Lagoon Nebula", "M8"),
+        ("Trifid Nebula", "M20"),
+        ("Butterfly Nebula", "NGC6302"),
+        ("Carina Nebula", "NGC3372"),
+        ("Tarantula Nebula", "30-DOR"),
+        ("Pillars of Creation", "M16"),
+        ("Supernova 1987A", "SN1987A"),
     ]
 
     band_map = {
@@ -430,9 +493,7 @@ def fetch_observations() -> list[dict]:
 
     docs: list[dict] = []
 
-    for target in targets:
-        if len(docs) >= DOCS_PER_INDEX:
-            break
+    for display_name, mast_name in targets:
         try:
             criteria_payload = {
                 "service": "Mast.Caom.Filtered",
@@ -443,7 +504,7 @@ def fetch_observations() -> list[dict]:
                     "filters": [
                         {
                             "paramName": "target_name",
-                            "values": [target],
+                            "values": [mast_name],
                         },
                         {
                             "paramName": "obs_collection",
@@ -468,28 +529,27 @@ def fetch_observations() -> list[dict]:
             obs_list = data.get("data", [])
 
             if not obs_list:
-                print(f"  MAST: no results for '{target}'")
+                print(f"  MAST: no results for '{display_name}' ({mast_name})")
                 # Synthesize a plausible record
                 doc = {
                     "resource_type": "observations",
-                    "target_name": target,
+                    "target_name": display_name,
                     "instrument": "HST/ACS",
                     "observatory": "Hubble Space Telescope",
                     "observation_date": "2010-01-01",
                     "wavelength_band": "optical",
                     "notes": (
-                        f"Archival Hubble Space Telescope observation of {target}. "
-                        f"Target observed as part of a survey program to characterise "
-                        f"the morphological and spectral properties of {target}."
+                        f"Archival Hubble Space Telescope observation of "
+                        f"{display_name}. Target observed as part of a survey "
+                        f"program to characterise the morphological and "
+                        f"spectral properties of {display_name}."
                     ),
                 }
                 docs.append(doc)
-                print(f"  OK (synthetic): {target}")
+                print(f"  OK (synthetic): {display_name}")
                 continue
 
             for obs in obs_list[:2]:
-                if len(docs) >= DOCS_PER_INDEX:
-                    break
                 instrument_name = (
                     obs.get("instrument_name") or "HST/ACS"
                 ).strip()
@@ -518,16 +578,16 @@ def fetch_observations() -> list[dict]:
 
                 obs_title = obs.get("obs_title") or ""
                 notes = obs_title or (
-                    f"Observation of {target} with {instrument_name} "
+                    f"Observation of {display_name} with {instrument_name} "
                     f"aboard {obs_collection}. "
                     f"Wavelength coverage: {band}. "
-                    f"Science program targeting {target} to study "
+                    f"Science program targeting {display_name} to study "
                     f"its physical properties."
                 )
 
                 doc = {
                     "resource_type": "observations",
-                    "target_name": target,
+                    "target_name": display_name,
                     "instrument": instrument_name,
                     "observatory": obs_collection,
                     "observation_date": obs_date,
@@ -535,14 +595,22 @@ def fetch_observations() -> list[dict]:
                     "notes": notes[:2000],
                 }
                 docs.append(doc)
-                print(f"  OK: {target} / {instrument_name} / {band}")
+                print(f"  OK: {display_name} / {instrument_name} / {band}")
 
             time.sleep(0.4)
 
         except Exception as exc:
-            print(f"  WARN: {target} -- {exc}")
+            print(f"  WARN: {display_name} -- {exc}")
 
-    return dedupe(docs, "notes")[:DOCS_PER_INDEX]
+    # Dedupe by composite of target + instrument + date (notes dedupe is too aggressive)
+    seen: set[str] = set()
+    unique: list[dict] = []
+    for d in docs:
+        key = f"{d['target_name']}|{d['instrument']}|{d['observation_date']}"
+        if key not in seen:
+            seen.add(key)
+            unique.append(d)
+    return unique[:DOCS_PER_INDEX]
 
 
 def fetch_astronomers() -> list[dict]:

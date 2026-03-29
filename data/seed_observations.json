@@ -1,0 +1,362 @@
+[
+  {
+    "resource_type": "observations",
+    "target_name": "Crab Nebula",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Crab Nebula. Target observed as part of a survey program to characterise the morphological and spectral properties of Crab Nebula."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Andromeda Galaxy",
+    "instrument": "NICMOS/NIC2",
+    "observatory": "HST",
+    "observation_date": "1997-12-02",
+    "wavelength_band": "infrared",
+    "notes": "Stellar Distributions in Nearby Galaxy Nuclei"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Cygnus X-1",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Cygnus X-1. Target observed as part of a survey program to characterise the morphological and spectral properties of Cygnus X-1."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Orion Nebula",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Orion Nebula. Target observed as part of a survey program to characterise the morphological and spectral properties of Orion Nebula."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Sagittarius A*",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Sagittarius A*. Target observed as part of a survey program to characterise the morphological and spectral properties of Sagittarius A*."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Pleiades",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Pleiades. Target observed as part of a survey program to characterise the morphological and spectral properties of Pleiades."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Centaurus A",
+    "instrument": "NICMOS/NIC2",
+    "observatory": "HST",
+    "observation_date": "1997-09-17",
+    "wavelength_band": "infrared",
+    "notes": "The Fueling of Active Nuclei: A NICMOS Snapshot Survey of Seyfert and Normal Galaxies"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Centaurus A",
+    "instrument": "NICMOS/NIC3",
+    "observatory": "HST",
+    "observation_date": "1998-06-17",
+    "wavelength_band": "infrared",
+    "notes": "NICMOS Camera 3 campaign snapshots"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Omega Nebula",
+    "instrument": "WFPC2/PC",
+    "observatory": "HST",
+    "observation_date": "1999-05-29",
+    "wavelength_band": "optical",
+    "notes": "Ionization Structure, Photoevaporation, and Star Formation in M17"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Eagle Nebula",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Eagle Nebula. Target observed as part of a survey program to characterise the morphological and spectral properties of Eagle Nebula."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Whirlpool Galaxy",
+    "instrument": "NIRISS/AMI",
+    "observatory": "JWST",
+    "observation_date": "2000-01-01",
+    "wavelength_band": "infrared",
+    "notes": "The hot dusty phase of active galaxies as observed by JWST interferometry"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Horsehead Nebula",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Horsehead Nebula. Target observed as part of a survey program to characterise the morphological and spectral properties of Horsehead Nebula."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Vela Pulsar",
+    "instrument": "ACS/WFC",
+    "observatory": "HST",
+    "observation_date": "2003-06-13",
+    "wavelength_band": "optical",
+    "notes": "ACS Polarization Calibration"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Vela Pulsar",
+    "instrument": "ACS/WFC",
+    "observatory": "HST",
+    "observation_date": "2003-06-14",
+    "wavelength_band": "optical",
+    "notes": "ACS Polarization Calibration"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Betelgeuse",
+    "instrument": "STIS/FUV-MAMA",
+    "observatory": "HST",
+    "observation_date": "2012-03-01",
+    "wavelength_band": "uv",
+    "notes": "Convection and mass loss through the chromosphere of Betelgeuse"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Sirius",
+    "instrument": "NICMOS/NIC2",
+    "observatory": "HST",
+    "observation_date": "1998-10-20",
+    "wavelength_band": "infrared",
+    "notes": "A Search for Zodiacal Dust around Bright Nearby Stars"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Sirius",
+    "instrument": "NICMOS/NIC2",
+    "observatory": "HST",
+    "observation_date": "1998-10-21",
+    "wavelength_band": "infrared",
+    "notes": "A Search for Zodiacal Dust around Bright Nearby Stars"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Proxima Centauri",
+    "instrument": "WFPC2/PC",
+    "observatory": "HST",
+    "observation_date": "1995-05-03",
+    "wavelength_band": "optical",
+    "notes": "A PHOTOMETRIC SEARCH FOR PLANETS OF NEARBY STARS; GTO PROPOSAL #5132"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Alpha Centauri",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Alpha Centauri. Target observed as part of a survey program to characterise the morphological and spectral properties of Alpha Centauri."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Vega",
+    "instrument": "NIRCAM/CORON",
+    "observatory": "JWST",
+    "observation_date": "2023-08-19",
+    "wavelength_band": "infrared",
+    "notes": "Coronagraphic Imaging of Young Planets and Debris Disk with NIRCam and MIRI"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Polaris",
+    "instrument": "WFC3/UVIS",
+    "observatory": "HST",
+    "observation_date": "2009-11-18",
+    "wavelength_band": "optical",
+    "notes": "Observation of Polaris with WFC3/UVIS aboard HST. Wavelength coverage: optical. Science program targeting Polaris to study its physical properties."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Polaris",
+    "instrument": "WFC3/UVIS",
+    "observatory": "HST",
+    "observation_date": "2014-03-17",
+    "wavelength_band": "optical",
+    "notes": "Observation of Polaris with WFC3/UVIS aboard HST. Wavelength coverage: optical. Science program targeting Polaris to study its physical properties."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Rigel",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Rigel. Target observed as part of a survey program to characterise the morphological and spectral properties of Rigel."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Antares",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Antares. Target observed as part of a survey program to characterise the morphological and spectral properties of Antares."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Aldebaran",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Aldebaran. Target observed as part of a survey program to characterise the morphological and spectral properties of Aldebaran."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Arcturus",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Arcturus. Target observed as part of a survey program to characterise the morphological and spectral properties of Arcturus."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Fomalhaut",
+    "instrument": "NIRCAM/CORON",
+    "observatory": "JWST",
+    "observation_date": "2022-10-22",
+    "wavelength_band": "infrared",
+    "notes": "Coronagraphic Imaging of Young Planets and Debris Disk with NIRCam and MIRI"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "47 Tucanae",
+    "instrument": "WFC3/UVIS",
+    "observatory": "HST",
+    "observation_date": "2009-07-17",
+    "wavelength_band": "optical",
+    "notes": "Observation of 47 Tucanae with WFC3/UVIS aboard HST. Wavelength coverage: optical. Science program targeting 47 Tucanae to study its physical properties."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Omega Centauri",
+    "instrument": "WFPC/WFC",
+    "observatory": "HST",
+    "observation_date": "1993-08-23",
+    "wavelength_band": "optical",
+    "notes": "WF/PC CYCLE 2 CALIB: INTERCHIP PHOTOMETRIC CALIBRATION"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Omega Centauri",
+    "instrument": "WFPC/PC",
+    "observatory": "HST",
+    "observation_date": "1993-08-23",
+    "wavelength_band": "optical",
+    "notes": "WF/PC CYCLE 2 CALIB: INTERCHIP PHOTOMETRIC CALIBRATION"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Large Magellanic Cloud",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Large Magellanic Cloud. Target observed as part of a survey program to characterise the morphological and spectral properties of Large Magellanic Cloud."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Small Magellanic Cloud",
+    "instrument": "WFPC2/PC",
+    "observatory": "HST",
+    "observation_date": "1999-10-13",
+    "wavelength_band": "optical",
+    "notes": "Accurate proper motions of Galactic halo populations"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Eta Carinae",
+    "instrument": "WFPC/PC",
+    "observatory": "HST",
+    "observation_date": "1993-02-25",
+    "wavelength_band": "optical",
+    "notes": "PC IMAGES OF ETA CARINAE CORE - CYCLE 2"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Ring Nebula",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Ring Nebula. Target observed as part of a survey program to characterise the morphological and spectral properties of Ring Nebula."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Sombrero Galaxy",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Sombrero Galaxy. Target observed as part of a survey program to characterise the morphological and spectral properties of Sombrero Galaxy."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Triangulum Galaxy",
+    "instrument": "STIS/CCD",
+    "observatory": "HST",
+    "observation_date": "1999-02-20",
+    "wavelength_band": "uv",
+    "notes": "Demographics of Nuclear Black Holes"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Pinwheel Galaxy",
+    "instrument": "HST/ACS",
+    "observatory": "Hubble Space Telescope",
+    "observation_date": "2010-01-01",
+    "wavelength_band": "optical",
+    "notes": "Archival Hubble Space Telescope observation of Pinwheel Galaxy. Target observed as part of a survey program to characterise the morphological and spectral properties of Pinwheel Galaxy."
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Cat's Eye Nebula",
+    "instrument": "FOC/48",
+    "observatory": "HST",
+    "observation_date": "1996-09-10",
+    "wavelength_band": "optical",
+    "notes": "CYCLE 5 F/48 LONGSLIT SPECTROGRAPH WAVELENGTH CALIBRATION"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Helix Nebula",
+    "instrument": "WFPC/PC",
+    "observatory": "HST",
+    "observation_date": "1993-11-02",
+    "wavelength_band": "optical",
+    "notes": "SNAPSHOT SURVEY FOR COMPANIONS TO PLANETARY-NEBULA NUCLEI --CYCLE 3 HIGH"
+  },
+  {
+    "resource_type": "observations",
+    "target_name": "Helix Nebula",
+    "instrument": "WFPC2/PC",
+    "observatory": "HST",
+    "observation_date": "1995-04-22",
+    "wavelength_band": "optical",
+    "notes": "PLANETARY NEBULAR STRUCTURE (WC03): CYCLE 4"
+  }
+]
