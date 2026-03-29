@@ -43,6 +43,9 @@ line-length is disabled; MD024 allows duplicate headings in separate sections).
 
 Run locally: `npx markdownlint-cli2 "**/*.md"`
 
+When any markdown files have been created or modified, always run markdownlint before
+committing and fix any errors.
+
 ## Tech Stack
 
 - Java 21, Spring Boot 3.3.x, Gradle Kotlin DSL 8.x

@@ -50,7 +50,7 @@ Provides stable, real-data fixtures for integration tests.
 
 ## Script Structure
 
-```
+```text
 Constants & config
   ANCHOR_OBJECTS      (12 items)
   ANCHOR_MISSIONS     (12 items)
@@ -172,7 +172,7 @@ etc.) appear across multiple indexes naturally through the shared anchor list:
 
 `scripts/requirements.txt`:
 
-```
+```text
 requests
 wikipedia-api
 ```
