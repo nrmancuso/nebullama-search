@@ -411,7 +411,117 @@ def fetch_observations() -> list[dict]:
 
 
 def fetch_astronomers() -> list[dict]:
-    raise NotImplementedError
+    """Fetch astronomer biographies from Wikipedia."""
+    extra_astronomers = [
+        "Galileo Galilei",
+        "Johannes Kepler",
+        "Tycho Brahe",
+        "Nicolaus Copernicus",
+        "Isaac Newton",
+        "Pierre-Simon Laplace",
+        "William Parsons, 3rd Earl of Rosse",
+        "George Ellery Hale",
+        "Harlow Shapley",
+        "Walter Baade",
+        "Fritz Zwicky",
+        "Hans Bethe",
+        "Martin Schwarzschild",
+        "Lyman Spitzer",
+        "Margaret Burbidge",
+        "Geoffrey Burbidge",
+        "William Alfred Fowler",
+        "Frank Drake",
+        "Kip Thorne",
+        "Stephen Hawking",
+        "Roger Penrose",
+        "Sandra Faber",
+        "Andrea Ghez",
+        "Reinhard Genzel",
+        "Brian Schmidt",
+        "Saul Perlmutter",
+        "Adam Riess",
+        "Natalie Batalha",
+        "Sara Seager",
+    ]
+    all_astronomers = ANCHOR_ASTRONOMERS + extra_astronomers
+
+    nationalities = [
+        "American", "British", "German", "French", "Italian",
+        "Soviet", "Russian", "Indian", "Australian", "Canadian",
+        "Dutch", "Swedish", "Danish", "Polish", "Belgian",
+        "Swiss", "Austrian", "Hungarian", "Czech", "Chinese",
+        "Irish", "South African",
+    ]
+
+    docs: list[dict] = []
+    for title in all_astronomers:
+        if len(docs) >= DOCS_PER_INDEX:
+            break
+        try:
+            page = WIKI.page(title)
+            if not page.exists():
+                print(f"  WIKI miss: {title}")
+                continue
+
+            text = page.text
+            paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+            biography = "\n\n".join(paragraphs[:3])
+
+            # Extract birth/death years from early text
+            all_years = re.findall(r"\b(1[5-9]\d\d|20[0-2]\d)\b", text[:800])
+            birth_year = int(all_years[0]) if len(all_years) >= 1 else None
+            death_year = None
+            if len(all_years) >= 2:
+                candidate = int(all_years[1])
+                if birth_year and candidate > birth_year:
+                    death_year = candidate
+
+            # Nationality from first paragraph
+            nationality = None
+            first_para = paragraphs[0] if paragraphs else ""
+            for nat in nationalities:
+                if nat.lower() in first_para.lower():
+                    nationality = nat
+                    break
+
+            # Known for: first sentence
+            first_sentence = first_para.split(".")[0].strip() if first_para else ""
+            known_for = first_sentence[:300] if first_sentence else None
+
+            # Cross-reference associated objects and missions
+            text_lower = text.lower()
+            associated_objects = [
+                obj for obj in ANCHOR_OBJECTS if obj.lower() in text_lower
+            ]
+            mission_names = [
+                m.replace(" (spacecraft)", "").replace(
+                    " space telescope", " Space Telescope"
+                )
+                for m in ANCHOR_MISSIONS
+            ]
+            associated_missions = [
+                m for m in mission_names if m.lower() in text_lower
+            ]
+
+            doc = {
+                "resource_type": "astronomers",
+                "name": title,
+                "birth_year": birth_year,
+                "death_year": death_year,
+                "nationality": nationality,
+                "known_for": known_for,
+                "associated_objects": associated_objects[:6],
+                "associated_missions": associated_missions[:4],
+                "biography": biography,
+            }
+            docs.append(doc)
+            print(f"  OK: {title} ({nationality}, b.{birth_year})")
+            time.sleep(0.3)
+
+        except Exception as exc:
+            print(f"  WARN: {title} -- {exc}")
+
+    return dedupe(docs, "name")[:DOCS_PER_INDEX]
 
 
 def fetch_publications() -> list[dict]:
