@@ -12,7 +12,7 @@ Also converts both `@ConfigurationProperties` classes to records.
 ## Files
 
 | File | Action |
-|---|---|
+| --- | --- |
 | `service/src/main/java/com/example/nebullamasearch/config/OpenSearchProperties.java` | Convert to record; accessor sites updated |
 | `service/src/main/java/com/example/nebullamasearch/config/OpenSearchConfig.java` | Update `props.getHost()` → `props.host()` etc. |
 | `service/src/main/java/com/example/nebullamasearch/config/OllamaProperties.java` | New record |
@@ -62,6 +62,7 @@ Builds a `RestClient` in the constructor using `baseUrl`, `connectTimeoutMs`, an
 from props (via `SimpleClientHttpRequestFactory`).
 
 `embed(String text)` method:
+
 1. POSTs `{"model": embeddingModel, "prompt": text}` to `/api/embeddings`
 2. Parses `embedding[]` array from JSON response
 3. Returns `float[]`
@@ -73,13 +74,14 @@ from props (via `SimpleClientHttpRequestFactory`).
 
 Standalone JUnit 5 test — no Spring context, no Testcontainers.
 
-```
+```text
 @BeforeAll  — start WireMockServer on dynamic port
 @BeforeEach — construct OllamaProperties record + OllamaEmbeddingService directly
 @AfterAll   — stop WireMock
 ```
 
 Three tests:
+
 - `embed_sendsCorrectRequestBody` — verifies `$.model` and `$.prompt` via WireMock
 - `embed_returns768DimFloatArray` — stubs 768×0.1 response, asserts size and value
 - `embed_throwsEmbeddingExceptionOn500` — stubs HTTP 500, asserts `EmbeddingException` with "500" in message

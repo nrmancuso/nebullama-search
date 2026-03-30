@@ -13,7 +13,7 @@
 ## File Map
 
 | File | Action |
-|---|---|
+| --- | --- |
 | `service/src/main/java/com/example/nebullamasearch/config/OpenSearchProperties.java` | Convert class → record |
 | `service/src/main/java/com/example/nebullamasearch/config/OpenSearchConfig.java` | Update accessor calls to record style |
 | `service/src/main/java/com/example/nebullamasearch/config/OllamaProperties.java` | Create new record |
@@ -26,6 +26,7 @@
 ## Task 1: Convert OpenSearchProperties to a record
 
 **Files:**
+
 - Modify: `service/src/main/java/com/example/nebullamasearch/config/OpenSearchProperties.java`
 - Modify: `service/src/main/java/com/example/nebullamasearch/config/OpenSearchConfig.java`
 
@@ -97,6 +98,7 @@ git commit -m "Issue #7: convert OpenSearchProperties to record"
 ## Task 2: Create OllamaProperties record
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/config/OllamaProperties.java`
 
 - [ ] **Step 1: Create OllamaProperties.java**
@@ -140,6 +142,7 @@ git commit -m "Issue #7: add OllamaProperties ConfigurationProperties record"
 ## Task 3: Create EmbeddingException
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/ingest/EmbeddingException.java`
 
 - [ ] **Step 1: Create EmbeddingException.java**
@@ -171,6 +174,7 @@ git commit -m "Issue #7: add EmbeddingException runtime exception"
 ## Task 4: Write failing OllamaEmbeddingServiceTest
 
 **Files:**
+
 - Create: `service/src/test/java/com/example/nebullamasearch/ingest/OllamaEmbeddingServiceTest.java`
 
 - [ ] **Step 1: Create OllamaEmbeddingServiceTest.java**
@@ -288,6 +292,7 @@ Expected: compilation error — `OllamaEmbeddingService` does not exist yet. Thi
 ## Task 5: Create OllamaEmbeddingService and make tests pass
 
 **Files:**
+
 - Create: `service/src/main/java/com/example/nebullamasearch/ingest/OllamaEmbeddingService.java`
 
 - [ ] **Step 1: Create OllamaEmbeddingService.java**
@@ -374,7 +379,7 @@ cd service && ./gradlew test --tests "com.example.nebullamasearch.ingest.OllamaE
 
 Expected:
 
-```
+```text
 OllamaEmbeddingServiceTest > embed_sendsCorrectRequestBody() PASSED
 OllamaEmbeddingServiceTest > embed_returns768DimFloatArray() PASSED
 OllamaEmbeddingServiceTest > embed_throwsEmbeddingExceptionOn500() PASSED
