@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationPropertiesScan
 public class NebullamaSearchApplication {
 
+  /** Application entry point. */
   public static void main(String[] args) {
     SpringApplication.run(NebullamaSearchApplication.class, args);
   }
