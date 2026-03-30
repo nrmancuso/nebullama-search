@@ -126,3 +126,6 @@ docs/.obsidian/cache
 
 # Git worktrees
 .worktrees/
+
+scripts/lib
+scripts/bin
