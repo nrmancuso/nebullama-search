@@ -26,10 +26,10 @@ public class SearchService {
   private int knnK = 10;
 
   @Value("${search.hybrid-weight.bm25:0.4}")
-  private float bm25Weight;
+  private float bm25Weight = 0.4f;
 
   @Value("${search.hybrid-weight.knn:0.6}")
-  private float knnWeight;
+  private float knnWeight = 0.6f;
 
   public SearchService(OpenSearchClient openSearchClient, OllamaEmbeddingService embeddingService) {
     this.openSearchClient = openSearchClient;
