@@ -41,3 +41,25 @@ jobs:
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4.3.0
       - run: cd service && ./gradlew spotlessCheck
+
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.3.1
+      - uses: actions/setup-java@v4.7.0
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4.3.0
+      - run: cd service && ./gradlew checkstyleMain checkstyleTest
+
+  spotbugs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.3.1
+      - uses: actions/setup-java@v4.7.0
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4.3.0
+      - run: cd service && ./gradlew spotbugsMain spotbugsTest

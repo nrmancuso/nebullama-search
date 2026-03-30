@@ -21,7 +21,7 @@ public class OllamaEmbeddingService {
   public OllamaEmbeddingService(OllamaProperties props, ObjectMapper objectMapper) {
     this.embeddingModel = props.embeddingModel();
     this.objectMapper = objectMapper;
-    var factory = new SimpleClientHttpRequestFactory();
+    final SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
     factory.setConnectTimeout(Duration.ofMillis(props.connectTimeoutMs()));
     factory.setReadTimeout(Duration.ofMillis(props.readTimeoutMs()));
     this.restClient = RestClient.builder().baseUrl(props.baseUrl()).requestFactory(factory).build();

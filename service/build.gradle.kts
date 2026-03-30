@@ -6,6 +6,8 @@ plugins {
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
     id("com.diffplug.spotless") version "8.4.0"
+    id("checkstyle")
+    id("com.github.spotbugs") version "6.0.14"
 }
 
 group = "com.example"
@@ -59,3 +61,20 @@ spotless {
     }
 }
 
+checkstyle {
+    toolVersion = "13.3.0"
+    configFile = file("config/checkstyle/checkstyle.xml")
+    isIgnoreFailures = false
+}
+
+spotbugs {
+    effort.set(com.github.spotbugs.snom.Effort.MAX)
+    reportLevel.set(com.github.spotbugs.snom.Confidence.LOW)
+    ignoreFailures.set(true)
+}
+
+tasks.withType<com.github.spotbugs.snom.SpotBugsTask> {
+    reports.register("html") {
+        required.set(true)
+    }
+}

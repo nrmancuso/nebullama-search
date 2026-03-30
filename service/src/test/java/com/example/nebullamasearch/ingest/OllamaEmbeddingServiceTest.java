@@ -36,14 +36,14 @@ class OllamaEmbeddingServiceTest {
   @BeforeEach
   void setUp() {
     wireMock.resetAll();
-    var props =
+    final OllamaProperties props =
         new OllamaProperties(
             "http://localhost:" + wireMock.port(), "nomic-embed-text", "mistral", 5000, 10000);
     service = new OllamaEmbeddingService(props, new ObjectMapper());
   }
 
   private static String embeddingResponseBody() {
-    var sb = new StringBuilder("{\"embedding\":[");
+    final StringBuilder sb = new StringBuilder("{\"embedding\":[");
     for (int i = 0; i < 768; i++) {
       sb.append("0.1");
       if (i < 767) sb.append(",");
