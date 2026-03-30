@@ -94,6 +94,11 @@ class IngestServiceTest {
 
   @Test
   void singleIngest_writesDocumentWithEmbeddingToOpenSearch() throws Exception {
+    /*
+     * Request: curl -X POST http://localhost:8080/api/v1/ingest/CELESTIAL_OBJECTS \
+     *   -H "Content-Type: application/json" \
+     *   -d '{"name":"Crab Nebula","object_type":"nebula",...}'
+     */
     Map<String, Object> doc =
         Map.of(
             "name", "Crab Nebula",
@@ -117,6 +122,11 @@ class IngestServiceTest {
 
   @Test
   void bulkIngest_writesAllDocuments() throws Exception {
+    /*
+     * Request: curl -X POST http://localhost:8080/api/v1/ingest/MISSIONS/bulk \
+     *   -H "Content-Type: application/json" \
+     *   -d '[{"name":"Hubble...","description":"..."},...}'
+     */
     List<Map<String, Object>> docs =
         List.of(
             Map.of(
@@ -141,6 +151,12 @@ class IngestServiceTest {
 
   @Test
   void bulkIngest_withEmbeddingErrors_returnsFailedResults() {
+    /*
+     * Request: curl -X POST http://localhost:8080/api/v1/ingest/ASTRONOMERS/bulk \
+     *   -H "Content-Type: application/json" \
+     *   -d '[{"name":"Person1","biography":"..."},...}'
+     * Tests partial failure scenario (some docs fail, others succeed)
+     */
     // Reset and setup error responses only for this test
     wireMock.resetAll();
     wireMock.stubFor(

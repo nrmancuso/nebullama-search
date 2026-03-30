@@ -96,6 +96,11 @@ class IngestControllerTest {
 
   @Test
   void singleIngest_returns201WithId() throws Exception {
+    /*
+     * Request: curl -X POST http://localhost:8080/api/v1/ingest/CELESTIAL_OBJECTS \
+     *   -H "Content-Type: application/json" \
+     *   -d '{"name":"Crab Nebula","object_type":"nebula",...}'
+     */
     Map<String, Object> doc =
         Map.of(
             "name", "Crab Nebula",
@@ -115,6 +120,11 @@ class IngestControllerTest {
 
   @Test
   void bulkIngest_returns207WithResults() throws Exception {
+    /*
+     * Request: curl -X POST http://localhost:8080/api/v1/ingest/MISSIONS/bulk \
+     *   -H "Content-Type: application/json" \
+     *   -d '[{"name":"Hubble","description":"NASA observatory"}, ...]'
+     */
     Map<String, Object> doc1 = Map.of("name", "Hubble", "description", "NASA observatory");
     Map<String, Object> doc2 = Map.of("name", "JWST", "description", "Infrared telescope");
 
@@ -133,6 +143,12 @@ class IngestControllerTest {
 
   @Test
   void invalidResourceType_returns400() throws Exception {
+    /*
+     * Request: curl -X POST http://localhost:8080/api/v1/ingest/INVALID_TYPE \
+     *   -H "Content-Type: application/json" \
+     *   -d '{"name":"Test"}'
+     * Expected: 400 Bad Request
+     */
     Map<String, Object> doc = Map.of("name", "Test");
 
     mockMvc
