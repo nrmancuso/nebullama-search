@@ -74,10 +74,11 @@ class SearchServiceKNNTest {
   private OpenSearchClient openSearchClient;
   private OllamaEmbeddingService embeddingService;
   private SearchService searchService;
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   @BeforeEach
   void setUp() throws Exception {
+    wireMock.resetAll();
     final HttpHost host =
         new HttpHost("http", openSearch.getHost(), openSearch.getMappedPort(9200));
     final ApacheHttpClient5Transport transport =
@@ -92,11 +93,6 @@ class SearchServiceKNNTest {
     searchService = new SearchService(openSearchClient, embeddingService);
 
     createKnnIndexes();
-  }
-
-  @BeforeEach
-  void resetWireMock() {
-    wireMock.resetAll();
   }
 
   // -------------------------------------------------------------------------
@@ -143,8 +139,7 @@ class SearchServiceKNNTest {
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).extracting(SearchHit::id).contains("crab-nebula", "cassiopeia-a");
-    final List<String> ids =
-        response.hits().stream().map(SearchHit::id).collect(java.util.stream.Collectors.toList());
+    final List<String> ids = response.hits().stream().map(SearchHit::id).toList();
     assertThat(ids.indexOf("crab-nebula")).isLessThan(ids.indexOf("orion-nebula"));
     assertThat(ids.indexOf("cassiopeia-a")).isLessThan(ids.indexOf("orion-nebula"));
   }
@@ -201,13 +196,7 @@ class SearchServiceKNNTest {
 
   @Test
   void embeddingServiceCalledWithQueryString() throws IOException {
-    wireMock.stubFor(
-        post(urlEqualTo("/api/embeddings"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(embeddingResponseJson(TestVectors.QUERY_EXPLODING_STAR_REMNANTS))));
+    stubQueryVector("exploding star remnants", TestVectors.QUERY_EXPLODING_STAR_REMNANTS);
 
     indexDocument(
         "celestial_objects",
