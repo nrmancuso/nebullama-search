@@ -67,4 +67,18 @@ class IndexInitializerTest {
     assertDoesNotThrow(
         () -> initializer.run(null), "Running IndexInitializer a second time should not throw");
   }
+
+  @Test
+  void hybridPipelineCreatedOnStartup() throws IOException {
+    try (org.opensearch.client.opensearch.generic.Response response =
+        client
+            .generic()
+            .execute(
+                org.opensearch.client.opensearch.generic.Requests.builder()
+                    .method("GET")
+                    .endpoint("/_search/pipeline/hybrid-pipeline")
+                    .build())) {
+      assertEquals(200, response.getStatus(), "hybrid-pipeline should exist after startup");
+    }
+  }
 }

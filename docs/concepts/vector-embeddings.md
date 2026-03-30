@@ -61,6 +61,10 @@ ollama:
   read-timeout-ms: 10000
 ```
 
+## Further reading
+
+- [opensearch-java k-NN plugin guide](https://github.com/opensearch-project/opensearch-java/blob/main/guides/plugins/knn.md) — typed DSL examples for approximate k-NN, filtered k-NN (efficient filter vs. bool wrapper), and exact k-NN via script score
+
 ## Intent extraction
 
 > 🚧 Added in Phase 4 (Intent Extraction ticket).
