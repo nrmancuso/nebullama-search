@@ -106,7 +106,7 @@ App startup
 ## Files Changed
 
 | File | Action |
-|------|--------|
+| --- | --- |
 | `service/src/main/resources/opensearch/celestial_objects.json` | Create |
 | `service/src/main/resources/opensearch/missions.json` | Create |
 | `service/src/main/resources/opensearch/observations.json` | Create |

@@ -13,7 +13,7 @@
 ## File Map
 
 | File | Action | Responsibility |
-|------|--------|----------------|
+| --- | --- | --- |
 | `service/src/main/resources/opensearch/celestial_objects.json` | Create | Index settings + field mappings for celestial objects |
 | `service/src/main/resources/opensearch/missions.json` | Create | Index settings + field mappings for missions |
 | `service/src/main/resources/opensearch/observations.json` | Create | Index settings + field mappings for observations |
