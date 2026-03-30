@@ -8,16 +8,15 @@ The REST ingest API accepts raw documents, generates embeddings via Ollama, and 
 
 ### Single Document Ingest
 
-```http
-POST /api/v1/ingest/{resourceType}
-Content-Type: application/json
-
-{
-  "name": "Crab Nebula",
-  "object_type": "nebula",
-  "description": "Supernova remnant in Taurus",
-  "constellation": "Taurus"
-}
+```bash
+curl -X POST http://localhost:8080/api/v1/ingest/CELESTIAL_OBJECTS \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Crab Nebula",
+    "object_type": "nebula",
+    "description": "Supernova remnant in Taurus",
+    "constellation": "Taurus"
+  }'
 ```
 
 #### Response: 201 Created
@@ -30,20 +29,17 @@ Content-Type: application/json
 }
 ```
 
-#### Error: 400 Bad Request
-
-(invalid resourceType)
+**Error: 400 Bad Request** — invalid resourceType
 
 ### Bulk Document Ingest
 
-```http
-POST /api/v1/ingest/{resourceType}/bulk
-Content-Type: application/json
-
-[
-  { "name": "Hubble", "description": "NASA observatory" },
-  { "name": "JWST", "description": "Infrared telescope" }
-]
+```bash
+curl -X POST http://localhost:8080/api/v1/ingest/MISSIONS/bulk \
+  -H "Content-Type: application/json" \
+  -d '[
+    { "name": "Hubble", "description": "NASA observatory" },
+    { "name": "JWST", "description": "Infrared telescope" }
+  ]'
 ```
 
 #### Response: 207 Multi-Status
