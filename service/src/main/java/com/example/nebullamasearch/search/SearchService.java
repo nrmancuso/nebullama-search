@@ -23,7 +23,7 @@ public class SearchService {
   private final OllamaEmbeddingService embeddingService;
 
   @Value("${search.knn-k:10}")
-  private int knnK;
+  private int knnK = 10;
 
   @Value("${search.hybrid-weight.bm25:0.4}")
   private float bm25Weight;
@@ -97,7 +97,42 @@ public class SearchService {
   // -------------------------------------------------------------------------
 
   public com.example.nebullamasearch.search.SearchResponse searchKNN(SearchRequest request) {
-    throw new UnsupportedOperationException("not yet implemented");
+    final float[] queryVector = embeddingService.embed(request.query());
+    final String indexNames = resolveIndexNames(request);
+    final Pagination pagination =
+        request.pagination() != null ? request.pagination() : Pagination.defaultPagination();
+    final List<Query> filterClauses = buildFilterClauses(request.filters());
+
+    // Copy to local variable — lambdas require effectively-final capture.
+    final int k = knnK;
+    final Query knnQuery =
+        Query.of(q -> q.knn(knn -> knn.field("embedding").vector(queryVector).k(k)));
+
+    final Query boolQuery =
+        Query.of(
+            q ->
+                q.bool(
+                    b -> {
+                      b.must(knnQuery);
+                      if (!filterClauses.isEmpty()) {
+                        b.filter(filterClauses);
+                      }
+                      return b;
+                    }));
+
+    try {
+      final SearchResponse<Map> response =
+          openSearchClient.search(
+              s ->
+                  s.index(indexNames)
+                      .from(pagination.from())
+                      .size(pagination.size())
+                      .query(boolQuery),
+              Map.class);
+      return mapResponse(response);
+    } catch (IOException e) {
+      throw new RuntimeException("k-NN search failed", e);
+    }
   }
 
   // -------------------------------------------------------------------------

@@ -219,7 +219,8 @@ class SearchServiceKNNTest {
 
   private void createKnnIndexes() throws Exception {
     final JsonpMapper jsonpMapper = openSearchClient._transport().jsonpMapper();
-    for (final String indexName : List.of("celestial_objects", "missions")) {
+    for (final String indexName :
+        List.of("celestial_objects", "missions", "observations", "astronomers", "publications")) {
       if (openSearchClient.indices().exists(req -> req.index(indexName)).value()) {
         openSearchClient.indices().delete(req -> req.index(indexName));
       }
