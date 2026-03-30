@@ -6,10 +6,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.example.nebullamasearch.config.OllamaProperties;
 import com.example.nebullamasearch.domain.ResourceType;
 import com.example.nebullamasearch.ingest.OllamaEmbeddingService;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import jakarta.json.stream.JsonParser;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +24,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.opensearch.client.json.JsonpMapper;
 import org.opensearch.client.opensearch.OpenSearchClient;
+import org.opensearch.client.opensearch._types.mapping.TypeMapping;
+import org.opensearch.client.opensearch.indices.CreateIndexRequest;
+import org.opensearch.client.opensearch.indices.IndexSettings;
 import org.opensearch.client.transport.httpclient5.ApacheHttpClient5Transport;
+import org.opensearch.client.transport.httpclient5.ApacheHttpClient5TransportBuilder;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
@@ -45,6 +54,7 @@ class SearchServiceBM25Test {
                   .withStartupTimeout(Duration.ofMinutes(3)));
 
   static WireMockServer wireMock;
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   @BeforeAll
   static void startWireMock() {
@@ -62,44 +72,70 @@ class SearchServiceBM25Test {
   private SearchService searchService;
 
   @BeforeEach
-  void setUp() throws IOException {
-    // Initialize OpenSearch client from container
+  void setUp() throws Exception {
     final HttpHost host =
-        new org.apache.hc.core5.http.HttpHost(
-            "http", openSearch.getHost(), openSearch.getMappedPort(9200));
+        new HttpHost("http", openSearch.getHost(), openSearch.getMappedPort(9200));
     final ApacheHttpClient5Transport transport =
-        org.opensearch.client.transport.httpclient5.ApacheHttpClient5TransportBuilder.builder(host)
-            .build();
+        ApacheHttpClient5TransportBuilder.builder(host).build();
     openSearchClient = new OpenSearchClient(transport);
 
-    // Initialize stubbed OllamaEmbeddingService via WireMock
     final OllamaProperties props =
         new OllamaProperties(
             "http://localhost:" + wireMock.port(), "nomic-embed-text", "mistral", 5000, 10000);
     embeddingService = new OllamaEmbeddingService(props, new ObjectMapper());
 
-    // Initialize SearchService
     searchService = new SearchService(openSearchClient, embeddingService);
 
-    // Create indexes before each test
+    wireMock.resetAll();
+    wireMock.stubFor(
+        post(urlEqualTo("/api/embeddings"))
+            .willReturn(
+                aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody(embeddingResponseBody())));
+
     createIndexes();
   }
 
-  private void createIndexes() throws IOException {
-    // Delete and recreate all indexes to ensure clean state
+  private void createIndexes() throws Exception {
+    final JsonpMapper jsonpMapper = openSearchClient._transport().jsonpMapper();
     for (final ResourceType type : ResourceType.values()) {
       final String indexName = type.indexName();
       if (openSearchClient.indices().exists(req -> req.index(indexName)).value()) {
         openSearchClient.indices().delete(req -> req.index(indexName));
       }
-      openSearchClient.indices().create(req -> req.index(indexName));
+      try (InputStream is =
+          SearchServiceBM25Test.class.getResourceAsStream("/opensearch/" + indexName + ".json")) {
+        final JsonNode body = objectMapper.readTree(is);
+        TypeMapping mappings = null;
+        if (body.has("mappings")) {
+          final byte[] bytes = objectMapper.writeValueAsBytes(body.get("mappings"));
+          try (JsonParser p =
+              jsonpMapper.jsonProvider().createParser(new ByteArrayInputStream(bytes))) {
+            mappings = TypeMapping._DESERIALIZER.deserialize(p, jsonpMapper);
+          }
+        }
+        IndexSettings settings = null;
+        if (body.has("settings")) {
+          final byte[] bytes = objectMapper.writeValueAsBytes(body.get("settings"));
+          try (JsonParser p =
+              jsonpMapper.jsonProvider().createParser(new ByteArrayInputStream(bytes))) {
+            settings = IndexSettings._DESERIALIZER.deserialize(p, jsonpMapper);
+          }
+        }
+        final CreateIndexRequest.Builder builder =
+            new CreateIndexRequest.Builder().index(indexName);
+        if (mappings != null) builder.mappings(mappings);
+        if (settings != null) builder.settings(settings);
+        openSearchClient.indices().create(builder.build());
+      }
     }
   }
 
   private void indexDocument(String indexName, String docId, Map<String, Object> doc)
       throws IOException {
     openSearchClient.index(req -> req.index(indexName).id(docId).document(doc));
-    // Refresh index to ensure document is searchable
     openSearchClient.indices().refresh(req -> req.index(indexName));
   }
 
@@ -115,22 +151,8 @@ class SearchServiceBM25Test {
     return sb.toString();
   }
 
-  @BeforeEach
-  void resetWireMock() {
-    wireMock.resetAll();
-    // Default stub - successful embedding
-    wireMock.stubFor(
-        post(urlEqualTo("/api/embeddings"))
-            .willReturn(
-                aResponse()
-                    .withStatus(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(embeddingResponseBody())));
-  }
-
   @Test
   void testKeywordSearchMultiIndex() throws IOException {
-    // Index test documents across multiple indexes
     indexDocument(
         "celestial_objects",
         "crab-nebula-1",
@@ -146,13 +168,11 @@ class SearchServiceBM25Test {
             "target_name", "Crab Nebula",
             "agency", "NASA"));
 
-    // Execute search
     final SearchRequest request =
         new SearchRequest("Crab Nebula", null, null, Pagination.defaultPagination());
 
     final SearchResponse response = searchService.searchBM25(request);
 
-    // Verify hits from multiple indexes
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits())
         .anyMatch(
@@ -165,7 +185,6 @@ class SearchServiceBM25Test {
 
   @Test
   void testResourceTypeFilter() throws IOException {
-    // Index documents in multiple indexes
     indexDocument(
         "missions",
         "mission-1",
@@ -187,21 +206,18 @@ class SearchServiceBM25Test {
             "name", "catalog",
             "description", "A celestial catalog"));
 
-    // Search restricted to missions only
     final SearchRequest request =
         new SearchRequest(
             "telescope", List.of(ResourceType.MISSIONS), null, Pagination.defaultPagination());
 
     final SearchResponse response = searchService.searchBM25(request);
 
-    // Verify only missions returned
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).allMatch(h -> h.resourceType() == ResourceType.MISSIONS);
   }
 
   @Test
   void testAgencyFilter() throws IOException {
-    // Index documents with different agencies
     indexDocument(
         "missions",
         "mission-nasa",
@@ -216,7 +232,6 @@ class SearchServiceBM25Test {
             "name", "ESA space telescope project",
             "agency", "ESA"));
 
-    // Search with agency filter
     final SearchFilters filters =
         new SearchFilters(null, "NASA", null, null, null, null, null, null);
 
@@ -226,14 +241,12 @@ class SearchServiceBM25Test {
 
     final SearchResponse response = searchService.searchBM25(request);
 
-    // Verify only NASA results
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).allMatch(h -> "NASA".equals(h.source().get("agency")));
   }
 
   @Test
   void testYearRangeFilter() throws IOException {
-    // Index documents with different years
     indexDocument(
         "publications", "year-test-1980", Map.of("title", "Early Pulsar Timing", "year", 1980));
 
@@ -247,7 +260,6 @@ class SearchServiceBM25Test {
         "year-test-2020",
         Map.of("title", "Latest Pulsar Timing Results", "year", 2020));
 
-    // Search with year range filter (2000-2015)
     final SearchFilters filters = new SearchFilters(null, null, null, null, null, null, 2000, 2015);
 
     final SearchRequest request =
@@ -259,7 +271,6 @@ class SearchServiceBM25Test {
 
     final SearchResponse response = searchService.searchBM25(request);
 
-    // Verify only documents in year range returned
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).anyMatch(h -> h.id().equals("year-test-2010"));
     assertThat(response.hits())

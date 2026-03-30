@@ -59,40 +59,40 @@ class SearchServiceKNNTest {
                   .withStartupTimeout(Duration.ofMinutes(3)));
 
   static WireMockServer wireMock;
-
-  @BeforeAll
-  static void startWireMock() {
-    wireMock = new WireMockServer(WireMockConfiguration.options().dynamicPort());
-    wireMock.start();
-  }
-
-  @AfterAll
-  static void stopWireMock() {
-    wireMock.stop();
-  }
-
-  private OpenSearchClient openSearchClient;
-  private OllamaEmbeddingService embeddingService;
-  private SearchService searchService;
+  static OpenSearchClient openSearchClient;
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
-  @BeforeEach
-  void setUp() throws Exception {
-    wireMock.resetAll();
+  private OllamaEmbeddingService embeddingService;
+  private SearchService searchService;
+
+  @BeforeAll
+  static void startInfrastructure() throws Exception {
+    wireMock = new WireMockServer(WireMockConfiguration.options().dynamicPort());
+    wireMock.start();
+
     final HttpHost host =
         new HttpHost("http", openSearch.getHost(), openSearch.getMappedPort(9200));
     final ApacheHttpClient5Transport transport =
         ApacheHttpClient5TransportBuilder.builder(host).build();
     openSearchClient = new OpenSearchClient(transport);
 
+    createAllIndexes();
+    indexAllDocuments();
+  }
+
+  @AfterAll
+  static void stopInfrastructure() {
+    wireMock.stop();
+  }
+
+  @BeforeEach
+  void setUp() {
+    wireMock.resetAll();
     final OllamaProperties props =
         new OllamaProperties(
             "http://localhost:" + wireMock.port(), "nomic-embed-text", "mistral", 5000, 10000);
     embeddingService = new OllamaEmbeddingService(props, new ObjectMapper());
-
     searchService = new SearchService(openSearchClient, embeddingService);
-
-    createKnnIndexes();
   }
 
   // -------------------------------------------------------------------------
@@ -102,36 +102,6 @@ class SearchServiceKNNTest {
   @Test
   void semanticSearchReturnsSupernova() throws IOException {
     stubQueryVector("exploding star remnants", TestVectors.QUERY_EXPLODING_STAR_REMNANTS);
-
-    indexDocument(
-        "celestial_objects",
-        "crab-nebula",
-        Map.of(
-            "name", "Crab Nebula", "embedding", toDoubleList(TestVectors.CRAB_NEBULA_DESCRIPTION)));
-    indexDocument(
-        "celestial_objects",
-        "cassiopeia-a",
-        Map.of(
-            "name",
-            "Cassiopeia A",
-            "embedding",
-            toDoubleList(TestVectors.CASSIOPEIA_A_DESCRIPTION)));
-    indexDocument(
-        "celestial_objects",
-        "orion-nebula",
-        Map.of(
-            "name",
-            "Orion Nebula",
-            "embedding",
-            toDoubleList(TestVectors.ORION_NEBULA_DESCRIPTION)));
-    indexDocument(
-        "missions",
-        "chandra",
-        Map.of(
-            "name",
-            "Chandra X-ray Observatory",
-            "embedding",
-            toDoubleList(TestVectors.CHANDRA_MISSION_DESCRIPTION)));
 
     final SearchRequest request =
         new SearchRequest("exploding star remnants", null, null, Pagination.defaultPagination());
@@ -147,36 +117,6 @@ class SearchServiceKNNTest {
   @Test
   void resourceTypeFilterLimitsResults() throws IOException {
     stubQueryVector("exploding star remnants", TestVectors.QUERY_EXPLODING_STAR_REMNANTS);
-
-    indexDocument(
-        "celestial_objects",
-        "crab-nebula",
-        Map.of(
-            "name", "Crab Nebula", "embedding", toDoubleList(TestVectors.CRAB_NEBULA_DESCRIPTION)));
-    indexDocument(
-        "celestial_objects",
-        "cassiopeia-a",
-        Map.of(
-            "name",
-            "Cassiopeia A",
-            "embedding",
-            toDoubleList(TestVectors.CASSIOPEIA_A_DESCRIPTION)));
-    indexDocument(
-        "celestial_objects",
-        "orion-nebula",
-        Map.of(
-            "name",
-            "Orion Nebula",
-            "embedding",
-            toDoubleList(TestVectors.ORION_NEBULA_DESCRIPTION)));
-    indexDocument(
-        "missions",
-        "chandra",
-        Map.of(
-            "name",
-            "Chandra X-ray Observatory",
-            "embedding",
-            toDoubleList(TestVectors.CHANDRA_MISSION_DESCRIPTION)));
 
     final SearchRequest request =
         new SearchRequest(
@@ -198,12 +138,6 @@ class SearchServiceKNNTest {
   void embeddingServiceCalledWithQueryString() throws IOException {
     stubQueryVector("exploding star remnants", TestVectors.QUERY_EXPLODING_STAR_REMNANTS);
 
-    indexDocument(
-        "celestial_objects",
-        "crab-nebula",
-        Map.of(
-            "name", "Crab Nebula", "embedding", toDoubleList(TestVectors.CRAB_NEBULA_DESCRIPTION)));
-
     final SearchRequest request =
         new SearchRequest("exploding star remnants", null, null, Pagination.defaultPagination());
     searchService.searchKNN(request);
@@ -217,14 +151,15 @@ class SearchServiceKNNTest {
   // Helpers
   // -------------------------------------------------------------------------
 
-  private void createKnnIndexes() throws Exception {
+  private static void createAllIndexes() throws Exception {
     final JsonpMapper jsonpMapper = openSearchClient._transport().jsonpMapper();
-    for (final String indexName :
-        List.of("celestial_objects", "missions", "observations", "astronomers", "publications")) {
+    for (final ResourceType type : ResourceType.values()) {
+      final String indexName = type.indexName();
       if (openSearchClient.indices().exists(req -> req.index(indexName)).value()) {
         openSearchClient.indices().delete(req -> req.index(indexName));
       }
-      try (InputStream is = getClass().getResourceAsStream("/opensearch/" + indexName + ".json")) {
+      try (InputStream is =
+          SearchServiceKNNTest.class.getResourceAsStream("/opensearch/" + indexName + ".json")) {
         final JsonNode body = objectMapper.readTree(is);
         TypeMapping mappings = null;
         if (body.has("mappings")) {
@@ -251,7 +186,39 @@ class SearchServiceKNNTest {
     }
   }
 
-  private void indexDocument(String indexName, String docId, Map<String, Object> doc)
+  private static void indexAllDocuments() throws IOException {
+    indexDocument(
+        "celestial_objects",
+        "crab-nebula",
+        Map.of(
+            "name", "Crab Nebula", "embedding", toDoubleList(TestVectors.CRAB_NEBULA_DESCRIPTION)));
+    indexDocument(
+        "celestial_objects",
+        "cassiopeia-a",
+        Map.of(
+            "name",
+            "Cassiopeia A",
+            "embedding",
+            toDoubleList(TestVectors.CASSIOPEIA_A_DESCRIPTION)));
+    indexDocument(
+        "celestial_objects",
+        "orion-nebula",
+        Map.of(
+            "name",
+            "Orion Nebula",
+            "embedding",
+            toDoubleList(TestVectors.ORION_NEBULA_DESCRIPTION)));
+    indexDocument(
+        "missions",
+        "chandra",
+        Map.of(
+            "name",
+            "Chandra X-ray Observatory",
+            "embedding",
+            toDoubleList(TestVectors.CHANDRA_MISSION_DESCRIPTION)));
+  }
+
+  private static void indexDocument(String indexName, String docId, Map<String, Object> doc)
       throws IOException {
     openSearchClient.index(req -> req.index(indexName).id(docId).document(doc));
     openSearchClient.indices().refresh(req -> req.index(indexName));
