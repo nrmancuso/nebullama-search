@@ -81,8 +81,8 @@ Assertions:
 
 - Results are non-empty.
 - Both `crab-nebula` and `cassiopeia-a` appear in results (semantically close to
-  query).
-- `orion-nebula` is absent or ranked lower (stellar nursery, not explosion).
+  query), this should be done by json assertion
+- `orion-nebula` is absent or ranked lower (stellar nursery, not explosion), this should use json assertion.
 
 ### Test 2 — `resourceTypeFilterLimitsResults`
 
