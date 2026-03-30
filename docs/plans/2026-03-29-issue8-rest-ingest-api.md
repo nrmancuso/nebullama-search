@@ -658,89 +658,35 @@ git commit -m "Issue #8: add IngestController with REST endpoints"
 
 - [ ] **Step 1: Create API documentation**
 
-```markdown
-# REST Ingest API
+Create `docs/api-reference/ingest-rest-api.md` with:
 
-## Overview
+- Overview of REST ingest API functionality
+- Single document endpoint: `POST /api/v1/ingest/{resourceType}` → 201 Created
+- Bulk document endpoint: `POST /api/v1/ingest/{resourceType}/bulk` → 207 Multi-Status
+- All 5 resource types with their primary text field mappings
+- Processing pipeline explanation
+- Virtual thread parallelism note
 
-The REST ingest API accepts raw documents, generates embeddings via Ollama, and writes them to OpenSearch.
+Example curl commands:
 
-## Endpoints
+```bash
+# Single ingest
+curl -X POST http://localhost:8080/api/v1/ingest/CELESTIAL_OBJECTS \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Crab Nebula",
+    "object_type": "nebula",
+    "description": "Supernova remnant in Taurus",
+    "constellation": "Taurus"
+  }'
 
-### Single Document Ingest
-
-```
-
-POST /api/v1/ingest/{resourceType}
-Content-Type: application/json
-
-{
-  "name": "Crab Nebula",
-  "object_type": "nebula",
-  "description": "Supernova remnant in Taurus",
-  "constellation": "Taurus"
-}
-
-```
-
-**Response: 201 Created**
-
-```json
-{
-  "id": "550e8400-e29b-41d4-a716-446655440000",
-  "success": true,
-  "error": null
-}
-```
-
-**Error: 400 Bad Request** (invalid resourceType)
-
-### Bulk Document Ingest
-
-```
-POST /api/v1/ingest/{resourceType}/bulk
-Content-Type: application/json
-
-[
-  { "name": "Hubble", "description": "NASA observatory" },
-  { "name": "JWST", "description": "Infrared telescope" }
-]
-```
-
-**Response: 207 Multi-Status**
-
-```json
-[
-  {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "success": true,
-    "error": null
-  },
-  {
-    "id": "550e8400-e29b-41d4-a716-446655440001",
-    "success": true,
-    "error": null
-  }
-]
-```
-
-## Resource Types
-
-- `CELESTIAL_OBJECTS` → primary text field: `description`
-- `MISSIONS` → primary text field: `description`
-- `OBSERVATIONS` → primary text field: `notes`
-- `ASTRONOMERS` → primary text field: `biography`
-- `PUBLICATIONS` → primary text field: `abstract`
-
-## Processing
-
-1. Each document is assigned a UUID
-2. The primary text field is embedded using Ollama
-3. The document is enriched with `id`, `resource_type`, and `embedding` (768-dim float array)
-4. The document is written to the corresponding OpenSearch index
-
-Bulk ingest uses virtual threads for parallelism. One document's failure does not block others.
-
+# Bulk ingest
+curl -X POST http://localhost:8080/api/v1/ingest/MISSIONS/bulk \
+  -H "Content-Type: application/json" \
+  -d '[
+    { "name": "Hubble", "description": "NASA observatory" },
+    { "name": "JWST", "description": "Infrared telescope" }
+  ]'
 ```
 
 - [ ] **Step 2: Verify markdown passes linting**
