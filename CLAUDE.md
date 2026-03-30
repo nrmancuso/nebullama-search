@@ -56,6 +56,12 @@ Run locally: `cd service && ./gradlew spotlessApply`
 
 Check only: `cd service && ./gradlew spotlessCheck`
 
+## Code Style
+
+- **No `var`**: Always use explicit types for local variable declarations.
+- **`final` local variables**: All local variables must be declared `final`.
+- **No `final` on parameters**: Method parameters must not use the `final` keyword.
+
 ## Tech Stack
 
 - Java 21, Spring Boot 3.3.x, Gradle Kotlin DSL 8.x

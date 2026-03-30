@@ -52,6 +52,22 @@
             <message key="matchxpath.match"
                      value="The reserved keyword 'var' is forbidden."/>
         </module>
+
+        <module name="MatchXpath">
+            <property name="id" value="MatchXpathForbidTryCatchFail"/>
+            <property name="query" value="//METHOD_CALL[./IDENT[@text='assertWithMessage']
+        and (./following-sibling::IDENT[@text='fail'])]"/>
+            <message key="matchxpath.match"
+                     value="Exceptions should be validated by `getExpectedThrowable`."/>
+        </module>
+
+        <module name="MatchXpath">
+            <property name="id" value="ForbidFinalOnParameters"/>
+            <property name="query" value="//PARAMETER_DEF//MODIFIERS//FINAL"/>
+            <message key="matchxpath.match"
+                     value="The 'final' keyword is forbidden on parameters."/>
+        </module>
+
         <module name="IllegalToken">
             <property name="tokens" value="LABELED_STAT"/>
             <property name="tokens" value="LITERAL_NATIVE"/>
