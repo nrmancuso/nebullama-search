@@ -195,7 +195,7 @@ public class SearchService {
   }
 
   private Query termQuery(String field, String value) {
-    return Query.of(q -> q.term(t -> t.field(field + ".keyword").value(FieldValue.of(value))));
+    return Query.of(q -> q.term(t -> t.field(field).value(FieldValue.of(value))));
   }
 
   private Query rangeQuery(String field, Integer from, Integer to) {
