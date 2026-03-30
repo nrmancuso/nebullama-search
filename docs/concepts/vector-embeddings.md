@@ -67,4 +67,7 @@ ollama:
 
 ## Intent extraction
 
-> 🚧 Added in Phase 4 (Intent Extraction ticket).
+nebullama-search also uses Ollama for LLM-powered intent extraction via the `/api/chat`
+endpoint with a different model (`mistral`). This is a separate concern from embeddings;
+see [Intent Extraction](intent-extraction.md) for details on how natural language queries
+are parsed into structured filters.
