@@ -13,6 +13,7 @@ import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.FieldValue;
 import org.opensearch.client.opensearch._types.query_dsl.Query;
 import org.opensearch.client.opensearch.core.SearchResponse;
+import org.opensearch.client.transport.TransportOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,6 @@ public class SearchService {
 
   @Value("${search.knn-k:10}")
   private int knnK = 10;
-
-  @Value("${search.hybrid-weight.bm25:0.4}")
-  private float bm25Weight = 0.4f;
-
-  @Value("${search.hybrid-weight.knn:0.6}")
-  private float knnWeight = 0.6f;
 
   public SearchService(OpenSearchClient openSearchClient, OllamaEmbeddingService embeddingService) {
     this.openSearchClient = openSearchClient;
@@ -105,20 +100,19 @@ public class SearchService {
 
     // Copy to local variable — lambdas require effectively-final capture.
     final int k = knnK;
+    // Use the efficient filter: pass filters inside the kNN query so OpenSearch
+    // constrains candidates before the ANN search rather than post-filtering.
     final Query knnQuery =
-        Query.of(q -> q.knn(knn -> knn.field("embedding").vector(queryVector).k(k)));
-
-    final Query boolQuery =
-        Query.of(
-            q ->
-                q.bool(
-                    b -> {
-                      b.must(knnQuery);
-                      if (!filterClauses.isEmpty()) {
-                        b.filter(filterClauses);
-                      }
-                      return b;
-                    }));
+        filterClauses.isEmpty()
+            ? Query.of(q -> q.knn(knn -> knn.field("embedding").vector(queryVector).k(k)))
+            : Query.of(
+                q ->
+                    q.knn(
+                        knn ->
+                            knn.field("embedding")
+                                .vector(queryVector)
+                                .k(k)
+                                .filter(Query.of(f -> f.bool(b -> b.filter(filterClauses))))));
 
     try {
       final SearchResponse<Map> response =
@@ -127,7 +121,7 @@ public class SearchService {
                   s.index(indexNames)
                       .from(pagination.from())
                       .size(pagination.size())
-                      .query(boolQuery),
+                      .query(knnQuery),
               Map.class);
       return mapResponse(response);
     } catch (IOException e) {
@@ -140,7 +134,74 @@ public class SearchService {
   // -------------------------------------------------------------------------
 
   public com.example.nebullamasearch.search.SearchResponse searchHybrid(SearchRequest request) {
-    throw new UnsupportedOperationException("not yet implemented");
+    final float[] queryVector = embeddingService.embed(request.query());
+    final String indexNames = resolveIndexNames(request);
+    final Pagination pagination =
+        request.pagination() != null ? request.pagination() : Pagination.defaultPagination();
+    final List<Query> filterClauses = buildFilterClauses(request.filters());
+    final int k = knnK;
+
+    // BM25 sub-query: multi_match, optionally wrapped in bool+filter.
+    final Query multiMatch =
+        Query.of(
+            q ->
+                q.multiMatch(
+                    mm ->
+                        mm.query(request.query())
+                            .fields(
+                                List.of(
+                                    "name",
+                                    "description",
+                                    "notes",
+                                    "biography",
+                                    "abstract",
+                                    "title",
+                                    "target_name",
+                                    "known_for"))));
+    final Query bm25SubQuery =
+        filterClauses.isEmpty()
+            ? multiMatch
+            : Query.of(q -> q.bool(b -> b.must(multiMatch).filter(filterClauses)));
+
+    // kNN sub-query with efficient filter: constraints applied inside the kNN
+    // clause so OpenSearch limits candidates before the ANN search.
+    final Query knnSubQuery =
+        filterClauses.isEmpty()
+            ? Query.of(q -> q.knn(knn -> knn.field("embedding").vector(queryVector).k(k)))
+            : Query.of(
+                q ->
+                    q.knn(
+                        knn ->
+                            knn.field("embedding")
+                                .vector(queryVector)
+                                .k(k)
+                                .filter(Query.of(f -> f.bool(b -> b.filter(filterClauses))))));
+
+    final Query hybridQuery = Query.of(q -> q.hybrid(h -> h.queries(bm25SubQuery, knnSubQuery)));
+
+    // Pass search_pipeline as a URL query parameter via TransportOptions.
+    // _transportOptions() may be null when no options were set on the client.
+    final TransportOptions existingOptions = openSearchClient._transportOptions();
+    final TransportOptions hybridOptions =
+        (existingOptions != null ? existingOptions.toBuilder() : TransportOptions.builder())
+            .setParameter("search_pipeline", "hybrid-pipeline")
+            .build();
+
+    try {
+      final SearchResponse<Map> response =
+          openSearchClient
+              .withTransportOptions(hybridOptions)
+              .search(
+                  s ->
+                      s.index(indexNames)
+                          .from(pagination.from())
+                          .size(pagination.size())
+                          .query(hybridQuery),
+                  Map.class);
+      return mapResponse(response);
+    } catch (IOException e) {
+      throw new RuntimeException("Hybrid search failed", e);
+    }
   }
 
   // -------------------------------------------------------------------------
