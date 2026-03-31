@@ -10,6 +10,8 @@ import com.example.nebullamasearch.domain.ResourceType;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureHttpGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +20,7 @@ import org.springframework.graphql.test.tester.HttpGraphQlTester;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureHttpGraphQlTester
+@Execution(ExecutionMode.SAME_THREAD)
 class SearchControllerTest {
 
   @Autowired HttpGraphQlTester tester;
@@ -156,8 +159,7 @@ class SearchControllerTest {
         .entity(Integer.class)
         .isEqualTo(0);
 
-    verify(searchService)
-        .searchHybrid(argThat(req -> "ESA".equals(req.filters().agency())));
+    verify(searchService).searchHybrid(argThat(req -> "ESA".equals(req.filters().agency())));
   }
 
   @Test
@@ -184,7 +186,6 @@ class SearchControllerTest {
         .isEqualTo(0);
 
     verify(searchService)
-        .searchHybrid(
-            argThat(req -> req.pagination().from() == 5 && req.pagination().size() == 3));
+        .searchHybrid(argThat(req -> req.pagination().from() == 5 && req.pagination().size() == 3));
   }
 }
