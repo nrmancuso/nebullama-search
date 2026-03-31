@@ -84,7 +84,9 @@ class SearchServiceBM25Test {
             "http://localhost:" + wireMock.port(), "nomic-embed-text", "mistral", 5000, 10000);
     embeddingService = new OllamaEmbeddingService(props, new ObjectMapper());
 
-    searchService = new SearchService(openSearchClient, embeddingService);
+    final SearchQueryBuilder queryBuilder =
+        new SearchQueryBuilder(embeddingService, new FilterBuilder(), 10);
+    searchService = new SearchService(openSearchClient, queryBuilder);
 
     wireMock.resetAll();
     wireMock.stubFor(
@@ -171,7 +173,7 @@ class SearchServiceBM25Test {
     final SearchRequest request =
         new SearchRequest("Crab Nebula", null, null, Pagination.defaultPagination());
 
-    final SearchResponse response = searchService.searchBM25(request);
+    final SearchResponse response = searchService.search(SearchMode.KEYWORD, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits())
@@ -210,7 +212,7 @@ class SearchServiceBM25Test {
         new SearchRequest(
             "telescope", List.of(ResourceType.MISSIONS), null, Pagination.defaultPagination());
 
-    final SearchResponse response = searchService.searchBM25(request);
+    final SearchResponse response = searchService.search(SearchMode.KEYWORD, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).allMatch(h -> h.resourceType() == ResourceType.MISSIONS);
@@ -239,7 +241,7 @@ class SearchServiceBM25Test {
         new SearchRequest(
             "telescope", List.of(ResourceType.MISSIONS), filters, Pagination.defaultPagination());
 
-    final SearchResponse response = searchService.searchBM25(request);
+    final SearchResponse response = searchService.search(SearchMode.KEYWORD, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).allMatch(h -> "NASA".equals(h.source().get("agency")));
@@ -269,7 +271,7 @@ class SearchServiceBM25Test {
             filters,
             Pagination.defaultPagination());
 
-    final SearchResponse response = searchService.searchBM25(request);
+    final SearchResponse response = searchService.search(SearchMode.KEYWORD, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).anyMatch(h -> h.id().equals("year-test-2010"));
