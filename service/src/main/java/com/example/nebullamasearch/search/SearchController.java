@@ -16,11 +16,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SearchController {
 
-  private final IntentExtractionService intentService;
   private final SearchService searchService;
 
-  public SearchController(IntentExtractionService intentService, SearchService searchService) {
-    this.intentService = intentService;
+  public SearchController(SearchService searchService) {
     this.searchService = searchService;
   }
 
@@ -37,21 +35,18 @@ public class SearchController {
 
   private SearchResultsDto executeSearch(
       SearchInputDto input, List<ResourceType> forcedResourceTypes) {
-    final QueryInterpretation interpretation = intentService.extract(input.query());
+    final String query = input.query();
+    final SearchFiltersDto filtersDto = input.filters();
+    final boolean hasQuery = query != null && !query.isBlank();
+    final boolean hasFilters = hasStructuredFilters(filtersDto);
 
-    final List<ResourceType> resourceTypes =
-        resolveResourceTypes(
-            forcedResourceTypes,
-            input.filters() != null ? input.filters().resourceTypes() : null,
-            interpretation);
-
-    final SearchFilters mergedFilters = mergeFilters(input.filters(), interpretation);
-    final SearchMode mode = interpretation.searchMode();
+    final SearchMode mode = resolveMode(hasQuery, hasFilters);
+    final SearchFilters filters = toSearchFilters(filtersDto);
+    final List<ResourceType> resourceTypes = resolveResourceTypes(forcedResourceTypes, filtersDto);
     final Pagination pagination = toPagination(input.pagination());
 
     final SearchRequest request =
-        new SearchRequest(
-            interpretation.rewrittenQuery(), resourceTypes, mergedFilters, pagination);
+        new SearchRequest(hasQuery ? query : "", resourceTypes, filters, pagination);
 
     final SearchResponse response =
         switch (mode) {
@@ -60,52 +55,68 @@ public class SearchController {
           case HYBRID -> searchService.searchHybrid(request);
         };
 
-    return toResultsDto(response, interpretation);
+    return toResultsDto(response, query, mode);
   }
 
-  /** Precedence: forced (searchIndex) > explicit input.filters.resourceTypes > extracted hints. */
-  @SuppressWarnings("unchecked")
+  /**
+   * Deterministic mode selection based on request shape:
+   *
+   * <ul>
+   *   <li>query + filters → HYBRID
+   *   <li>query only → SEMANTIC
+   *   <li>no query (filters only) → KEYWORD
+   * </ul>
+   */
+  private SearchMode resolveMode(boolean hasQuery, boolean hasFilters) {
+    if (hasQuery && hasFilters) {
+      return SearchMode.HYBRID;
+    }
+    if (hasQuery) {
+      return SearchMode.SEMANTIC;
+    }
+    return SearchMode.KEYWORD;
+  }
+
+  private boolean hasStructuredFilters(SearchFiltersDto dto) {
+    if (dto == null) {
+      return false;
+    }
+    return dto.objectType() != null
+        || dto.agency() != null
+        || dto.status() != null
+        || dto.wavelengthBand() != null
+        || dto.journal() != null
+        || dto.nationality() != null
+        || dto.yearFrom() != null
+        || dto.yearTo() != null;
+  }
+
   private List<ResourceType> resolveResourceTypes(
-      List<ResourceType> forced, List<ResourceType> explicit, QueryInterpretation interpretation) {
+      List<ResourceType> forced, SearchFiltersDto filtersDto) {
     if (forced != null && !forced.isEmpty()) {
       return forced;
     }
-    if (explicit != null && !explicit.isEmpty()) {
-      return explicit;
-    }
-    final List<ResourceType> hints =
-        (List<ResourceType>) interpretation.extractedFilters().get("resourceTypeHints");
-    if (hints != null && !hints.isEmpty()) {
-      return hints;
+    if (filtersDto != null
+        && filtersDto.resourceTypes() != null
+        && !filtersDto.resourceTypes().isEmpty()) {
+      return filtersDto.resourceTypes();
     }
     return List.of();
   }
 
-  private SearchFilters mergeFilters(
-      SearchFiltersDto explicit, QueryInterpretation interpretation) {
-    final Map<String, Object> extracted = interpretation.extractedFilters();
-
-    final String objectType =
-        firstNonNull(explicit != null ? explicit.objectType() : null, extracted.get("objectType"));
-    final String agency =
-        firstNonNull(explicit != null ? explicit.agency() : null, extracted.get("agency"));
-    final String status =
-        firstNonNull(explicit != null ? explicit.status() : null, extracted.get("status"));
-    final String wavelengthBand =
-        firstNonNull(
-            explicit != null ? explicit.wavelengthBand() : null, extracted.get("wavelengthBand"));
-    final String journal =
-        firstNonNull(explicit != null ? explicit.journal() : null, extracted.get("journal"));
-    final String nationality =
-        firstNonNull(
-            explicit != null ? explicit.nationality() : null, extracted.get("nationality"));
-    final Integer yearFrom =
-        firstNonNullInt(explicit != null ? explicit.yearFrom() : null, extracted.get("yearFrom"));
-    final Integer yearTo =
-        firstNonNullInt(explicit != null ? explicit.yearTo() : null, extracted.get("yearTo"));
-
+  private SearchFilters toSearchFilters(SearchFiltersDto dto) {
+    if (dto == null) {
+      return null;
+    }
     return new SearchFilters(
-        objectType, agency, status, wavelengthBand, journal, nationality, yearFrom, yearTo);
+        dto.objectType(),
+        dto.agency(),
+        dto.status(),
+        dto.wavelengthBand(),
+        dto.journal(),
+        dto.nationality(),
+        dto.yearFrom(),
+        dto.yearTo());
   }
 
   private Pagination toPagination(PaginationDto dto) {
@@ -115,32 +126,14 @@ public class SearchController {
     return new Pagination(dto.resolvedFrom(), dto.resolvedSize());
   }
 
-  private String firstNonNull(String explicit, Object extracted) {
-    if (explicit != null) {
-      return explicit;
-    }
-    return extracted instanceof String s ? s : null;
-  }
-
-  private Integer firstNonNullInt(Integer explicit, Object extracted) {
-    if (explicit != null) {
-      return explicit;
-    }
-    return extracted instanceof Integer i ? i : null;
-  }
-
-  private SearchResultsDto toResultsDto(
-      SearchResponse response, QueryInterpretation interpretation) {
+  private SearchResultsDto toResultsDto(SearchResponse response, String query, SearchMode mode) {
     final List<SearchHitDto> hits =
         response.hits().stream()
             .map(h -> new SearchHitDto(h.id(), h.resourceType(), h.score(), h.source()))
             .toList();
 
     final QueryInterpretationResultDto interpDto =
-        new QueryInterpretationResultDto(
-            interpretation.rewrittenQuery(),
-            interpretation.extractedFilters(),
-            interpretation.searchMode());
+        new QueryInterpretationResultDto(query, Map.of(), mode);
 
     return new SearchResultsDto((int) response.total(), hits, interpDto);
   }

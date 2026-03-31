@@ -22,8 +22,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4.4.4
 
       - name: Run tests
-        run: ./gradlew test
-        working-directory: service
+        run: ./gradlew :service:test
 
       - name: Upload test report
         if: failure()
