@@ -33,8 +33,7 @@ public class FilterBuilder {
       final String value = field.accessor().apply(filters);
       if (value != null) {
         clauses.add(
-            Query.of(
-                q -> q.term(t -> t.field(field.fieldName()).value(FieldValue.of(value)))));
+            Query.of(q -> q.term(t -> t.field(field.fieldName()).value(FieldValue.of(value)))));
       }
     }
 

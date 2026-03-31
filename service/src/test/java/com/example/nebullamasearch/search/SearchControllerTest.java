@@ -76,9 +76,7 @@ class SearchControllerTest {
         .isEqualTo("HYBRID");
 
     verify(searchService)
-        .search(
-            eq(SearchMode.HYBRID),
-            argThat(req -> "NASA".equals(req.filters().agency())));
+        .search(eq(SearchMode.HYBRID), argThat(req -> "NASA".equals(req.filters().agency())));
   }
 
   @Test
@@ -103,9 +101,7 @@ class SearchControllerTest {
         .isEqualTo("KEYWORD");
 
     verify(searchService)
-        .search(
-            eq(SearchMode.KEYWORD),
-            argThat(req -> "ESA".equals(req.filters().agency())));
+        .search(eq(SearchMode.KEYWORD), argThat(req -> "ESA".equals(req.filters().agency())));
   }
 
   @Test
