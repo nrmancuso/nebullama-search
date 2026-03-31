@@ -117,6 +117,65 @@ class KeywordSearchIT extends IntegrationTestBase {
     return names;
   }
 
+  @Test
+  void combinedFiltersNarrowResults() {
+    final JsonNode data =
+        searchIndex("MISSIONS", "telescope", "agency: \"NASA\", status: \"active\"");
+    final JsonNode hits = searchHits(data, "searchIndex");
+    assertThat(hits.size()).isGreaterThan(0);
+    for (int i = 0; i < hits.size(); i++) {
+      assertThat(sourceField(hits.get(i), "agency")).isEqualTo("NASA");
+      assertThat(sourceField(hits.get(i), "status")).isEqualTo("active");
+    }
+  }
+
+  @Test
+  void filtersOnlyReturnsAllMatchingDocs() {
+    final String query =
+        "{ search(input: { filters: { objectType: \"galaxy\" } }) {"
+            + " total hits { id resourceType score source }"
+            + " interpretation { searchMode } } }";
+    final JsonNode response = graphql(query);
+    final JsonNode data = assertNoErrors(response);
+    final JsonNode hits = searchHits(data, "search");
+    assertThat(hits.size()).isGreaterThan(0);
+    for (int i = 0; i < hits.size(); i++) {
+      final JsonNode source = hits.get(i).path("source");
+      String objectType;
+      if (source.isTextual()) {
+        try {
+          objectType = MAPPER.readTree(source.asText()).path("object_type").asText(null);
+        } catch (Exception e) {
+          objectType = null;
+        }
+      } else {
+        objectType = source.path("object_type").asText(null);
+      }
+      assertThat(objectType).isEqualTo("galaxy");
+    }
+  }
+
+  @Test
+  void yearRangeFilterWorks() {
+    final JsonNode data = searchIndex("MISSIONS", "mission", "yearFrom: 1990, yearTo: 2000");
+    final JsonNode hits = searchHits(data, "searchIndex");
+    assertThat(hits.size()).isGreaterThan(0);
+    for (int i = 0; i < hits.size(); i++) {
+      final JsonNode source = hits.get(i).path("source");
+      int launchYear;
+      if (source.isTextual()) {
+        try {
+          launchYear = MAPPER.readTree(source.asText()).path("launch_year").asInt();
+        } catch (Exception e) {
+          launchYear = -1;
+        }
+      } else {
+        launchYear = source.path("launch_year").asInt();
+      }
+      assertThat(launchYear).isBetween(1990, 2000);
+    }
+  }
+
   private static String sourceField(JsonNode hit, String field) {
     final JsonNode source = hit.path("source");
     if (source.isTextual()) {
