@@ -48,12 +48,7 @@ public class SearchController {
     final SearchRequest request =
         new SearchRequest(hasQuery ? query : "", resourceTypes, filters, pagination);
 
-    final SearchResponse response =
-        switch (mode) {
-          case KEYWORD -> searchService.searchBM25(request);
-          case SEMANTIC -> searchService.searchKNN(request);
-          case HYBRID -> searchService.searchHybrid(request);
-        };
+    final SearchResponse response = searchService.search(mode, request);
 
     return toResultsDto(response, query, mode);
   }
