@@ -17,10 +17,15 @@ class CrossIndexSearchIT extends IntegrationTestBase {
     // "Crab Nebula" exists in both celestial_objects and observations.
     // Explicitly request both indices to avoid LLM narrowing to one.
     final String query =
-        "{ search(input: { query: \"Crab Nebula\","
-            + " filters: { resourceTypes: [CELESTIAL_OBJECTS, OBSERVATIONS] },"
-            + " pagination: { from: 0, size: 20 } }) {"
-            + " total hits { id resourceType score source } } }";
+        """
+          { search(input: { query: "Crab Nebula",
+              filters: { resourceTypes: [CELESTIAL_OBJECTS, OBSERVATIONS] },
+              pagination: { from: 0, size: 20 } }) {
+              total
+              hits { id resourceType score source }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final JsonNode hits = searchHits(data, "search");
@@ -38,9 +43,14 @@ class CrossIndexSearchIT extends IntegrationTestBase {
   @Test
   void resourceTypeFilterNarrowsCrossIndexSearch() {
     final String query =
-        "{ search(input: { query: \"Crab Nebula\","
-            + " filters: { resourceTypes: [OBSERVATIONS] } }) {"
-            + " total hits { id resourceType score source } } }";
+        """
+          { search(input: { query: "Crab Nebula",
+              filters: { resourceTypes: [OBSERVATIONS] } }) {
+              total
+              hits { id resourceType score source }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final JsonNode hits = searchHits(data, "search");
@@ -63,10 +73,15 @@ class CrossIndexSearchIT extends IntegrationTestBase {
 
   private static JsonNode search(String queryText) {
     final String query =
-        "{ search(input: { query: \""
-            + queryText
-            + "\" }) { total hits { id resourceType score source }"
-            + " interpretation { rewrittenQuery extractedFilters searchMode } } }";
+        """
+          { search(input: { query: "%s" }) {
+              total
+              hits { id resourceType score source }
+              interpretation { rewrittenQuery extractedFilters searchMode }
+            }
+          }
+          """
+            .formatted(queryText);
     final JsonNode response = graphql(query);
     return assertNoErrors(response);
   }

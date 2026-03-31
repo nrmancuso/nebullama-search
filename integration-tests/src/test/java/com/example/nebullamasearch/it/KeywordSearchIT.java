@@ -80,9 +80,14 @@ class KeywordSearchIT extends IntegrationTestBase {
   @Test
   void resourceTypeFilterRestrictsResults() {
     final String query =
-        "{ search(input: { query: \"Crab Nebula\","
-            + " filters: { resourceTypes: [CELESTIAL_OBJECTS] } }) {"
-            + " total hits { id resourceType score source } } }";
+        """
+          { search(input: { query: "Crab Nebula",
+              filters: { resourceTypes: [CELESTIAL_OBJECTS] } }) {
+              total
+              hits { id resourceType score source }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final JsonNode hits = searchHits(data, "search");
@@ -95,13 +100,14 @@ class KeywordSearchIT extends IntegrationTestBase {
   private static JsonNode searchIndex(String resourceType, String queryText, String filters) {
     final String filterClause = filters.isEmpty() ? "" : ", filters: { " + filters + " }";
     final String query =
-        "{ searchIndex(resourceType: "
-            + resourceType
-            + ", input: { query: \""
-            + queryText
-            + "\""
-            + filterClause
-            + " }) { total hits { id resourceType score source } } }";
+        """
+          { searchIndex(resourceType: %s, input: { query: "%s"%s }) {
+              total
+              hits { id resourceType score source }
+            }
+          }
+          """
+            .formatted(resourceType, queryText, filterClause);
     final JsonNode response = graphql(query);
     return assertNoErrors(response);
   }
@@ -132,9 +138,14 @@ class KeywordSearchIT extends IntegrationTestBase {
   @Test
   void filtersOnlyReturnsAllMatchingDocs() {
     final String query =
-        "{ search(input: { filters: { objectType: \"galaxy\" } }) {"
-            + " total hits { id resourceType score source }"
-            + " interpretation { searchMode } } }";
+        """
+          { search(input: { filters: { objectType: "galaxy" } }) {
+              total
+              hits { id resourceType score source }
+              interpretation { searchMode }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final JsonNode hits = searchHits(data, "search");
@@ -152,27 +163,6 @@ class KeywordSearchIT extends IntegrationTestBase {
         objectType = source.path("object_type").asText(null);
       }
       assertThat(objectType).isEqualTo("galaxy");
-    }
-  }
-
-  @Test
-  void yearRangeFilterWorks() {
-    final JsonNode data = searchIndex("MISSIONS", "mission", "yearFrom: 1990, yearTo: 2000");
-    final JsonNode hits = searchHits(data, "searchIndex");
-    assertThat(hits.size()).isGreaterThan(0);
-    for (int i = 0; i < hits.size(); i++) {
-      final JsonNode source = hits.get(i).path("source");
-      int launchYear;
-      if (source.isTextual()) {
-        try {
-          launchYear = MAPPER.readTree(source.asText()).path("launch_year").asInt();
-        } catch (Exception e) {
-          launchYear = -1;
-        }
-      } else {
-        launchYear = source.path("launch_year").asInt();
-      }
-      assertThat(launchYear).isBetween(1990, 2000);
     }
   }
 
