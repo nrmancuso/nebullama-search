@@ -32,6 +32,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.graphql:spring-graphql-test")
     testImplementation("org.springframework:spring-webflux")
     testImplementation("org.testcontainers:testcontainers:1.20.6")
     testImplementation("org.testcontainers:junit-jupiter:1.20.6")
