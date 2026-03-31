@@ -40,37 +40,43 @@ public class SearchService {
     final Pagination pagination =
         request.pagination() != null ? request.pagination() : Pagination.defaultPagination();
     final List<Query> filterClauses = buildFilterClauses(request.filters());
+    final boolean hasQuery = request.query() != null && !request.query().isBlank();
 
-    // multi_match query
-    final Query multiMatch =
-        Query.of(
-            q ->
-                q.multiMatch(
-                    mm ->
-                        mm.query(request.query())
-                            .fields(
-                                List.of(
-                                    "name",
-                                    "description",
-                                    "notes",
-                                    "biography",
-                                    "abstract",
-                                    "title",
-                                    "target_name",
-                                    "known_for"))));
-
-    // bool: must=[multiMatch], filter=[...]
-    final Query boolQuery =
-        Query.of(
-            q ->
-                q.bool(
-                    b -> {
-                      b.must(multiMatch);
-                      if (!filterClauses.isEmpty()) {
-                        b.filter(filterClauses);
-                      }
-                      return b;
-                    }));
+    final Query boolQuery;
+    if (hasQuery) {
+      final Query multiMatch =
+          Query.of(
+              q ->
+                  q.multiMatch(
+                      mm ->
+                          mm.query(request.query())
+                              .fields(
+                                  List.of(
+                                      "name",
+                                      "description",
+                                      "notes",
+                                      "biography",
+                                      "abstract",
+                                      "title",
+                                      "target_name",
+                                      "known_for"))));
+      boolQuery =
+          Query.of(
+              q ->
+                  q.bool(
+                      b -> {
+                        b.must(multiMatch);
+                        if (!filterClauses.isEmpty()) {
+                          b.filter(filterClauses);
+                        }
+                        return b;
+                      }));
+    } else {
+      boolQuery =
+          filterClauses.isEmpty()
+              ? Query.of(q -> q.matchAll(m -> m))
+              : Query.of(q -> q.bool(b -> b.filter(filterClauses)));
+    }
 
     try {
       final SearchResponse<Map> response =

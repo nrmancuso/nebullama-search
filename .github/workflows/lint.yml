@@ -40,7 +40,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4.3.0
-      - run: cd service && ./gradlew spotlessCheck
+      - run: ./gradlew spotlessCheck
 
   checkstyle:
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4.3.0
-      - run: cd service && ./gradlew checkstyleMain checkstyleTest
+      - run: ./gradlew :service:checkstyleMain :service:checkstyleTest
 
   spotbugs:
     runs-on: ubuntu-latest
@@ -62,4 +62,4 @@ jobs:
           distribution: temurin
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4.3.0
-      - run: cd service && ./gradlew spotbugsMain spotbugsTest
+      - run: ./gradlew :service:spotbugsMain :service:spotbugsTest

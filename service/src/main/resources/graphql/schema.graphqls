@@ -6,7 +6,7 @@ type Query {
 }
 
 input SearchInput {
-  query: String!
+  query: String
   filters: SearchFilters
   pagination: Pagination
 }

@@ -41,6 +41,6 @@ pull_model() {
 }
 
 pull_model "nomic-embed-text"
-pull_model "mistral:7b"
+pull_model "mistral"
 
 echo "All models ready."
