@@ -1,0 +1,62 @@
+scalar JSON
+
+type Query {
+  search(input: SearchInput!): SearchResults!
+  searchIndex(resourceType: ResourceType!, input: SearchInput!): SearchResults!
+}
+
+input SearchInput {
+  query: String!
+  filters: SearchFilters
+  pagination: Pagination
+}
+
+input SearchFilters {
+  resourceTypes: [ResourceType!]
+  objectType: String
+  agency: String
+  status: String
+  wavelengthBand: String
+  journal: String
+  nationality: String
+  yearFrom: Int
+  yearTo: Int
+}
+
+input Pagination {
+  from: Int = 0
+  size: Int = 10
+}
+
+enum ResourceType {
+  CELESTIAL_OBJECTS
+  MISSIONS
+  OBSERVATIONS
+  ASTRONOMERS
+  PUBLICATIONS
+}
+
+type SearchResults {
+  total: Int!
+  hits: [SearchHit!]!
+  interpretation: QueryInterpretationResult
+}
+
+type SearchHit {
+  id: String!
+  resourceType: ResourceType!
+  score: Float!
+  source: JSON!
+}
+
+type QueryInterpretationResult {
+  rewrittenQuery: String
+  extractedFilters: JSON
+  searchMode: SearchMode!
+}
+
+enum SearchMode {
+  KEYWORD
+  SEMANTIC
+  HYBRID
+}
