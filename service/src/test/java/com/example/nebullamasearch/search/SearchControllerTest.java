@@ -2,6 +2,7 @@ package com.example.nebullamasearch.search;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +33,7 @@ class SearchControllerTest {
 
   @Test
   void queryOnlyUsesSemanticMode() {
-    when(searchService.searchKNN(any())).thenReturn(EMPTY_RESPONSE);
+    when(searchService.search(any(), any())).thenReturn(EMPTY_RESPONSE);
 
     tester
         .document(
@@ -49,12 +50,12 @@ class SearchControllerTest {
         .entity(String.class)
         .isEqualTo("SEMANTIC");
 
-    verify(searchService).searchKNN(any());
+    verify(searchService).search(eq(SearchMode.SEMANTIC), any());
   }
 
   @Test
   void queryWithFiltersUsesHybridMode() {
-    when(searchService.searchHybrid(any())).thenReturn(EMPTY_RESPONSE);
+    when(searchService.search(any(), any())).thenReturn(EMPTY_RESPONSE);
 
     tester
         .document(
@@ -74,12 +75,15 @@ class SearchControllerTest {
         .entity(String.class)
         .isEqualTo("HYBRID");
 
-    verify(searchService).searchHybrid(argThat(req -> "NASA".equals(req.filters().agency())));
+    verify(searchService)
+        .search(
+            eq(SearchMode.HYBRID),
+            argThat(req -> "NASA".equals(req.filters().agency())));
   }
 
   @Test
   void noQueryUsesKeywordMode() {
-    when(searchService.searchBM25(any())).thenReturn(EMPTY_RESPONSE);
+    when(searchService.search(any(), any())).thenReturn(EMPTY_RESPONSE);
 
     tester
         .document(
@@ -98,14 +102,15 @@ class SearchControllerTest {
         .entity(String.class)
         .isEqualTo("KEYWORD");
 
-    verify(searchService).searchBM25(argThat(req -> "ESA".equals(req.filters().agency())));
+    verify(searchService)
+        .search(
+            eq(SearchMode.KEYWORD),
+            argThat(req -> "ESA".equals(req.filters().agency())));
   }
 
   @Test
   void resourceTypesFilterOnlyDoesNotTriggerHybrid() {
-    // resourceTypes controls which indices to search, not the search mode.
-    // A query with only resourceTypes and no structured filters should be SEMANTIC.
-    when(searchService.searchKNN(any())).thenReturn(EMPTY_RESPONSE);
+    when(searchService.search(any(), any())).thenReturn(EMPTY_RESPONSE);
 
     tester
         .document(
@@ -126,13 +131,14 @@ class SearchControllerTest {
         .isEqualTo("SEMANTIC");
 
     verify(searchService)
-        .searchKNN(
+        .search(
+            eq(SearchMode.SEMANTIC),
             argThat(req -> req.resourceTypes().equals(List.of(ResourceType.CELESTIAL_OBJECTS))));
   }
 
   @Test
   void searchIndexForcesResourceType() {
-    when(searchService.searchKNN(any())).thenReturn(EMPTY_RESPONSE);
+    when(searchService.search(any(), any())).thenReturn(EMPTY_RESPONSE);
 
     tester
         .document(
@@ -149,12 +155,14 @@ class SearchControllerTest {
         .isEqualTo(0);
 
     verify(searchService)
-        .searchKNN(argThat(req -> req.resourceTypes().equals(List.of(ResourceType.ASTRONOMERS))));
+        .search(
+            eq(SearchMode.SEMANTIC),
+            argThat(req -> req.resourceTypes().equals(List.of(ResourceType.ASTRONOMERS))));
   }
 
   @Test
   void paginationPassedThrough() {
-    when(searchService.searchKNN(any())).thenReturn(EMPTY_RESPONSE);
+    when(searchService.search(any(), any())).thenReturn(EMPTY_RESPONSE);
 
     tester
         .document(
@@ -174,12 +182,14 @@ class SearchControllerTest {
         .isEqualTo(0);
 
     verify(searchService)
-        .searchKNN(argThat(req -> req.pagination().from() == 5 && req.pagination().size() == 3));
+        .search(
+            eq(SearchMode.SEMANTIC),
+            argThat(req -> req.pagination().from() == 5 && req.pagination().size() == 3));
   }
 
   @Test
   void interpretationIncludedInResponse() {
-    when(searchService.searchHybrid(any())).thenReturn(EMPTY_RESPONSE);
+    when(searchService.search(any(), any())).thenReturn(EMPTY_RESPONSE);
 
     tester
         .document(
