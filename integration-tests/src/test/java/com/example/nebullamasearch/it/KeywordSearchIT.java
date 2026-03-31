@@ -166,6 +166,21 @@ class KeywordSearchIT extends IntegrationTestBase {
     }
   }
 
+  @Test
+  void yearRangeFilterWorks() {
+    final JsonNode data = searchIndex("MISSIONS", "mission", "yearFrom: 1990, yearTo: 2000");
+    final JsonNode hits = searchHits(data, "searchIndex");
+    assertThat(hits.size())
+        .as("Should find missions launched between 1990 and 2000")
+        .isGreaterThan(0);
+    for (int i = 0; i < hits.size(); i++) {
+      final String launchYearStr = sourceField(hits.get(i), "launch_year");
+      assertThat(launchYearStr).isNotNull();
+      final int launchYear = Integer.parseInt(launchYearStr);
+      assertThat(launchYear).isBetween(1990, 2000);
+    }
+  }
+
   private static String sourceField(JsonNode hit, String field) {
     final JsonNode source = hit.path("source");
     if (source.isTextual()) {

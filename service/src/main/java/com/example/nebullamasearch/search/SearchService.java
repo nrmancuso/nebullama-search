@@ -250,13 +250,13 @@ public class SearchService {
     }
     if (filters.yearFrom() != null || filters.yearTo() != null) {
       // Year is stored under different field names per index.
-      // Use a bool.should wrapping all three year fields so a doc matches
-      // if ANY of its year fields falls in the range.
-      final List<Query> yearShoulds = new ArrayList<>();
-      yearShoulds.add(rangeQuery("year", filters.yearFrom(), filters.yearTo()));
-      yearShoulds.add(rangeQuery("launch_year", filters.yearFrom(), filters.yearTo()));
-      yearShoulds.add(rangeQuery("discovery_year", filters.yearFrom(), filters.yearTo()));
-      clauses.add(Query.of(q -> q.bool(b -> b.should(yearShoulds).minimumShouldMatch("1"))));
+      // Use dis_max so a doc matches if ANY year field falls in range.
+      // dis_max works inside kNN filters; bool.should with minimumShouldMatch does not.
+      final List<Query> yearQueries = new ArrayList<>();
+      yearQueries.add(rangeQuery("year", filters.yearFrom(), filters.yearTo()));
+      yearQueries.add(rangeQuery("launch_year", filters.yearFrom(), filters.yearTo()));
+      yearQueries.add(rangeQuery("discovery_year", filters.yearFrom(), filters.yearTo()));
+      clauses.add(Query.of(q -> q.disMax(d -> d.queries(yearQueries))));
     }
     return clauses;
   }
