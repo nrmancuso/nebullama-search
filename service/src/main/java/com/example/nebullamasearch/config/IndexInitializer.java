@@ -29,7 +29,7 @@ public class IndexInitializer implements ApplicationRunner {
   private static final Logger log = LoggerFactory.getLogger(IndexInitializer.class);
 
   private final OpenSearchClient client;
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper;
 
   @Value("${search.hybrid-weight.bm25:0.4}")
   private float bm25Weight = 0.4f;
@@ -37,8 +37,9 @@ public class IndexInitializer implements ApplicationRunner {
   @Value("${search.hybrid-weight.knn:0.6}")
   private float knnWeight = 0.6f;
 
-  public IndexInitializer(OpenSearchClient client) {
+  public IndexInitializer(OpenSearchClient client, ObjectMapper objectMapper) {
     this.client = client;
+    this.objectMapper = objectMapper;
   }
 
   @Override
