@@ -92,7 +92,9 @@ class SearchServiceKNNTest {
         new OllamaProperties(
             "http://localhost:" + wireMock.port(), "nomic-embed-text", "mistral", 5000, 10000);
     embeddingService = new OllamaEmbeddingService(props, new ObjectMapper());
-    searchService = new SearchService(openSearchClient, embeddingService);
+    final SearchQueryBuilder queryBuilder =
+        new SearchQueryBuilder(embeddingService, new FilterBuilder(), 10);
+    searchService = new SearchService(openSearchClient, queryBuilder);
   }
 
   // -------------------------------------------------------------------------
@@ -105,7 +107,7 @@ class SearchServiceKNNTest {
 
     final SearchRequest request =
         new SearchRequest("exploding star remnants", null, null, Pagination.defaultPagination());
-    final SearchResponse response = searchService.searchKNN(request);
+    final SearchResponse response = searchService.search(SearchMode.SEMANTIC, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).extracting(SearchHit::id).contains("crab-nebula", "cassiopeia-a");
@@ -124,7 +126,7 @@ class SearchServiceKNNTest {
             List.of(ResourceType.MISSIONS),
             null,
             Pagination.defaultPagination());
-    final SearchResponse response = searchService.searchKNN(request);
+    final SearchResponse response = searchService.search(SearchMode.SEMANTIC, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).allMatch(h -> h.resourceType() == ResourceType.MISSIONS);
@@ -140,7 +142,7 @@ class SearchServiceKNNTest {
 
     final SearchRequest request =
         new SearchRequest("exploding star remnants", null, null, Pagination.defaultPagination());
-    searchService.searchKNN(request);
+    searchService.search(SearchMode.SEMANTIC, request);
 
     wireMock.verify(
         postRequestedFor(urlEqualTo("/api/embeddings"))

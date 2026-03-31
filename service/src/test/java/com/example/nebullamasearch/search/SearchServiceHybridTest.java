@@ -95,7 +95,9 @@ class SearchServiceHybridTest {
         new OllamaProperties(
             "http://localhost:" + wireMock.port(), "nomic-embed-text", "mistral", 5000, 10000);
     embeddingService = new OllamaEmbeddingService(props, new ObjectMapper());
-    searchService = new SearchService(openSearchClient, embeddingService);
+    final SearchQueryBuilder queryBuilder =
+        new SearchQueryBuilder(embeddingService, new FilterBuilder(), 10);
+    searchService = new SearchService(openSearchClient, queryBuilder);
   }
 
   // -------------------------------------------------------------------------
@@ -108,7 +110,7 @@ class SearchServiceHybridTest {
 
     final SearchRequest request =
         new SearchRequest("exploding star remnants", null, null, Pagination.defaultPagination());
-    final SearchResponse response = searchService.searchHybrid(request);
+    final SearchResponse response = searchService.search(SearchMode.HYBRID, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).extracting(SearchHit::id).contains("crab-nebula", "cassiopeia-a");
@@ -124,7 +126,7 @@ class SearchServiceHybridTest {
             List.of(ResourceType.MISSIONS),
             null,
             Pagination.defaultPagination());
-    final SearchResponse response = searchService.searchHybrid(request);
+    final SearchResponse response = searchService.search(SearchMode.HYBRID, request);
 
     assertThat(response.hits()).isNotEmpty();
     assertThat(response.hits()).extracting(SearchHit::id).contains("chandra");
