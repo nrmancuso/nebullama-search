@@ -17,8 +17,7 @@ public final class SearchFields {
           "target_name",
           "known_for");
 
-  public static final List<String> YEAR_FIELDS =
-      List.of("year", "launch_year", "discovery_year");
+  public static final List<String> YEAR_FIELDS = List.of("year", "launch_year", "discovery_year");
 
   public static final String EMBEDDING_FIELD = "embedding";
 }

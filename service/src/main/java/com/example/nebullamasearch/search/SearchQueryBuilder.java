@@ -83,10 +83,7 @@ public class SearchQueryBuilder {
     final int k = knnK;
     if (filterClauses.isEmpty()) {
       return Query.of(
-          q ->
-              q.knn(
-                  knn ->
-                      knn.field(SearchFields.EMBEDDING_FIELD).vector(vector).k(k)));
+          q -> q.knn(knn -> knn.field(SearchFields.EMBEDDING_FIELD).vector(vector).k(k)));
     }
     return Query.of(
         q ->
