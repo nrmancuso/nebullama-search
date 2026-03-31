@@ -10,9 +10,14 @@ class ModeSelectionIT extends IntegrationTestBase {
   @Test
   void queryOnlyReturnsSemantic() {
     final String query =
-        "{ search(input: { query: \"nebula\" }) {"
-            + " total hits { id resourceType score source }"
-            + " interpretation { searchMode } } }";
+        """
+          { search(input: { query: "nebula" }) {
+              total
+              hits { id resourceType score source }
+              interpretation { searchMode }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final String mode = data.path("search").path("interpretation").path("searchMode").asText();
@@ -22,10 +27,15 @@ class ModeSelectionIT extends IntegrationTestBase {
   @Test
   void queryWithFiltersReturnsHybrid() {
     final String query =
-        "{ search(input: { query: \"telescope\","
-            + " filters: { agency: \"NASA\" } }) {"
-            + " total hits { id resourceType score source }"
-            + " interpretation { searchMode } } }";
+        """
+          { search(input: { query: "telescope",
+              filters: { agency: "NASA" } }) {
+              total
+              hits { id resourceType score source }
+              interpretation { searchMode }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final String mode = data.path("search").path("interpretation").path("searchMode").asText();
@@ -35,9 +45,14 @@ class ModeSelectionIT extends IntegrationTestBase {
   @Test
   void filtersOnlyReturnsKeyword() {
     final String query =
-        "{ search(input: { filters: { agency: \"NASA\" } }) {"
-            + " total hits { id resourceType score source }"
-            + " interpretation { searchMode } } }";
+        """
+          { search(input: { filters: { agency: "NASA" } }) {
+              total
+              hits { id resourceType score source }
+              interpretation { searchMode }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final String mode = data.path("search").path("interpretation").path("searchMode").asText();
@@ -49,10 +64,15 @@ class ModeSelectionIT extends IntegrationTestBase {
   @Test
   void resourceTypesAloneDoesNotTriggerHybrid() {
     final String query =
-        "{ search(input: { query: \"star\","
-            + " filters: { resourceTypes: [CELESTIAL_OBJECTS] } }) {"
-            + " total hits { id resourceType score source }"
-            + " interpretation { searchMode } } }";
+        """
+          { search(input: { query: "star",
+              filters: { resourceTypes: [CELESTIAL_OBJECTS] } }) {
+              total
+              hits { id resourceType score source }
+              interpretation { searchMode }
+            }
+          }
+          """;
     final JsonNode response = graphql(query);
     final JsonNode data = assertNoErrors(response);
     final String mode = data.path("search").path("interpretation").path("searchMode").asText();

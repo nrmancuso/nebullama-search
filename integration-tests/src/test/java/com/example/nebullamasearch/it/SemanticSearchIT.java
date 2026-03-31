@@ -62,11 +62,14 @@ class SemanticSearchIT extends IntegrationTestBase {
 
   private static JsonNode searchIndex(String resourceType, String queryText) {
     final String query =
-        "{ searchIndex(resourceType: "
-            + resourceType
-            + ", input: { query: \""
-            + queryText
-            + "\" }) { total hits { id resourceType score source } } }";
+        """
+          { searchIndex(resourceType: %s, input: { query: "%s" }) {
+              total
+              hits { id resourceType score source }
+            }
+          }
+          """
+            .formatted(resourceType, queryText);
     final JsonNode response = graphql(query);
     return assertNoErrors(response);
   }

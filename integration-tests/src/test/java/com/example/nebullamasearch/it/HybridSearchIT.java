@@ -42,10 +42,15 @@ class HybridSearchIT extends IntegrationTestBase {
 
   private static JsonNode search(String queryText) {
     final String query =
-        "{ search(input: { query: \""
-            + queryText
-            + "\" }) { total hits { id resourceType score source }"
-            + " interpretation { rewrittenQuery extractedFilters searchMode } } }";
+        """
+          { search(input: { query: "%s" }) {
+              total
+              hits { id resourceType score source }
+              interpretation { rewrittenQuery extractedFilters searchMode }
+            }
+          }
+          """
+            .formatted(queryText);
     final JsonNode response = graphql(query);
     return assertNoErrors(response);
   }
