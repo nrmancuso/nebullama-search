@@ -1,20 +1,32 @@
 # Running Searches
 
-How to query nebullama-search via GraphiQL and curl. The full stack must be running first.
+This guide shows how to run searches against nebullama-search in GraphiQL and with `curl`.
+It assumes the local stack is running and that you have already ingested some data.
 
-**Prerequisites:**
+## Prerequisites
 
-- `docker-compose up -d` (OpenSearch + Ollama)
-- `./gradlew bootRun` from `service/` (Spring Boot on `localhost:8080`)
-- Ollama models pulled: `nomic-embed-text` and `mistral` (run `scripts/init.sh` once)
-- At least one index seeded (see [Data Ingestion](data-ingestion.md))
+- Start OpenSearch and Ollama: `docker-compose up -d`
+- Start the Spring Boot service from `service/`: `./gradlew bootRun`
+- Pull the Ollama models once with `./scripts/init.sh`
+- Ingest data before testing queries. The examples below are written to stay useful with
+  the project's seeded astronomy data, but they also work as general examples if you
+  have ingested your own documents.
 
-## Using GraphiQL
+## Open GraphiQL
 
-Open `http://localhost:8080/graphiql` in your browser. Paste a query in the left panel
-and press the Run button.
+Open `http://localhost:8080/graphiql` in your browser.
 
-### Your first query
+GraphiQL gives you:
+
+- a query editor on the left
+- the JSON response on the right
+- docs autocomplete for the schema while you type
+
+If the page does not load, the Spring Boot service is not running yet.
+
+## First Search: Bare Query
+
+Start with a direct text query that should produce an obvious match:
 
 ```graphql
 query {
@@ -35,117 +47,246 @@ query {
 }
 ```
 
-`hits` contains matching documents from any of the five indexes.
-`interpretation` shows what the LLM extracted from your query.
+What to look for:
 
-### Reading the interpretation
+- `hits` should contain one or more relevant documents
+- `resourceType` tells you which index each hit came from
+- `interpretation` shows how the query was processed before search ran
 
-| Field | What it means |
-| --- | --- |
-| `rewrittenQuery` | The cleaned query the LLM produced. If it equals your input, the LLM made no changes. |
-| `searchMode` | `HYBRID` (default), `KEYWORD` (BM25 only), or `SEMANTIC` (k-NN only). |
-| `extractedFilters` | Structured filters the LLM found, e.g. `{ "agency": "NASA" }`. Merged with explicit `filters` (explicit wins). |
-
-If intent extraction timed out or returned bad JSON, `rewrittenQuery` will equal your
-original query and `extractedFilters` will be `{}`.
-
-## Filtered search
-
-Explicit filters always override LLM-extracted ones:
-
-```graphql
-query {
-  search(input: {
-    query: "missions to outer planets",
-    filters: { agency: "NASA", yearFrom: 1970, yearTo: 1990 }
-  }) {
-    total
-    hits { id resourceType score source }
-  }
-}
-```
-
-## Single-index search
-
-Use `searchIndex` to search only one index:
-
-```graphql
-query {
-  searchIndex(resourceType: PUBLICATIONS, input: {
-    query: "neutron star merger gravitational waves"
-  }) {
-    total
-    hits { id score source }
-  }
-}
-```
-
-Valid values: `CELESTIAL_OBJECTS`, `MISSIONS`, `OBSERVATIONS`, `ASTRONOMERS`, `PUBLICATIONS`.
-
-## Pagination
-
-```graphql
-query {
-  search(input: {
-    query: "galaxy",
-    pagination: { from: 10, size: 5 }
-  }) {
-    total
-    hits { id resourceType score source }
-  }
-}
-```
-
-`from` is the zero-based offset; `size` is results per page. Default: `from: 0, size: 10`.
-
-## Using curl
-
-Inline query:
-
-```bash
-curl -s -X POST http://localhost:8080/graphql \
-  -H "Content-Type: application/json" \
-  -d '{"query":"{ search(input: { query: \"pulsars\" }) { total hits { id resourceType score } interpretation { searchMode } } }"}' \
-  | jq .
-```
-
-With variables (cleaner for complex filters):
+`curl` equivalent:
 
 ```bash
 curl -s -X POST http://localhost:8080/graphql \
   -H "Content-Type: application/json" \
   -d '{
-    "query": "query($input: SearchInput!) { search(input: $input) { total hits { id resourceType score } interpretation { rewrittenQuery searchMode extractedFilters } } }",
+    "query": "query { search(input: { query: \"Crab Nebula\" }) { total hits { id resourceType score source } interpretation { rewrittenQuery searchMode extractedFilters } } }"
+  }' | jq .
+```
+
+## Filtered Search
+
+Use explicit filters when you want to narrow the result set. This is useful even when
+the query text is broad:
+
+```graphql
+query {
+  search(
+    input: {
+      query: "NASA missions"
+      filters: { agency: "NASA", yearFrom: 1980, yearTo: 2025 }
+    }
+  ) {
+    total
+    hits {
+      id
+      resourceType
+      score
+      source
+    }
+    interpretation {
+      rewrittenQuery
+      searchMode
+      extractedFilters
+    }
+  }
+}
+```
+
+What to look for:
+
+- results should stay focused on mission-style documents instead of unrelated matches
+- because this request includes both a query and structured filters, `interpretation.searchMode`
+  should resolve to `HYBRID`
+
+`curl` equivalent:
+
+```bash
+curl -s -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "query($input: SearchInput!) { search(input: $input) { total hits { id resourceType score source } interpretation { rewrittenQuery searchMode extractedFilters } } }",
     "variables": {
       "input": {
-        "query": "NASA missions to Jupiter after 2000",
-        "pagination": { "from": 0, "size": 5 }
+        "query": "NASA missions",
+        "filters": {
+          "agency": "NASA",
+          "yearFrom": 1980,
+          "yearTo": 2025
+        }
       }
     }
   }' | jq .
 ```
 
-## Disabling intent extraction
+## Single-Index Search
 
-To bypass the LLM and send the query directly to hybrid search:
+Use `searchIndex` when you want to limit the search to one resource type. This is useful
+for debugging index-specific behavior or building UI flows that only target one dataset.
+
+```graphql
+query {
+  searchIndex(resourceType: MISSIONS, input: { query: "Andromeda" }) {
+    total
+    hits {
+      id
+      resourceType
+      score
+      source
+    }
+    interpretation {
+      rewrittenQuery
+      searchMode
+      extractedFilters
+    }
+  }
+}
+```
+
+What to look for:
+
+- every hit should report `resourceType: MISSIONS`
+- this is the quickest way to confirm whether a term matches inside one index or only in
+  the cross-index search
+
+Valid `ResourceType` values:
+
+- `CELESTIAL_OBJECTS`
+- `MISSIONS`
+- `OBSERVATIONS`
+- `ASTRONOMERS`
+- `PUBLICATIONS`
+
+`curl` equivalent:
 
 ```bash
+curl -s -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "query($resourceType: ResourceType!, $input: SearchInput!) { searchIndex(resourceType: $resourceType, input: $input) { total hits { id resourceType score source } interpretation { rewrittenQuery searchMode extractedFilters } } }",
+    "variables": {
+      "resourceType": "MISSIONS",
+      "input": {
+        "query": "Andromeda"
+      }
+    }
+  }' | jq .
+```
+
+## Paginate Results
+
+Pagination is controlled with `from` and `size`.
+
+```graphql
+query {
+  search(input: { query: "star", pagination: { from: 0, size: 5 } }) {
+    total
+    hits {
+      id
+      resourceType
+      score
+      source
+    }
+    interpretation {
+      rewrittenQuery
+      searchMode
+      extractedFilters
+    }
+  }
+}
+```
+
+What to look for:
+
+- `total` is the full match count across all pages
+- `hits` only contains the requested slice
+- increase `from` to fetch the next page
+
+`curl` equivalent:
+
+```bash
+curl -s -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "query($input: SearchInput!) { search(input: $input) { total hits { id resourceType score source } interpretation { rewrittenQuery searchMode extractedFilters } } }",
+    "variables": {
+      "input": {
+        "query": "star",
+        "pagination": {
+          "from": 0,
+          "size": 5
+        }
+      }
+    }
+  }' | jq .
+```
+
+## Read the Interpretation Block
+
+Every `search` and `searchIndex` response can include an `interpretation` block:
+
+```graphql
+interpretation {
+  rewrittenQuery
+  searchMode
+  extractedFilters
+}
+```
+
+Use it as a debugging panel for the current query pipeline:
+
+| Field | What it means | What to check |
+| --- | --- | --- |
+| `rewrittenQuery` | The query text returned by the GraphQL controller. | In the current implementation it mirrors the input query you sent. |
+| `searchMode` | The selected search strategy: `KEYWORD`, `SEMANTIC`, or `HYBRID`. | Query only resolves to `SEMANTIC`, query plus filters resolves to `HYBRID`, and filters-only resolves to `KEYWORD`. |
+| `extractedFilters` | Structured filters attached to the interpretation object. | In the current implementation this is returned as an empty object in GraphQL responses. |
+
+Current behavior to keep in mind:
+
+- the GraphQL controller currently returns deterministic interpretation values
+- `searchMode` is derived from request shape, not from an LLM response
+- `rewrittenQuery` echoes the input query
+- `extractedFilters` is empty in the GraphQL response payload
+
+## Disable Intent Extraction for Raw Query Testing
+
+Turn off intent extraction when you want the underlying intent-extraction service disabled
+for local raw-query testing:
+
+```bash
+cd service
 ./gradlew bootRun --args='--search.intent-extraction.enabled=false'
 ```
 
-Or set `search.intent-extraction.enabled: false` in `application.yml`.
+You can also set this permanently in `service/src/main/resources/application.yml`:
 
-With intent extraction disabled, `interpretation.rewrittenQuery` equals the raw input,
-`extractedFilters` is `{}`, and `searchMode` is `HYBRID`.
+```yaml
+search:
+  intent-extraction:
+    enabled: false
+```
+
+What to expect:
+
+- the property is disabled for the intent-extraction service
+- the current GraphQL controller already returns the raw query in `rewrittenQuery`
+- the current GraphQL controller already returns an empty `extractedFilters` object
+- the current GraphQL controller already derives `searchMode` from request shape
+- because of that, disabling the property is mainly useful for lower-level debugging and
+  future wiring, not for changing the examples shown in this guide
 
 ## Troubleshooting
 
-**`interpretation.searchMode` is always HYBRID:** The LLM is falling back. Check Ollama is
-running (`docker-compose ps`). Check logs for "Intent extraction timed out" or "failed to parse".
+### GraphiQL Returns a Network Error
 
-**Empty `hits` on a query you expect to match:** Confirm the index is seeded. Check
-`GET /celestial_objects/_count` in OpenSearch Dashboards Dev Tools. If count is 0, run
-the bulk ingest.
+The application is not running on `localhost:8080`. Start it from `service/` with
+`./gradlew bootRun`.
 
-**GraphiQL shows "Network Error":** The Spring Boot service is not running. Run
-`./gradlew bootRun` from `service/`.
+### Search Returns No Hits
+
+Confirm that you ingested data first. If you are testing locally with the project's seed
+data, make sure the ingest step completed before querying.
+
+### `interpretation` Does Not Show Inferred Filters
+
+That is expected in the current GraphQL implementation. `searchMode` is still useful for
+confirming whether the request ran as `SEMANTIC`, `HYBRID`, or `KEYWORD`.
