@@ -11,32 +11,33 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 docker_compose() {
-  if [ "${CI}" = "true" ]; then
-    docker compose -f "${REPO_ROOT}/docker-compose.yml" "$@"
-  else
-    docker compose -f "${REPO_ROOT}/docker-compose.yml" --profile local "$@"
-  fi
+  docker compose -f "${REPO_ROOT}/docker-compose.yml" "$@"
 }
 
-# --- Infrastructure ----------------------------------------------------------
+wait_for_http_ok() {
+  local url="$1"
+  local label="$2"
+  local elapsed=0
 
-echo "Checking Docker Compose services..."
-if ! docker_compose ps --services --filter status=running 2>/dev/null | grep -q "opensearch"; then
-  echo "Starting Docker Compose stack..."
-  docker_compose up -d
-
-  echo "Waiting for OpenSearch to be healthy..."
-  elapsed=0
-  until curl -sf "${OPENSEARCH_URL}/_cluster/health" > /dev/null 2>&1; do
+  until curl -sf "${url}" > /dev/null 2>&1; do
     if [ "$elapsed" -ge "$MAX_WAIT" ]; then
-      echo "ERROR: OpenSearch did not become ready within ${MAX_WAIT}s"
+      echo "ERROR: ${label} did not become ready within ${MAX_WAIT}s"
       exit 1
     fi
     sleep "$WAIT_INTERVAL"
     elapsed=$((elapsed + WAIT_INTERVAL))
   done
-  echo "OpenSearch is ready."
-fi
+
+  echo "${label} is ready."
+}
+
+# --- Infrastructure ----------------------------------------------------------
+
+echo "Starting Docker Compose stack..."
+docker_compose up -d
+
+echo "Waiting for OpenSearch to be healthy..."
+wait_for_http_ok "${OPENSEARCH_URL}/_cluster/health" "OpenSearch"
 
 # --- Ollama models -----------------------------------------------------------
 
@@ -45,40 +46,8 @@ echo "Ensuring Ollama models are pulled..."
 
 # --- Service -----------------------------------------------------------------
 
-if ! curl -sf "${SERVICE_URL}/actuator/health" > /dev/null 2>&1; then
-  echo "Starting nebullama-search service..."
-  OLLAMA_TIMEOUT="${OLLAMA_READ_TIMEOUT_MS:-60000}"
-  if [ "${CI}" = "true" ]; then
-    cd "${REPO_ROOT}"
-    JAR_PATH="$(find "${REPO_ROOT}/service/build/libs" -maxdepth 1 -name '*.jar' | head -n 1)"
-    if [ -z "${JAR_PATH}" ]; then
-      ./gradlew :service:bootJar
-      JAR_PATH="$(find "${REPO_ROOT}/service/build/libs" -maxdepth 1 -name '*.jar' | head -n 1)"
-    fi
-    if [ -z "${JAR_PATH}" ]; then
-      echo "ERROR: service bootJar completed but no jar was found."
-      exit 1
-    fi
-    java -jar "${JAR_PATH}" --ollama.read-timeout-ms="${OLLAMA_TIMEOUT}" &
-    SERVICE_PID=$!
-  else
-    cd "${REPO_ROOT}" && ./gradlew :service:bootRun \
-      --args="--ollama.read-timeout-ms=${OLLAMA_TIMEOUT}" &
-    SERVICE_PID=$!
-  fi
-
-  echo "Waiting for service to be healthy..."
-  elapsed=0
-  until curl -sf "${SERVICE_URL}/actuator/health" > /dev/null 2>&1; do
-    if [ "$elapsed" -ge "$MAX_WAIT" ]; then
-      echo "ERROR: Service did not become ready within ${MAX_WAIT}s"
-      exit 1
-    fi
-    sleep "$WAIT_INTERVAL"
-    elapsed=$((elapsed + WAIT_INTERVAL))
-  done
-  echo "Service is ready."
-fi
+echo "Waiting for service to be healthy..."
+wait_for_http_ok "${SERVICE_URL}/actuator/health" "Service"
 
 # --- Seed data ---------------------------------------------------------------
 
@@ -96,9 +65,6 @@ TEST_EXIT=$?
 
 if [ "${CI}" = "true" ]; then
   echo "CI mode: tearing down..."
-  if [ -n "${SERVICE_PID:-}" ]; then
-    kill "$SERVICE_PID" 2>/dev/null || true
-  fi
   docker_compose down
 fi
 

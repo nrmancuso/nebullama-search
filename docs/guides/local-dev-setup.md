@@ -9,21 +9,21 @@ Complete guide for running nebullama-search on your local machine.
 - `curl` (for health checks and the init script)
 - 6 GB free disk space (Ollama models: ~4 GB combined)
 
-## Step 1 — Start Infrastructure
+## Step 1 — Start the Stack
 
-Start OpenSearch, OpenSearch Dashboards, and Ollama:
-
-```bash
-docker-compose up -d
-```
-
-Wait for OpenSearch to become healthy (takes ~60 seconds on first run):
+Start OpenSearch, OpenSearch Dashboards, Ollama, and the Spring service:
 
 ```bash
-docker-compose ps
+docker compose up -d --build
 ```
 
-All three services should show `running` or `healthy`.
+Wait for the core services to become healthy:
+
+```bash
+docker compose ps
+```
+
+`opensearch`, `ollama`, and `service` should show `running` or `healthy`.
 
 ## Step 2 — Pull Ollama Models
 
@@ -36,14 +36,13 @@ Run the init script once to pull the required models:
 This pulls `nomic-embed-text` (~274 MB) and `mistral:7b` (~4 GB). Skips any models already
 present so it is safe to run again.
 
-## Step 3 — Start the Service
+## Step 3 — Verify the Service
+
+The service starts on port 8080 inside Docker. If you want to watch startup logs:
 
 ```bash
-cd service
-./gradlew bootRun
+docker compose logs -f service
 ```
-
-The service starts on port 8080. Look for `Started NebullamaSearchApplication` in the logs.
 
 ## Verification
 
@@ -62,17 +61,17 @@ Additional endpoints:
 ## Stopping
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 Data is persisted in named volumes (`nebullama-opensearch-data`, `nebullama-ollama-data`).
-To wipe volumes: `docker-compose down -v`
+To wipe volumes: `docker compose down -v`
 
 ## Troubleshooting
 
 ### OpenSearch won't start
 
-Check logs: `docker-compose logs opensearch`
+Check logs: `docker compose logs opensearch`
 
 Common cause: insufficient virtual memory. On Linux/WSL2:
 
@@ -86,12 +85,22 @@ To make permanent, add `vm.max_map_count=262144` to `/etc/sysctl.conf`.
 
 Check Ollama is running: `curl http://localhost:11434/api/tags`
 
-If the container is not healthy, check logs: `docker-compose logs ollama`
+If the container is not healthy, check logs: `docker compose logs ollama`
 
 ### Service fails to start
 
-If OpenSearch is not yet healthy when the service starts, it will fail. Wait for
-`docker-compose ps` to show OpenSearch as healthy, then re-run `./gradlew bootRun`.
+Check service logs:
+
+```bash
+docker compose logs service
+```
+
+If OpenSearch or Ollama is not healthy yet, wait for `docker compose ps` to show them as
+healthy and then restart the app container:
+
+```bash
+docker compose restart service
+```
 
 ### Port conflicts
 

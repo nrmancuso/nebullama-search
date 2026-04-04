@@ -22,20 +22,16 @@
 
 **Prerequisites:** Java 21, Docker, Docker Compose
 
-1. Start the infrastructure and pull Ollama models:
+1. Start the local stack and pull Ollama models:
 
    ```bash
-   docker-compose up -d
+   docker compose up -d --build
    ./scripts/init.sh
    ```
 
-2. Start the service:
+   This starts OpenSearch, OpenSearch Dashboards, Ollama, and the Spring service in Docker.
 
-   ```bash
-   cd service && ./gradlew bootRun
-   ```
-
-3. Verify the service is up:
+2. Verify the service is up:
 
    ```bash
    curl http://localhost:8080/actuator/health
@@ -43,7 +39,7 @@
 
    Expected: `{"status":"UP"}`
 
-4. Ingest three documents:
+3. Ingest three documents:
 
    ```bash
    curl -X POST http://localhost:8080/api/v1/ingest/CELESTIAL_OBJECTS/bulk \
@@ -73,7 +69,7 @@
    You can also include a precomputed 768-value `embedding` array in each document.
    When present, the ingest endpoint stores it directly and skips the Ollama embedding step.
 
-5. Run a semantic search that should infer the two supernova remnants:
+4. Run a semantic search that should infer the two supernova remnants:
 
    ```bash
    curl -s -X POST http://localhost:8080/graphql \
@@ -101,7 +97,7 @@
    The query text does not appear verbatim in the indexed documents, so this
    example depends on semantic similarity rather than exact text matching.
 
-6. Clear ingested documents from OpenSearch when you want a clean reset:
+5. Clear ingested documents from OpenSearch when you want a clean reset:
 
    ```bash
    curl -X POST "http://localhost:9200/celestial_objects,missions,observations,astronomers,publications/_delete_by_query" \

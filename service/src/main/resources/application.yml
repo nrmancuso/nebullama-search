@@ -24,16 +24,16 @@ management:
       show-details: always
 
 opensearch:
-  host: localhost
-  port: 9200
-  scheme: http
+  host: ${OPENSEARCH_HOST:localhost}
+  port: ${OPENSEARCH_PORT:9200}
+  scheme: ${OPENSEARCH_SCHEME:http}
 
 ollama:
-  base-url: http://localhost:11434
-  embedding-model: nomic-embed-text
-  intent-model: mistral
-  connect-timeout-ms: 5000
-  read-timeout-ms: 10000
+  base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+  embedding-model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
+  intent-model: ${OLLAMA_INTENT_MODEL:mistral}
+  connect-timeout-ms: ${OLLAMA_CONNECT_TIMEOUT_MS:5000}
+  read-timeout-ms: ${OLLAMA_READ_TIMEOUT_MS:10000}
 
 search:
   hybrid-weight:

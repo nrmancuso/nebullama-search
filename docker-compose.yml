@@ -20,8 +20,6 @@ services:
 
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:2.13.0
-    profiles:
-      - local
     environment:
       - OPENSEARCH_HOSTS=["http://opensearch:9200"]
       - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
@@ -37,6 +35,35 @@ services:
       - "11434:11434"
     volumes:
       - ollama-data:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 10s
+
+  service:
+    build:
+      context: .
+      dockerfile: service/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      OPENSEARCH_HOST: opensearch
+      OPENSEARCH_PORT: 9200
+      OPENSEARCH_SCHEME: http
+      OLLAMA_BASE_URL: http://ollama:11434
+    depends_on:
+      opensearch:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 30s
 
 volumes:
   opensearch-data:
