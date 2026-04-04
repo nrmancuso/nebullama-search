@@ -14,8 +14,8 @@ seeding, no cleanup. All tests run in parallel.
 
 ## Automated (recommended)
 
-The startup script handles everything: starts infrastructure if needed,
-pulls models, starts the service, runs tests, and tears down in CI.
+The startup script handles everything: starts the full Docker Compose stack,
+pulls models, waits for the service to become healthy, runs tests, and tears down in CI.
 
 ```bash
 # Local (leaves stack running for fast re-runs)
@@ -30,19 +30,16 @@ CI=true ./scripts/run-integration-tests.sh
 If you prefer to manage the stack yourself:
 
 ```bash
-# 1. Start infrastructure
-docker compose --profile local up -d
+# 1. Start the full stack
+docker compose up -d
 
 # 2. Pull models
 ./scripts/init.sh
 
-# 3. Start the service
-cd service && ../gradlew bootRun &
-
-# 4. Ingest seed data
+# 3. Ingest seed data
 ./scripts/seed-data.sh
 
-# 5. Run integration tests
+# 4. Run integration tests
 ./gradlew :integration-tests:test
 ```
 

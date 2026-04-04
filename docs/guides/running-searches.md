@@ -5,8 +5,7 @@ It assumes the local stack is running and that you have already ingested some da
 
 ## Prerequisites
 
-- Start OpenSearch and Ollama: `docker-compose up -d`
-- Start the Spring Boot service from `service/`: `./gradlew bootRun`
+- Start the local stack: `docker compose up -d --build`
 - Pull the Ollama models once with `./scripts/init.sh`
 - Ingest data before testing queries. The examples below are written to stay useful with
   the project's seeded astronomy data, but they also work as general examples if you
@@ -22,7 +21,7 @@ GraphiQL gives you:
 - the JSON response on the right
 - docs autocomplete for the schema while you type
 
-If the page does not load, the Spring Boot service is not running yet.
+If the page does not load, the Spring service container is not running yet.
 
 ## First Search: Bare Query
 
@@ -278,8 +277,8 @@ What to expect:
 
 ### GraphiQL Returns a Network Error
 
-The application is not running on `localhost:8080`. Start it from `service/` with
-`./gradlew bootRun`.
+The application is not running on `localhost:8080`. Start the local stack with
+`docker compose up -d --build`.
 
 ### Search Returns No Hits
 
