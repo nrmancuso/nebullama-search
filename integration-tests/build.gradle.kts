@@ -15,10 +15,9 @@ repositories { mavenCentral() }
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
-    testImplementation("org.springframework:spring-webflux:6.1.10")
-    testImplementation("org.springframework:spring-context:6.1.10")
-    testImplementation("io.projectreactor.netty:reactor-netty-http:1.1.20")
     testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("io.github.openfeign:feign-core:13.5")
+    testImplementation("io.github.openfeign:feign-jackson:13.5")
 }
 
 tasks.withType<Test> {

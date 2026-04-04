@@ -3,13 +3,11 @@ package com.example.nebullamasearch.it;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import java.time.Duration;
+import feign.Response;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import reactor.util.function.Tuple2;
-import reactor.util.function.Tuples;
 
 class GraphQLContractIT extends IntegrationTestBase {
 
@@ -78,21 +76,9 @@ class GraphQLContractIT extends IntegrationTestBase {
 
   @Test
   void invalidResourceTypeReturns400() {
-    final Tuple2<Integer, String> result =
-        SERVICE
-            .post()
-            .uri("/api/v1/ingest/not_a_real_type")
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue("{\"name\": \"test\"}")
-            .exchangeToMono(
-                resp ->
-                    resp.bodyToMono(String.class)
-                        .defaultIfEmpty("")
-                        .map(body -> Tuples.of(resp.statusCode().value(), body)))
-            .block(Duration.ofSeconds(10));
-
-    assertThat(result).isNotNull();
-    assertThat(result.getT1()).isEqualTo(400);
+    try (Response result = CLIENT.ingestSingle("not_a_real_type", Map.of("name", "test"))) {
+      assertThat(result.status()).isEqualTo(400);
+    }
   }
 
   @Test
