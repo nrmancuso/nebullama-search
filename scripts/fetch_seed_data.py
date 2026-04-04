@@ -25,6 +25,7 @@ import sys
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Optional
 
 import requests
 import wikipediaapi
@@ -129,10 +130,44 @@ def get_wiki_summary(title: str) -> str:
     return "\n\n".join(paragraphs[:3])
 
 
+def document_identity(doc: dict) -> Optional[tuple]:
+    """Return a stable identity tuple for a generated seed document."""
+    if "name" in doc:
+        return ("name", doc["name"])
+    if "title" in doc:
+        return ("title", doc["title"])
+    if "target_name" in doc and "instrument" in doc and "observation_date" in doc:
+        return ("observation", doc["target_name"], doc["instrument"], doc["observation_date"])
+    return None
+
+
+def merge_existing_embeddings(docs: list[dict], existing_docs: list[dict]) -> list[dict]:
+    """Carry forward stored embeddings when regenerated docs match existing identities."""
+    existing_embeddings: dict[tuple, list] = {}
+    for existing_doc in existing_docs:
+        identity = document_identity(existing_doc)
+        embedding = existing_doc.get("embedding")
+        if identity is not None and embedding is not None:
+            existing_embeddings[identity] = embedding
+
+    merged_docs: list[dict] = []
+    for doc in docs:
+        merged_doc = dict(doc)
+        identity = document_identity(doc)
+        if identity is not None and identity in existing_embeddings:
+            merged_doc["embedding"] = existing_embeddings[identity]
+        merged_docs.append(merged_doc)
+    return merged_docs
+
+
 def save(directory: Path, filename: str, docs: list[dict]) -> None:
     """Write a list of documents as a pretty-printed JSON array."""
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / filename
+    if path.exists():
+        with open(path, encoding="utf-8") as existing_file:
+            existing_docs = json.load(existing_file)
+        docs = merge_existing_embeddings(docs, existing_docs)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(docs, f, indent=2, ensure_ascii=False)
     print(f"  Saved {len(docs)} docs -> {path}")
@@ -148,6 +183,34 @@ def dedupe(docs: list[dict], key: str) -> list[dict]:
             seen.add(v)
             out.append(d)
     return out
+
+
+def _get_simbad_value(row, *names: str):
+    """Return the first present SIMBAD column value, supporting schema changes."""
+    for name in names:
+        if name in row.colnames if hasattr(row, "colnames") else name in row:
+            return row[name]
+    return None
+
+
+def extract_simbad_enrichment(
+    row, simbad_otype_map: dict[str, str], default_object_type: str
+) -> tuple[str, Optional[float]]:
+    """Extract normalized object type and distance from a SIMBAD result row."""
+    object_type = default_object_type
+    distance_ly = None
+
+    plx = _get_simbad_value(row, "plx_value", "PLX_VALUE", "plx", "PLX")
+    if plx is not None and float(plx) > 0:
+        distance_ly = round(3260.0 / float(plx), 1)
+
+    raw_otype = _get_simbad_value(row, "otype", "OTYPE")
+    if raw_otype is not None:
+        mapped_type = simbad_otype_map.get(str(raw_otype).strip())
+        if mapped_type:
+            object_type = mapped_type
+
+    return object_type, distance_ly
 
 
 # ---------------------------------------------------------------------------
@@ -260,14 +323,9 @@ def fetch_celestial_objects() -> list[dict]:
                 result = simbad.query_object(name)
                 if result and len(result) > 0:
                     row = result[0]
-                    # Parallax -> distance
-                    plx = row["PLX_VALUE"]
-                    if plx and float(plx) > 0:
-                        distance_ly = round(3260.0 / float(plx), 1)
-                    # Object type
-                    raw_otype = str(row["OTYPE"]).strip()
-                    if raw_otype in simbad_otype_map:
-                        object_type = simbad_otype_map[raw_otype]
+                    object_type, distance_ly = extract_simbad_enrichment(
+                        row, simbad_otype_map, object_type
+                    )
                     print(f"  SIMBAD enriched: {name}")
             except Exception:
                 print(f"  SIMBAD unavailable for {name}, using Wikipedia only")
