@@ -1,15 +1,28 @@
 # Running Searches
 
-This guide shows how to run searches against nebullama-search in GraphiQL and with `curl`.
-It assumes the local stack is running and that you have already ingested some data.
+This guide shows how to run searches against nebullama-search in the frontend demo, in
+GraphiQL, and with `curl`. It assumes the local stack is running and that you have already
+ingested some data.
 
 ## Prerequisites
 
-- Start the local stack: `docker compose up -d --build`
+- Start the local stack: `docker compose --profile local up -d --build`
 - Pull the Ollama models once with `./scripts/init.sh`
 - Ingest data before testing queries. The examples below are written to stay useful with
   the project's seeded astronomy data, but they also work as general examples if you
   have ingested your own documents.
+
+## Open the Frontend Demo
+
+Open <http://localhost:5173> for the local read-only search UI.
+
+Use the frontend when you want to:
+
+- run searches quickly without writing GraphQL by hand
+- inspect results in a table and open the details drawer
+- compare returned source payloads and interpretation metadata in one screen
+
+Use GraphiQL when you want to inspect or edit the raw GraphQL request directly.
 
 ## Open GraphiQL
 
@@ -21,7 +34,8 @@ GraphiQL gives you:
 - the JSON response on the right
 - docs autocomplete for the schema while you type
 
-If the page does not load, the Spring service container is not running yet.
+If the page does not load, the Spring service container is not running yet. The frontend demo
+does not replace GraphiQL; it complements it for browser-driven search exploration.
 
 ## First Search: Bare Query
 
@@ -278,7 +292,7 @@ What to expect:
 ### GraphiQL Returns a Network Error
 
 The application is not running on `localhost:8080`. Start the local stack with
-`docker compose up -d --build`.
+`docker compose --profile local up -d --build`.
 
 ### Search Returns No Hits
 

@@ -25,11 +25,12 @@
 1. Start the local stack and pull Ollama models:
 
    ```bash
-   docker compose up -d --build
+   docker compose --profile local up -d --build
    ./scripts/init.sh
    ```
 
-   This starts OpenSearch, OpenSearch Dashboards, Ollama, and the Spring service in Docker.
+   This starts OpenSearch, OpenSearch Dashboards, Ollama, the Spring service, and the
+   local frontend demo in Docker.
 
 2. Verify the service is up:
 
@@ -96,6 +97,10 @@
 
    The query text does not appear verbatim in the indexed documents, so this
    example depends on semantic similarity rather than exact text matching.
+
+   Browser-based search flows are also available in the local demo UI at
+   <http://localhost:5173>. GraphiQL remains available at <http://localhost:8080/graphiql>
+   for raw API inspection.
 
 5. Clear ingested documents from OpenSearch when you want a clean reset:
 

@@ -65,8 +65,25 @@ services:
       retries: 20
       start_period: 30s
 
+  frontend:
+    profiles:
+      - local
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+    depends_on:
+      service:
+        condition: service_healthy
+
 volumes:
   opensearch-data:
     name: nebullama-opensearch-data
   ollama-data:
     name: nebullama-ollama-data
+  frontend-node-modules:
+    name: nebullama-frontend-node-modules
