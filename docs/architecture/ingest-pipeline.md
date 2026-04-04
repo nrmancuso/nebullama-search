@@ -1,7 +1,9 @@
 # Ingest Pipeline
 
-Documents enter nebullama-search via REST. Embeddings are generated server-side by
-calling Ollama before writing to OpenSearch.
+Documents enter nebullama-search via REST. By default, embeddings are generated
+server-side by calling Ollama before writing to OpenSearch. Clients may also send
+precomputed embeddings, in which case the ingest path skips Ollama and writes the
+provided vector directly.
 
 ```mermaid
 sequenceDiagram
@@ -15,11 +17,15 @@ sequenceDiagram
     Client->>IngestController: POST /api/v1/ingest/{resourceType}/bulk
     IngestController->>IngestService: ingestBulk(resourceType, documents)
     loop per document (virtual threads)
-        IngestService->>OllamaEmbeddingService: embed(primaryTextField)
-        OllamaEmbeddingService->>Ollama: POST /api/embeddings
-        Ollama-->>OllamaEmbeddingService: float[768]
-        OllamaEmbeddingService-->>IngestService: float[]
-        IngestService->>OpenSearch: index document + embedding
+        alt embedding provided by client
+            IngestService->>OpenSearch: index document + provided embedding
+        else embedding omitted
+            IngestService->>OllamaEmbeddingService: embed(primaryTextField)
+            OllamaEmbeddingService->>Ollama: POST /api/embeddings
+            Ollama-->>OllamaEmbeddingService: float[768]
+            OllamaEmbeddingService-->>IngestService: float[]
+            IngestService->>OpenSearch: index document + generated embedding
+        end
         OpenSearch-->>IngestService: created
     end
     IngestService-->>IngestController: per-document results
@@ -36,4 +42,4 @@ sequenceDiagram
 | `astronomers` | `biography` |
 | `publications` | `abstract` |
 
-The `embedding` field is never accepted from clients; it is always generated server-side.
+The `embedding` field is optional. If clients provide it, it must be a 768-value numeric array.

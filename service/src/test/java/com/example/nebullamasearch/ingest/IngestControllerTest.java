@@ -11,12 +11,15 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +36,7 @@ import org.testcontainers.utility.DockerImageName;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Testcontainers
+@Execution(ExecutionMode.SAME_THREAD)
 class IngestControllerTest {
 
   @Container
@@ -157,5 +161,32 @@ class IngestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(doc)))
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void singleIngest_acceptsProvidedEmbeddingWithoutCallingOllama() throws Exception {
+    List<Double> embedding = new ArrayList<>(768);
+    for (int i = 0; i < 768; i++) {
+      embedding.add(0.25d);
+    }
+
+    Map<String, Object> doc =
+        Map.of(
+            "name", "Crab Nebula",
+            "object_type", "nebula",
+            "description", "Supernova remnant in Taurus",
+            "constellation", "Taurus",
+            "embedding", embedding);
+
+    mockMvc
+        .perform(
+            post("/api/v1/ingest/CELESTIAL_OBJECTS")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(doc)))
+        .andExpect(status().isCreated())
+        .andExpect(jsonPath("$.id").exists())
+        .andExpect(jsonPath("$.success").value(true));
+
+    wireMock.verify(0, WireMock.postRequestedFor(urlEqualTo("/api/embeddings")));
   }
 }

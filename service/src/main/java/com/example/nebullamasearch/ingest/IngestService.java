@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class IngestService {
+  private static final String EMBEDDING_FIELD = "embedding";
+  private static final int EMBEDDING_DIMENSIONS = 768;
 
   private static final Map<ResourceType, String> PRIMARY_TEXT_FIELD =
       Map.of(
@@ -74,14 +76,42 @@ public class IngestService {
     Map<String, Object> enriched = new HashMap<>(doc);
     enriched.put("id", id);
     enriched.put("resource_type", resourceType.indexName());
+    enriched.put(EMBEDDING_FIELD, resolveEmbedding(resourceType, enriched));
+    return enriched;
+  }
+
+  private List<Double> resolveEmbedding(ResourceType resourceType, Map<String, Object> enriched) {
+    Object providedEmbedding = enriched.get(EMBEDDING_FIELD);
+    if (providedEmbedding != null) {
+      return normalizeEmbedding(providedEmbedding);
+    }
 
     String primaryField = PRIMARY_TEXT_FIELD.get(resourceType);
     String textToEmbed =
         primaryField != null ? String.valueOf(enriched.getOrDefault(primaryField, "")) : "";
 
     float[] embedding = embeddingService.embed(textToEmbed);
-    enriched.put("embedding", toDoubleList(embedding));
-    return enriched;
+    return toDoubleList(embedding);
+  }
+
+  private List<Double> normalizeEmbedding(Object rawEmbedding) {
+    if (!(rawEmbedding instanceof List<?> rawList)) {
+      throw new IllegalArgumentException("embedding must be a JSON array of numbers");
+    }
+
+    List<Double> embedding = new ArrayList<>(rawList.size());
+    for (Object value : rawList) {
+      if (!(value instanceof Number number)) {
+        throw new IllegalArgumentException("embedding entries must be numeric");
+      }
+      embedding.add(number.doubleValue());
+    }
+
+    if (embedding.size() != EMBEDDING_DIMENSIONS) {
+      throw new IllegalArgumentException(
+          "embedding must contain exactly " + EMBEDDING_DIMENSIONS + " values");
+    }
+    return embedding;
   }
 
   private void writeToOpenSearch(String indexName, String id, Map<String, Object> doc) {

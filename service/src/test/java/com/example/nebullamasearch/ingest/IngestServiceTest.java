@@ -7,6 +7,7 @@ import com.example.nebullamasearch.domain.ResourceType;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.AfterAll;
@@ -174,5 +175,33 @@ class IngestServiceTest {
     long failures = results.stream().filter(r -> !r.success()).count();
     assertThat(failures).isEqualTo(2);
     results.stream().filter(r -> !r.success()).forEach(r -> assertThat(r.error()).isNotBlank());
+  }
+
+  @Test
+  void singleIngest_usesProvidedEmbeddingWithoutCallingOllama() throws Exception {
+    List<Double> providedEmbedding = new ArrayList<>(768);
+    for (int i = 0; i < 768; i++) {
+      providedEmbedding.add(i / 1000.0);
+    }
+
+    Map<String, Object> doc =
+        Map.of(
+            "name", "Crab Nebula",
+            "object_type", "nebula",
+            "description", "Supernova remnant in Taurus",
+            "constellation", "Taurus",
+            "embedding", providedEmbedding);
+
+    IngestResult result = ingestService.ingestOne(ResourceType.CELESTIAL_OBJECTS, doc);
+
+    assertThat(result.success()).isTrue();
+
+    GetResponse<Map> response =
+        openSearchClient.get(g -> g.index("celestial_objects").id(result.id()), Map.class);
+    assertThat(response.found()).isTrue();
+    @SuppressWarnings("unchecked")
+    Map<String, Object> source = (Map<String, Object>) response.source();
+    assertThat(source.get("embedding")).isEqualTo(providedEmbedding);
+    wireMock.verify(0, postRequestedFor(urlEqualTo("/api/embeddings")));
   }
 }
