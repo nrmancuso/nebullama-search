@@ -451,7 +451,7 @@ A placeholder pixel art SVG icon (`docs/assets/nebullama-icon.svg`) is included 
 
 **Vision:** the llama should feel like a mascot — approachable and slightly whimsical but grounded in the space aesthetic. The gold visor is the signature element; it should catch a subtle nebula reflection. Pixel art keeps it timeless and works at small sizes (favicon, README badge, UI header). Aim for 64x64 or 128x128 base resolution.
 
-Once generated, save the final asset to `docs/assets/nebullama-icon.png` and reference it in `docs/index.md` and the repo `README.md`.
+Once generated, save the final asset to `docs/assets/nebullama/nebullama-icon.png` and reference it in `docs/index.md` and the repo `README.md`.
 
 ---
 
