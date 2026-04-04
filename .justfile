@@ -31,3 +31,7 @@ jar:
 [working-directory: "service"]
 format:
     ./gradlew spotlessApply
+
+# Lint Markdown files
+markdownlint:
+    markdownlint-cli2 "**/*.md" "#node_modules"
