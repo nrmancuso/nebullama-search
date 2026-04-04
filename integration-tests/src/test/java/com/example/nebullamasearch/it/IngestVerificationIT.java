@@ -3,10 +3,8 @@ package com.example.nebullamasearch.it;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import java.time.Duration;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 
 class IngestVerificationIT extends IntegrationTestBase {
 
@@ -73,14 +71,7 @@ class IngestVerificationIT extends IntegrationTestBase {
 
   private static void assertIndexDocCount(String index, int expected) {
     try {
-      final String response =
-          OPENSEARCH
-              .get()
-              .uri("/" + index + "/_count")
-              .retrieve()
-              .bodyToMono(String.class)
-              .block(Duration.ofSeconds(10));
-      final JsonNode node = MAPPER.readTree(response);
+      final JsonNode node = CLIENT.countIndex(index);
       final int count = node.path("count").asInt();
       assertThat(count).as("Index '%s' should have %d docs", index, expected).isEqualTo(expected);
     } catch (Exception e) {
@@ -90,18 +81,9 @@ class IngestVerificationIT extends IntegrationTestBase {
 
   private static JsonNode searchOpenSearchExact(String index, String field, String value) {
     try {
-      final String query =
-          MAPPER.writeValueAsString(Map.of("query", Map.of("match_phrase", Map.of(field, value))));
-      final String response =
-          OPENSEARCH
-              .post()
-              .uri("/" + index + "/_search")
-              .contentType(MediaType.APPLICATION_JSON)
-              .bodyValue(query)
-              .retrieve()
-              .bodyToMono(String.class)
-              .block(Duration.ofSeconds(10));
-      final JsonNode node = MAPPER.readTree(response);
+      final JsonNode query =
+          MAPPER.valueToTree(Map.of("query", Map.of("match_phrase", Map.of(field, value))));
+      final JsonNode node = CLIENT.searchIndex(index, query);
       return node.path("hits").path("hits");
     } catch (Exception e) {
       throw new RuntimeException("Failed to search index: " + index, e);

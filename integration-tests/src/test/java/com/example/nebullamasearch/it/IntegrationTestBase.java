@@ -4,12 +4,9 @@ import static org.assertj.core.api.Assertions.fail;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import java.time.Duration;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 abstract class IntegrationTestBase {
 
@@ -21,17 +18,8 @@ abstract class IntegrationTestBase {
 
   protected static final ObjectMapper MAPPER = new ObjectMapper();
 
-  protected static final WebClient SERVICE =
-      WebClient.builder()
-          .baseUrl(SERVICE_URL)
-          .codecs(c -> c.defaultCodecs().maxInMemorySize(2 * 1024 * 1024))
-          .build();
-
-  protected static final WebClient OPENSEARCH =
-      WebClient.builder()
-          .baseUrl(OPENSEARCH_URL)
-          .codecs(c -> c.defaultCodecs().maxInMemorySize(2 * 1024 * 1024))
-          .build();
+  protected static final NebullamaTestClient CLIENT =
+      new NebullamaTestClient(SERVICE_URL, OPENSEARCH_URL, MAPPER);
 
   private static final int MAX_RETRIES = 2;
   private static final Duration RETRY_DELAY = Duration.ofSeconds(5);
@@ -39,13 +27,7 @@ abstract class IntegrationTestBase {
   @BeforeAll
   static void verifyStackIsReady() {
     try {
-      String health =
-          SERVICE
-              .get()
-              .uri("/actuator/health")
-              .retrieve()
-              .bodyToMono(String.class)
-              .block(Duration.ofSeconds(5));
+      JsonNode health = CLIENT.health();
       if (health == null) {
         fail("Health endpoint returned null");
       }
@@ -59,27 +41,10 @@ abstract class IntegrationTestBase {
   }
 
   protected static JsonNode graphql(String query) {
-    String body;
-    try {
-      body = MAPPER.writeValueAsString(Map.of("query", query));
-    } catch (Exception e) {
-      fail("Failed to serialize GraphQL query: " + e.getMessage());
-      return null;
-    }
-
     for (int attempt = 0; attempt <= MAX_RETRIES; attempt++) {
       try {
-        String response =
-            SERVICE
-                .post()
-                .uri("/graphql")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(body)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block(Duration.ofSeconds(30));
-        return MAPPER.readTree(response);
-      } catch (WebClientResponseException.ServiceUnavailable e) {
+        return CLIENT.graphql(query);
+      } catch (FeignException.ServiceUnavailable e) {
         if (attempt < MAX_RETRIES) {
           try {
             Thread.sleep(RETRY_DELAY.toMillis());
