@@ -3,6 +3,8 @@ package com.example.nebullamasearch.search;
 import com.example.nebullamasearch.domain.ResourceType;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -82,8 +84,17 @@ public class SearchService {
                         hit.id(),
                         ResourceType.fromIndexName(hit.index()),
                         hit.score() != null ? hit.score().floatValue() : 0f,
-                        hit.source() != null ? hit.source() : Map.of()))
+                        sanitizeSource(hit.source())))
             .collect(Collectors.toList());
     return new SearchResponse(total, hits);
+  }
+
+  private Map<String, Object> sanitizeSource(Map<String, Object> source) {
+    if (source == null || source.isEmpty()) {
+      return Map.of();
+    }
+    final Map<String, Object> sanitized = new LinkedHashMap<>(source);
+    sanitized.remove(SearchFields.EMBEDDING_FIELD);
+    return Collections.unmodifiableMap(sanitized);
   }
 }

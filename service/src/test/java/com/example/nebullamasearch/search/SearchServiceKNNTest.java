@@ -117,6 +117,25 @@ class SearchServiceKNNTest {
   }
 
   @Test
+  void semanticSearchOmitsEmbeddingsFromReturnedSource() throws IOException {
+    stubQueryVector("exploding star remnants", TestVectors.QUERY_EXPLODING_STAR_REMNANTS);
+
+    final SearchRequest request =
+        new SearchRequest("exploding star remnants", null, null, Pagination.defaultPagination());
+    final SearchResponse response = searchService.search(SearchMode.SEMANTIC, request);
+
+    assertThat(response.hits()).isNotEmpty();
+    assertThat(response.hits()).allMatch(hit -> !hit.source().containsKey("embedding"));
+    assertThat(response.hits())
+        .anySatisfy(
+            hit -> {
+              if (hit.id().equals("crab-nebula")) {
+                assertThat(hit.source()).containsEntry("name", "Crab Nebula");
+              }
+            });
+  }
+
+  @Test
   void resourceTypeFilterLimitsResults() throws IOException {
     stubQueryVector("exploding star remnants", TestVectors.QUERY_EXPLODING_STAR_REMNANTS);
 
