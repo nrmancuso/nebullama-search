@@ -31,7 +31,7 @@ If you prefer to manage the stack yourself:
 
 ```bash
 # 1. Start infrastructure
-docker compose up -d
+docker compose --profile local up -d
 
 # 2. Pull models
 ./scripts/init.sh

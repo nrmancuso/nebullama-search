@@ -10,12 +10,20 @@ WAIT_INTERVAL=3
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+docker_compose() {
+  if [ "${CI}" = "true" ]; then
+    docker compose -f "${REPO_ROOT}/docker-compose.yml" "$@"
+  else
+    docker compose -f "${REPO_ROOT}/docker-compose.yml" --profile local "$@"
+  fi
+}
+
 # --- Infrastructure ----------------------------------------------------------
 
 echo "Checking Docker Compose services..."
-if ! docker compose -f "${REPO_ROOT}/docker-compose.yml" ps --services --filter status=running 2>/dev/null | grep -q "opensearch"; then
+if ! docker_compose ps --services --filter status=running 2>/dev/null | grep -q "opensearch"; then
   echo "Starting Docker Compose stack..."
-  docker compose -f "${REPO_ROOT}/docker-compose.yml" up -d
+  docker_compose up -d
 
   echo "Waiting for OpenSearch to be healthy..."
   elapsed=0
@@ -40,9 +48,24 @@ echo "Ensuring Ollama models are pulled..."
 if ! curl -sf "${SERVICE_URL}/actuator/health" > /dev/null 2>&1; then
   echo "Starting nebullama-search service..."
   OLLAMA_TIMEOUT="${OLLAMA_READ_TIMEOUT_MS:-60000}"
-  cd "${REPO_ROOT}" && ./gradlew :service:bootRun \
-    --args="--ollama.read-timeout-ms=${OLLAMA_TIMEOUT}" &
-  SERVICE_PID=$!
+  if [ "${CI}" = "true" ]; then
+    cd "${REPO_ROOT}"
+    JAR_PATH="$(find "${REPO_ROOT}/service/build/libs" -maxdepth 1 -name '*.jar' | head -n 1)"
+    if [ -z "${JAR_PATH}" ]; then
+      ./gradlew :service:bootJar
+      JAR_PATH="$(find "${REPO_ROOT}/service/build/libs" -maxdepth 1 -name '*.jar' | head -n 1)"
+    fi
+    if [ -z "${JAR_PATH}" ]; then
+      echo "ERROR: service bootJar completed but no jar was found."
+      exit 1
+    fi
+    java -jar "${JAR_PATH}" --ollama.read-timeout-ms="${OLLAMA_TIMEOUT}" &
+    SERVICE_PID=$!
+  else
+    cd "${REPO_ROOT}" && ./gradlew :service:bootRun \
+      --args="--ollama.read-timeout-ms=${OLLAMA_TIMEOUT}" &
+    SERVICE_PID=$!
+  fi
 
   echo "Waiting for service to be healthy..."
   elapsed=0
@@ -76,7 +99,7 @@ if [ "${CI}" = "true" ]; then
   if [ -n "${SERVICE_PID:-}" ]; then
     kill "$SERVICE_PID" 2>/dev/null || true
   fi
-  docker compose -f "${REPO_ROOT}/docker-compose.yml" down
+  docker_compose down
 fi
 
 exit "$TEST_EXIT"
