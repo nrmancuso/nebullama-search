@@ -70,6 +70,9 @@
      ]'
    ```
 
+   You can also include a precomputed 768-value `embedding` array in each document.
+   When present, the ingest endpoint stores it directly and skips the Ollama embedding step.
+
 5. Run a semantic search that should infer the two supernova remnants:
 
    ```bash
