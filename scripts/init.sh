@@ -2,16 +2,25 @@
 set -euo pipefail
 
 OLLAMA_URL="${OLLAMA_URL:-http://localhost:11434}"
+CI="${CI:-false}"
 MAX_WAIT=120
 WAIT_INTERVAL=3
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+docker_compose() {
+  if [ "${CI}" = "true" ]; then
+    docker compose -f "${REPO_ROOT}/docker-compose.yml" "$@"
+  else
+    docker compose -f "${REPO_ROOT}/docker-compose.yml" --profile local "$@"
+  fi
+}
+
 echo "Checking Docker Compose services..."
-if ! docker compose -f "${REPO_ROOT}/docker-compose.yml" ps --services --filter status=running 2>/dev/null | grep -q .; then
+if ! docker_compose ps --services --filter status=running 2>/dev/null | grep -q .; then
   echo "Starting Docker Compose stack..."
-  docker compose -f "${REPO_ROOT}/docker-compose.yml" up -d
+  docker_compose up -d
 fi
 
 echo "Waiting for Ollama to be ready at ${OLLAMA_URL}..."

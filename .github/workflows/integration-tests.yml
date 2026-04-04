@@ -37,6 +37,9 @@ jobs:
               volumes:
                 - ./ollama-cache:/root/.ollama
           EOF
+      
+      - name: Build service jar
+        run: ./gradlew :service:bootJar
 
       - name: Run integration tests
-        run: ./scripts/run-integration-tests.sh
+        run: CI=true ./scripts/run-integration-tests.sh
