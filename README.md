@@ -52,25 +52,25 @@
        {
          "name": "Crab Nebula",
          "object_type": "nebula",
-         "description": "A supernova remnant in Taurus with a pulsar at its center",
+         "description": "An expanding debris cloud left behind by a stellar explosion, with a pulsar at its center",
          "constellation": "Taurus"
        },
        {
          "name": "Cassiopeia A",
          "object_type": "supernova remnant",
-         "description": "A young supernova remnant in Cassiopeia and one of the brightest radio sources in the sky",
+         "description": "A young remnant created after a massive star ended its life, and one of the brightest radio sources in the sky",
          "constellation": "Cassiopeia"
        },
        {
-         "name": "Andromeda Galaxy",
-         "object_type": "galaxy",
-         "description": "A spiral galaxy and the nearest major galaxy to the Milky Way",
-         "constellation": "Andromeda"
+         "name": "Orion Nebula",
+         "object_type": "nebula",
+         "description": "A stellar nursery where new stars are forming inside a bright molecular cloud",
+         "constellation": "Orion"
        }
      ]'
    ```
 
-5. Run a semantic search that should return the two supernova remnants:
+5. Run a semantic search that should infer the two supernova remnants:
 
    ```bash
    curl -s -X POST http://localhost:8080/graphql \
@@ -79,7 +79,7 @@
         "query": "query($input: SearchInput!) { search(input: $input) { total hits { id resourceType score source } interpretation { searchMode } } }",
         "variables": {
           "input": {
-            "query": "supernova remnant",
+            "query": "what is left after a star explodes",
             "pagination": {
               "from": 0,
               "size": 2
@@ -89,8 +89,14 @@
       }' | jq .
    ```
 
-   Expected: two hits for `Crab Nebula` and `Cassiopeia A`, with
-   `interpretation.searchMode` set to `SEMANTIC`.
+   Expected:
+
+   - top hits should be `Crab Nebula` and `Cassiopeia A`
+   - `Orion Nebula` should not appear in the first two results
+   - `interpretation.searchMode` should be `SEMANTIC`
+
+   The query text does not appear verbatim in the indexed documents, so this
+   example depends on semantic similarity rather than exact text matching.
 
 6. Clear ingested documents from OpenSearch when you want a clean reset:
 

@@ -15,7 +15,7 @@
 These are derived from the actual files in `data/`. Tests assert against these known values.
 
 | Index | File | Count |
-|---|---|---|
+| --- | --- | --- |
 | `celestial_objects` | `seed_celestial_objects.json` | 40 |
 | `missions` | `seed_missions.json` | 39 |
 | `observations` | `seed_observations.json` | 40 |
@@ -37,7 +37,7 @@ These are derived from the actual files in `data/`. Tests assert against these k
 ## File Map
 
 | Action | Path | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | Create | `scripts/seed-data.sh` | Bulk-ingest all 5 seed files via REST API, refresh indices |
 | Modify | `scripts/run-integration-tests.sh` | Add seed step between service start and test run |
 | Replace | `integration-tests/src/test/java/.../it/IntegrationTestBase.java` | Slim base: WebClient, GraphQL helper, smoke check |
