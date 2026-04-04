@@ -1,6 +1,6 @@
 # nebullama-search
 
-![nebullama icon](assets/nebullama-icon.svg)
+![nebullama icon](assets/nebullama/nebullama-icon.png)
 
 A local-dev hybrid search service over astronomy data — a learning project for vector search, OpenSearch k-NN, and LLM-powered intent extraction.
 

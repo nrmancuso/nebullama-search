@@ -461,7 +461,7 @@ Create `docs/assets/README.md`:
 
 > A cute llama wearing a NASA-style spacesuit with a gold reflective visor helmet, floating in deep space surrounded by a colorful nebula in purples, pinks, and teals. Pixel art style, 64x64 sprite, dark space background with scattered stars, retro game aesthetic, clean crisp pixels, warm gold visor reflection, small antenna on helmet, chest control panel with tiny colored lights. --style raw --ar 1:1 --v 6
 
-Once generated, save as `docs/assets/nebullama-icon.png` and update `README.md` and `docs/index.md` to reference it.
+Once generated, save as `docs/assets/nebullama/nebullama-icon.png` and update `README.md` and `docs/index.md` to reference it.
 ```
 
 - [ ] **Step 3: Create root README**

@@ -839,7 +839,7 @@ Each placeholder file contains: a title heading, a one-line description of what 
 - Elements: spacesuit body (white), gold reflective visor helmet, chest control panel with colored lights, small antenna, nebula wisps in background (purples/pinks/teals), dark space background with scattered stars
 - Clean pixel art aesthetic — each "pixel" is a 1×1 `<rect>` element; no paths or gradients
 - Scales cleanly as a favicon or README badge
-- This is the placeholder; the final Midjourney-generated PNG (`docs/assets/nebullama-icon.png`) is added manually later
+- This is the placeholder; the final Midjourney-generated PNG (`docs/assets/nebullama/nebullama-icon.png`) is added manually later
 
 ### `README.md` at repo root
 

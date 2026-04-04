@@ -129,3 +129,6 @@ docs/.obsidian/cache
 
 scripts/lib
 scripts/bin
+
+# Visual brainstorming sessions
+.superpowers/
