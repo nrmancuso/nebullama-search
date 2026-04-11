@@ -14,7 +14,7 @@ repositories { mavenCentral() }
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.2")
     testImplementation("org.assertj:assertj-core:3.26.3")
     testImplementation("io.github.openfeign:feign-core:13.11")
     testImplementation("io.github.openfeign:feign-jackson:13.11")
