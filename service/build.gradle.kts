@@ -34,8 +34,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.graphql:spring-graphql-test")
     testImplementation("org.springframework:spring-webflux")
-    testImplementation("org.testcontainers:testcontainers:1.20.6")
-    testImplementation("org.testcontainers:junit-jupiter:1.20.6")
+    testImplementation("org.testcontainers:testcontainers:2.0.5")
+    testImplementation("org.testcontainers:junit-jupiter:2.0.5")
     testImplementation("org.wiremock:wiremock-jetty12:3.5.4")
 }
 
