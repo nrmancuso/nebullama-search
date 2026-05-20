@@ -14,16 +14,17 @@ Complete guide for running nebullama-search on your local machine.
 Start OpenSearch, OpenSearch Dashboards, Ollama, and the Spring service:
 
 ```bash
-docker compose up -d --build
+docker compose --profile local up -d --build
 ```
 
 Wait for the core services to become healthy:
 
 ```bash
-docker compose ps
+docker compose --profile local ps
 ```
 
-`opensearch`, `ollama`, and `service` should show `running` or `healthy`.
+`opensearch`, `ollama`, and `service` should show `running` or `healthy`. The local frontend
+also starts on <http://localhost:5173> for browser-based searches.
 
 ## Step 2 — Pull Ollama Models
 
@@ -41,7 +42,7 @@ present so it is safe to run again.
 The service starts on port 8080 inside Docker. If you want to watch startup logs:
 
 ```bash
-docker compose logs -f service
+docker compose --profile local logs -f service
 ```
 
 ## Verification
@@ -55,23 +56,24 @@ Expected: `{"status":"UP",...}`
 Additional endpoints:
 
 - GraphiQL: <http://localhost:8080/graphiql>
+- Frontend demo: <http://localhost:5173>
 - OpenSearch Dashboards: <http://localhost:5601>
 - OpenSearch API: <http://localhost:9200>
 
 ## Stopping
 
 ```bash
-docker compose down
+docker compose --profile local down
 ```
 
 Data is persisted in named volumes (`nebullama-opensearch-data`, `nebullama-ollama-data`).
-To wipe volumes: `docker compose down -v`
+To wipe volumes: `docker compose --profile local down -v`
 
 ## Troubleshooting
 
 ### OpenSearch won't start
 
-Check logs: `docker compose logs opensearch`
+Check logs: `docker compose --profile local logs opensearch`
 
 Common cause: insufficient virtual memory. On Linux/WSL2:
 
@@ -85,21 +87,21 @@ To make permanent, add `vm.max_map_count=262144` to `/etc/sysctl.conf`.
 
 Check Ollama is running: `curl http://localhost:11434/api/tags`
 
-If the container is not healthy, check logs: `docker compose logs ollama`
+If the container is not healthy, check logs: `docker compose --profile local logs ollama`
 
 ### Service fails to start
 
 Check service logs:
 
 ```bash
-docker compose logs service
+docker compose --profile local logs service
 ```
 
-If OpenSearch or Ollama is not healthy yet, wait for `docker compose ps` to show them as
-healthy and then restart the app container:
+If OpenSearch or Ollama is not healthy yet, wait for `docker compose --profile local ps` to
+show them as healthy and then restart the app container:
 
 ```bash
-docker compose restart service
+docker compose --profile local restart service
 ```
 
 ### Port conflicts

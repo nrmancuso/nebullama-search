@@ -25,6 +25,7 @@ Unit tests live beside the service module and typically use `*Test` names, for e
 ## Commit & Pull Request Guidelines
 
 Commit subjects must match `^(Issue #[0-9]+|minor|doc|dependency|infra|ci): .+` and stay within 72 characters. Recent examples include `minor: integration test improvements` and `doc: tweak readme a bit`. PRs should describe behavior changes, reference the relevant issue when there is one, and include request/response examples or screenshots when UI or API docs change.
+Issue titles should never include prefixes such as `feat:`, `fix:`, or `infra:`. Prefixes are for commit subjects and PR titles only.
 
 ## Docs, Markdown, and Configuration
 
